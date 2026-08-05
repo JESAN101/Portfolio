@@ -1,10 +1,27 @@
+import { useTheme } from "./context/ThemeContext";
+
 function App() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-yellow-400">
-        Portfolio CMS 🚀
-      </h1>
-    </div>
+    <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-6">
+        <h1 className="text-5xl font-bold">
+          Portfolio CMS 🚀
+        </h1>
+
+        <p className="text-muted">
+          Current Theme: <strong>{theme}</strong>
+        </p>
+
+        <button
+          onClick={toggleTheme}
+          className="rounded-lg bg-primary px-6 py-3 text-white transition hover:scale-105"
+        >
+          Toggle Theme
+        </button>
+      </div>
+    </main>
   );
 }
 
