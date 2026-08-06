@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* FIX: Tailwind v4's `dark:` variant defaults to the OS-level
+   `prefers-color-scheme` media query unless you register a custom
+   variant. Without this line, any `dark:...` utility class in the
+   app (SectionHeader.jsx, Skeleton.jsx, etc.) ignores your in-app
+   toggle entirely and just follows the system setting instead. This
+   makes `dark:` respond to the `.dark` class ThemeContext puts on
+   <html>, exactly like the CSS variables below already do. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* -----------------------------
    Theme Tokens
 ------------------------------ */

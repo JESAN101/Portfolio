@@ -1,9 +1,9 @@
-function Projects() {
+import Projects from "@/components/sections/Projects";
+
+export default function ProjectsPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold">Projects Page</h1>
+    <div className="pt-20">
+      <Projects />
     </div>
   );
 }
-
-export default Projects;

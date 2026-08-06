@@ -31,6 +31,11 @@ const projectSchema = new mongoose.Schema(
       default: "",
     },
 
+    coverPublicId: {
+      type: String,
+      default: "",
+    },
+
     galleryImages: [
       {
         url: String,
@@ -86,9 +91,15 @@ const projectSchema = new mongoose.Schema(
   }
 );
 
-projectSchema.index({ slug: 1 });
 projectSchema.index({ featured: 1 });
 projectSchema.index({ published: 1 });
 projectSchema.index({ order: 1 });
+projectSchema.index({ category: 1, published: 1 });
+projectSchema.index({
+  title: "text",
+  shortDescription: "text",
+  description: "text",
+  technologies: "text",
+});
 
 export default mongoose.model("Project", projectSchema);

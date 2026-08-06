@@ -1,9 +1,9 @@
-function About() {
+import About from "@/components/sections/About";
+
+export default function AboutPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold">About Page</h1>
+    <div className="pt-24">
+      <About />
     </div>
   );
 }
-
-export default About;

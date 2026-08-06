@@ -1,9 +1,9 @@
-function Skills() {
+import Skills from "@/components/sections/Skills";
+
+export default function SkillsPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold">Skills Page</h1>
+    <div className="pt-20">
+      <Skills />
     </div>
   );
 }
-
-export default Skills;

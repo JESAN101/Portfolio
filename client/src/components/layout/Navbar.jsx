@@ -21,10 +21,14 @@ function Navbar() {
   }, []);
 
   return (
+    // FIX: this was `bg-black/70` unconditionally — the navbar looked
+    // the same regardless of theme. Now it uses the `background` token
+    // (via the `bg-background/80` opacity shorthand) so it's white in
+    // light mode and near-black in dark mode automatically.
     <header
       className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-black/70 backdrop-blur-2xl"
+          ? "border-b border-border bg-background/80 backdrop-blur-2xl"
           : "bg-transparent"
       }`}
     >
@@ -41,14 +45,15 @@ function Navbar() {
 
             <Link
               to="/resume"
-              className="hidden rounded-xl bg-white px-5 py-3 font-semibold text-black transition hover:scale-105 lg:block"
+              className="hidden rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:scale-105 lg:block"
             >
               Resume
             </Link>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden"
+              className="text-foreground lg:hidden"
+              aria-label={open ? "Close menu" : "Open menu"}
             >
               {open ? <X size={30} /> : <Menu size={30} />}
             </button>
@@ -57,24 +62,24 @@ function Navbar() {
       </Container>
 
       {open && (
-        <div className="border-t border-zinc-800 bg-black lg:hidden">
+        <div className="border-t border-border bg-background lg:hidden">
           <nav className="flex flex-col p-6">
             {[
-              "About",
-              "Projects",
-              "Skills",
-              "Experience",
-              "Certificates",
-              "Contact",
+              { name: "About", path: "/about" },
+              { name: "Projects", path: "/projects" },
+              { name: "Skills", path: "/skills" },
+              { name: "Experience", path: "/experience" },
+              { name: "Certificates", path: "/certificates" },
+              { name: "Contact", path: "/contact" },
             ].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="border-b border-zinc-800 py-4 text-lg"
+              <Link
+                key={item.path}
+                to={item.path}
+                className="border-b border-border py-4 text-lg text-foreground"
                 onClick={() => setOpen(false)}
               >
-                {item}
-              </a>
+                {item.name}
+              </Link>
             ))}
           </nav>
         </div>

@@ -19,8 +19,8 @@ function NavLinks() {
           className={({ isActive }) =>
             `relative font-medium transition ${
               isActive
-                ? "text-white"
-                : "text-zinc-400 hover:text-white"
+                ? "text-foreground"
+                : "text-muted hover:text-foreground"
             }`
           }
         >
@@ -28,7 +28,7 @@ function NavLinks() {
             <>
               {link.name}
               {isActive && (
-                <span className="absolute -bottom-2 left-0 h-[2px] w-full rounded-full bg-blue-500" />
+                <span className="absolute -bottom-2 left-0 h-[2px] w-full rounded-full bg-primary" />
               )}
             </>
           )}

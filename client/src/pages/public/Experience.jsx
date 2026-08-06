@@ -1,9 +1,9 @@
-function Experience() {
+import Experience from "@/components/sections/Experience";
+
+export default function ExperiencePage() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold">Experience Page</h1>
+    <div className="pt-20">
+      <Experience />
     </div>
   );
 }
-
-export default Experience;

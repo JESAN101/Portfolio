@@ -1,11 +1,38 @@
+import { useState } from "react";
 import Container from "@/components/ui/Container";
+import { usePortfolio } from "@/context/PortfolioContext";
 import {
   FaEnvelope,
   FaPhoneAlt,
   FaMapMarkerAlt,
+  FaPaperPlane,
 } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { contactApi } from "@/services/publicApi";
 
 function Contact() {
+  const { profile } = usePortfolio();
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await contactApi.send(form);
+      toast.success("Message sent successfully!");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send message.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <section className="bg-black py-28 text-white">
       <Container>
@@ -24,15 +51,12 @@ function Contact() {
         </div>
 
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Left */}
           <div className="space-y-6">
             <div className="flex items-center gap-5 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
               <FaEnvelope className="text-3xl text-blue-500" />
               <div>
                 <h3 className="font-semibold">Email</h3>
-                <p className="text-zinc-400">
-                  your@email.com
-                </p>
+                <p className="text-zinc-400">{profile?.email || "your@email.com"}</p>
               </div>
             </div>
 
@@ -40,9 +64,7 @@ function Contact() {
               <FaPhoneAlt className="text-3xl text-blue-500" />
               <div>
                 <h3 className="font-semibold">Phone</h3>
-                <p className="text-zinc-400">
-                  +977-98XXXXXXXX
-                </p>
+                <p className="text-zinc-400">{profile?.phone || "Not available"}</p>
               </div>
             </div>
 
@@ -50,44 +72,58 @@ function Contact() {
               <FaMapMarkerAlt className="text-3xl text-blue-500" />
               <div>
                 <h3 className="font-semibold">Location</h3>
-                <p className="text-zinc-400">
-                  Nepal
-                </p>
+                <p className="text-zinc-400">{profile?.location || "Nepal"}</p>
               </div>
             </div>
           </div>
 
-          {/* Right */}
-          <form className="space-y-6 rounded-3xl border border-zinc-800 bg-zinc-900 p-8">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 rounded-3xl border border-zinc-800 bg-zinc-900 p-8"
+          >
             <input
               type="text"
+              name="name"
               placeholder="Your Name"
+              value={form.name}
+              onChange={handleChange}
+              required
               className="w-full rounded-xl border border-zinc-700 bg-black px-5 py-4 outline-none focus:border-blue-500"
             />
-
             <input
               type="email"
+              name="email"
               placeholder="Your Email"
+              value={form.email}
+              onChange={handleChange}
+              required
               className="w-full rounded-xl border border-zinc-700 bg-black px-5 py-4 outline-none focus:border-blue-500"
             />
-
             <input
               type="text"
+              name="subject"
               placeholder="Subject"
+              value={form.subject}
+              onChange={handleChange}
+              required
               className="w-full rounded-xl border border-zinc-700 bg-black px-5 py-4 outline-none focus:border-blue-500"
             />
-
             <textarea
               rows="6"
+              name="message"
               placeholder="Message"
+              value={form.message}
+              onChange={handleChange}
+              required
               className="w-full rounded-xl border border-zinc-700 bg-black px-5 py-4 outline-none focus:border-blue-500"
             />
-
             <button
               type="submit"
-              className="w-full rounded-xl bg-blue-600 py-4 font-semibold transition hover:bg-blue-700"
+              disabled={submitting}
+              className="flex w-full items-center justify-center gap-3 rounded-xl bg-blue-600 py-4 font-semibold transition hover:bg-blue-700 disabled:opacity-50"
             >
-              Send Message
+              {submitting ? "Sending..." : "Send Message"}
+              {!submitting && <FaPaperPlane />}
             </button>
           </form>
         </div>

@@ -1,9 +1,9 @@
-function Contact() {
+import Contact from "@/components/sections/Contact";
+
+export default function ContactPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold">Contact Page</h1>
+    <div className="pt-20">
+      <Contact />
     </div>
   );
 }
-
-export default Contact;
