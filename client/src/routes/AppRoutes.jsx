@@ -26,7 +26,6 @@ const AdminCertificates = lazy(() => import("../pages/admin/Certificates"));
 const AdminExperience = lazy(() => import("../pages/admin/Experience"));
 const Education = lazy(() => import("../pages/admin/Education"));
 const Messages = lazy(() => import("../pages/admin/Messages"));
-const AdminResume = lazy(() => import("../pages/admin/Resume"));
 const Settings = lazy(() => import("../pages/admin/Settings"));
 const Profile = lazy(() => import("../pages/admin/Profile"));
 
@@ -68,7 +67,6 @@ function AppRoutes() {
             <Route path="experience" element={<AdminExperience />} />
             <Route path="education" element={<Education />} />
             <Route path="messages" element={<Messages />} />
-            <Route path="resume" element={<AdminResume />} />
             <Route path="settings" element={<Settings />} />
             <Route path="profile" element={<Profile />} />
           </Route>

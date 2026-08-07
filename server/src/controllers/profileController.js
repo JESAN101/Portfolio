@@ -5,7 +5,6 @@ import {
   updateProfileService,
   deleteProfileService,
   updateProfileImageService,
-  updateResumeService,
 } from "../services/profileService.js";
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
@@ -115,41 +114,6 @@ export const updateProfileImage = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Profile image updated successfully",
-      data: profile,
-    });
-  } catch (error) {
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
-    }
-
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-export const updateResume = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No resume uploaded",
-      });
-    }
-
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "portfolio/resume",
-      resource_type: "raw",
-    });
-
-    fs.unlinkSync(req.file.path);
-
-    const profile = await updateResumeService(result.secure_url);
-
-    return res.status(200).json({
-      success: true,
-      message: "Resume uploaded successfully",
       data: profile,
     });
   } catch (error) {

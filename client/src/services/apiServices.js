@@ -38,10 +38,6 @@ export const profileApi = {
     api.put("/profile/image", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     }),
-  updateResume: (formData) =>
-    api.put("/profile/resume", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    }),
 };
 
 export const skillApi = {

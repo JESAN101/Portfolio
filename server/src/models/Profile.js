@@ -89,11 +89,6 @@ const profileSchema = new mongoose.Schema(
       default: "",
     },
 
-    resume: {
-      type: String,
-      default: "",
-    },
-
     availableForWork: {
       type: Boolean,
       default: true,

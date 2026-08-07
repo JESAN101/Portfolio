@@ -14,8 +14,8 @@ function ProjectDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black pt-24 text-white">
-        <Container className="py-20 text-center text-zinc-400">Loading project...</Container>
+      <div className="min-h-screen bg-background pt-24 text-foreground">
+        <Container className="py-20 text-center text-muted">Loading project...</Container>
       </div>
     );
   }
@@ -27,11 +27,11 @@ function ProjectDetails() {
   const gallery = project.galleryImages || [];
 
   return (
-    <section className="min-h-screen bg-black py-28 text-white">
+    <section className="min-h-screen bg-background py-28 text-foreground">
       <Container>
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 text-zinc-400 transition hover:text-white"
+          className="inline-flex items-center gap-2 text-muted transition hover:text-foreground"
         >
           <FaArrowLeft /> Back to Projects
         </Link>
@@ -43,26 +43,26 @@ function ProjectDetails() {
             className="mt-10 h-[420px] w-full rounded-3xl object-cover"
           />
         ) : (
-          <div className="mt-10 flex h-[420px] items-center justify-center rounded-3xl bg-zinc-900 text-zinc-500">
+          <div className="mt-10 flex h-[420px] items-center justify-center rounded-3xl bg-card text-muted">
             No image
           </div>
         )}
 
         <div className="mt-12 grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <span className="rounded-full border border-blue-500 px-4 py-1.5 text-sm text-blue-400">
+            <span className="rounded-full border border-primary px-4 py-1.5 text-sm text-primary">
               {project.category}
             </span>
 
             <h1 className="mt-6 text-5xl font-black">{project.title}</h1>
 
-            <p className="mt-8 text-lg leading-9 text-zinc-400">
+            <p className="mt-8 text-lg leading-9 text-muted">
               {project.description}
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
               {project.technologies?.map((tech) => (
-                <span key={tech} className="rounded-full bg-zinc-800 px-4 py-2 text-sm">
+                <span key={tech} className="rounded-full bg-surface px-4 py-2 text-sm text-foreground">
                   {tech}
                 </span>
               ))}
@@ -70,7 +70,7 @@ function ProjectDetails() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
+            <div className="rounded-2xl border border-border bg-card p-8">
               <h3 className="text-lg font-bold">Links</h3>
 
               <div className="mt-6 space-y-4">
@@ -79,7 +79,7 @@ function ProjectDetails() {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-3 rounded-xl border border-zinc-700 px-5 py-3 transition hover:border-white"
+                    className="flex items-center gap-3 rounded-xl border border-border px-5 py-3 transition hover:border-foreground"
                   >
                     <FaGithub /> GitHub
                   </a>
@@ -90,7 +90,7 @@ function ProjectDetails() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-3 rounded-xl bg-blue-600 px-5 py-3 font-semibold transition hover:bg-blue-700"
+                    className="flex items-center gap-3 rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:opacity-90"
                   >
                     <FaExternalLinkAlt /> Live Demo
                   </a>
@@ -109,7 +109,7 @@ function ProjectDetails() {
                 <button
                   key={img._id || i}
                   onClick={() => setLightbox(img.url)}
-                  className="group overflow-hidden rounded-2xl border border-zinc-800"
+                  className="group overflow-hidden rounded-2xl border border-border"
                 >
                   <img
                     src={img.url}
@@ -123,6 +123,8 @@ function ProjectDetails() {
         )}
       </Container>
 
+      {/* Intentionally kept dark — a fullscreen image viewer reads best
+          on a near-black backdrop regardless of site theme. */}
       {lightbox && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"

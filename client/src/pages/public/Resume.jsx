@@ -1,39 +1,37 @@
 import Container from "@/components/ui/Container";
-import { usePortfolio } from "@/context/PortfolioContext";
-import { FaDownload } from "react-icons/fa";
+import { FaArrowLeft, FaDownload } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import resumePdf from "@/assets/resume/resume.pdf";
 
 function Resume() {
-  const { profile } = usePortfolio();
-
   return (
-    <section className="min-h-screen bg-black py-28 text-white">
+    <section className="min-h-screen bg-background pt-28 pb-20 text-foreground">
       <Container>
-        <div className="mb-12 flex items-center justify-between">
-          <h1 className="text-5xl font-black">Resume</h1>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-muted transition hover:text-foreground"
+          >
+            <FaArrowLeft /> Back to Home
+          </Link>
 
-          {profile?.resume && (
-            <a
-              href={profile.resume}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-3 rounded-xl bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-700"
-            >
-              <FaDownload /> Download Resume
-            </a>
-          )}
+          <a
+            href={resumePdf}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-semibold text-white transition hover:opacity-90"
+          >
+            <FaDownload /> Download PDF
+          </a>
         </div>
 
-        {profile?.resume ? (
+        <div className="mt-8">
           <iframe
-            src={profile.resume}
+            src={resumePdf}
             title="Resume"
-            className="h-[75vh] w-full rounded-3xl border border-zinc-800"
+            className="h-[85vh] w-full rounded-2xl border border-border bg-card"
           />
-        ) : (
-          <div className="flex h-[50vh] items-center justify-center rounded-3xl border border-zinc-800 text-zinc-500">
-            No resume uploaded yet.
-          </div>
-        )}
+        </div>
       </Container>
     </section>
   );

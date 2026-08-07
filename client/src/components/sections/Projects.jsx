@@ -10,10 +10,10 @@ function Projects() {
   const { projects, loading, error, retry } = usePortfolio();
 
   return (
-    <section className="bg-zinc-950 py-28 text-white">
+    <section className="bg-background py-28 text-foreground">
       <Container>
         <div className="mb-16 text-center">
-          <span className="rounded-full border border-blue-500 px-4 py-2 text-sm text-blue-400">
+          <span className="rounded-full border border-primary px-4 py-2 text-sm text-primary">
             Projects
           </span>
 
@@ -21,7 +21,7 @@ function Projects() {
             Featured Projects
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">
             Some of my recent work.
           </p>
         </div>
@@ -35,13 +35,13 @@ function Projects() {
         ) : error ? (
           <ErrorState message={error} onRetry={retry} />
         ) : projects?.length === 0 ? (
-          <EmptyState dark title="No projects" description="Projects will appear here once published." />
+          <EmptyState title="No projects" description="Projects will appear here once published." />
         ) : (
           <div className="grid gap-8 lg:grid-cols-3">
             {projects?.map((project) => (
               <div
                 key={project._id}
-                className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-2 hover:border-blue-500"
+                className="overflow-hidden rounded-3xl border border-border bg-card transition duration-300 hover:-translate-y-2 hover:border-primary"
               >
                 {project.coverImage ? (
                   <img
@@ -50,13 +50,13 @@ function Projects() {
                     className="h-56 w-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-56 items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900 text-zinc-500">
+                  <div className="flex h-56 items-center justify-center bg-gradient-to-br from-surface to-card text-muted">
                     No Image
                   </div>
                 )}
 
                 <div className="p-8">
-                  <p className="text-sm text-blue-400">
+                  <p className="text-sm text-primary">
                     {project.category}
                   </p>
 
@@ -64,7 +64,7 @@ function Projects() {
                     {project.title}
                   </h3>
 
-                  <p className="mt-5 leading-8 text-zinc-400">
+                  <p className="mt-5 leading-8 text-muted">
                     {project.shortDescription || project.description}
                   </p>
 
@@ -72,7 +72,7 @@ function Projects() {
                     {project.technologies?.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-full bg-zinc-800 px-3 py-1 text-xs"
+                        className="rounded-full bg-surface px-3 py-1 text-xs text-foreground"
                       >
                         {tech}
                       </span>
@@ -82,7 +82,7 @@ function Projects() {
                   <div className="mt-8 flex items-center gap-6">
                     <Link
                       to={`/projects/${project.slug}`}
-                      className="flex items-center gap-2 text-blue-400 hover:gap-4 transition-all"
+                      className="flex items-center gap-2 text-primary hover:gap-4 transition-all"
                     >
                       View Project
                       <FaArrowRight />
@@ -94,7 +94,7 @@ function Projects() {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={`${project.title} GitHub repository`}
-                        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-all"
+                        className="flex items-center gap-2 text-muted hover:text-foreground transition-all"
                       >
                         <FaGithub />
                       </a>
@@ -105,7 +105,7 @@ function Projects() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="rounded-full border border-blue-500 px-4 py-1.5 text-sm text-blue-400 hover:bg-blue-600 hover:text-white transition-all"
+                        className="rounded-full border border-primary px-4 py-1.5 text-sm text-primary hover:bg-primary hover:text-white transition-all"
                       >
                         Live Demo
                       </a>

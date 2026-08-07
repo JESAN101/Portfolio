@@ -3,7 +3,7 @@ import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
   LayoutDashboard, FolderKanban, BrainCircuit, Award, Briefcase,
-  GraduationCap, Mail, Settings, LogOut, User, FileText, Menu, X,
+  GraduationCap, Mail, Settings, LogOut, User, Menu, X,
 } from "lucide-react";
 import ThemeToggle from "../components/layout/ThemeToggle";
 
@@ -15,9 +15,6 @@ const navItems = [
   { path: "/admin/education", name: "Education", icon: GraduationCap },
   { path: "/admin/certificates", name: "Certificates", icon: Award },
   { path: "/admin/messages", name: "Messages", icon: Mail },
-  // FIX: this route already existed (pages/admin/Resume.jsx + AppRoutes.jsx)
-  // but had no sidebar link, so it was unreachable from the UI.
-  { path: "/admin/resume", name: "Resume", icon: FileText },
   { path: "/admin/profile", name: "Profile", icon: User },
   { path: "/admin/settings", name: "Settings", icon: Settings },
 ];
@@ -57,7 +54,10 @@ function AdminLayout() {
     <div className="flex min-h-screen bg-background">
       {/* Desktop sidebar */}
       <aside className="w-64 border-r border-border p-5 hidden md:flex flex-col gap-8">
-        <div className="font-heading text-xl font-bold text-foreground">Admin CMS</div>
+        <div className="flex items-center justify-between">
+          <span className="font-heading text-xl font-bold text-foreground">Admin CMS</span>
+          <ThemeToggle />
+        </div>
         <NavList />
         <button
           onClick={logout}

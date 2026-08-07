@@ -6,11 +6,12 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import Container from "@/components/ui/Container";
-import TechOrbit from "./TechOrbit";
+import TechMarquee from "./TechMarquee";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Link } from "react-router-dom";
 import Skeleton from "@/components/ui/Skeleton";
 import profileFallback from "@/assets/images/profile.jpg";
+import resumePdf from "@/assets/resume/resume.pdf";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -42,7 +43,10 @@ function Hero() {
                 <Skeleton className="h-14 w-44 rounded-xl" />
               </div>
             </div>
-            <Skeleton className="hidden h-[460px] w-[460px] rounded-full lg:block" />
+            <div className="hidden flex-col items-center gap-8 lg:flex">
+              <Skeleton className="h-[420px] w-[420px] rounded-full" />
+              <Skeleton className="h-20 w-full rounded-2xl" />
+            </div>
           </div>
         </Container>
       </section>
@@ -113,16 +117,14 @@ function Hero() {
                 <FaArrowRight />
               </Link>
 
-              {profile?.resume && (
-                <a
-                  href={profile.resume}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-xl border border-border px-8 py-4 font-semibold text-foreground transition hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  Download Resume
-                </a>
-              )}
+              <a
+                href={resumePdf}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-xl border border-border px-8 py-4 font-semibold text-foreground transition hover:border-primary hover:bg-primary hover:text-white"
+              >
+                Download Resume
+              </a>
             </motion.div>
 
             <motion.div
@@ -154,19 +156,32 @@ function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="hidden justify-center lg:flex"
+            className="hidden lg:block"
           >
-           <div className="relative hidden h-[620px] w-[620px] lg:block">
-              <TechOrbit />
-              <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
-
-              <div className="absolute left-1/2 top-1/2 h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]">
-                <img
-                  src={profile?.profileImage || profileFallback}
-                  alt={profile?.fullName || "Profile"}
-                  className="h-full w-full object-cover"
+            <div className="flex flex-col items-center gap-8">
+              <div className="relative">
+                {/* Rotating conic ring + soft glow behind the portrait */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  className="absolute -inset-3 rounded-full"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, transparent 0%, rgba(59,130,246,.55) 18%, rgba(139,92,246,.45) 32%, transparent 50%)",
+                  }}
                 />
+                <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
+
+                <div className="relative h-[420px] w-[420px] overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]">
+                  <img
+                    src={profile?.profileImage || profileFallback}
+                    alt={profile?.fullName || "Profile"}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
+
+              <TechMarquee />
             </div>
           </motion.div>
         </div>

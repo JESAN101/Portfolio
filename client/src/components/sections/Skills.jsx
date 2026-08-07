@@ -9,10 +9,10 @@ function Skills() {
   const { skills, loading, error, retry } = usePortfolio();
 
   return (
-    <section className="bg-black py-28 text-white">
+    <section className="bg-background py-28 text-foreground">
       <Container>
         <div className="mb-16 text-center">
-          <span className="rounded-full border border-blue-500 px-4 py-2 text-sm text-blue-400">
+          <span className="rounded-full border border-primary px-4 py-2 text-sm text-primary">
             Skills
           </span>
 
@@ -20,7 +20,7 @@ function Skills() {
             Technologies I Use
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">
             My primary tech stack for building modern web applications.
           </p>
         </div>
@@ -44,7 +44,7 @@ function Skills() {
               return (
                 <div
                   key={skill._id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center transition duration-300 hover:-translate-y-2 hover:border-blue-500"
+                  className="rounded-2xl border border-border bg-card p-8 text-center transition duration-300 hover:-translate-y-2 hover:border-primary"
                 >
                   <div className={`mb-5 flex justify-center ${color}`}>
                     {skill.icon ? (
@@ -60,13 +60,13 @@ function Skills() {
 
                   {skill.proficiency > 0 && (
                     <div className="mt-4">
-                      <div className="h-1.5 w-full rounded-full bg-zinc-700">
+                      <div className="h-1.5 w-full rounded-full bg-border">
                         <div
-                          className="h-full rounded-full bg-blue-500"
+                          className="h-full rounded-full bg-primary"
                           style={{ width: `${skill.proficiency}%` }}
                         />
                       </div>
-                      <p className="mt-2 text-xs text-zinc-500">{skill.proficiency}%</p>
+                      <p className="mt-2 text-xs text-muted">{skill.proficiency}%</p>
                     </div>
                   )}
                 </div>

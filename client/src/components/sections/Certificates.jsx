@@ -10,10 +10,10 @@ function Certificates() {
   const { certificates, loading, error, retry } = usePortfolio();
 
   return (
-    <section className="bg-zinc-950 py-28 text-white">
+    <section className="bg-background py-28 text-foreground">
       <Container>
         <div className="mb-16 text-center">
-          <span className="rounded-full border border-blue-500 px-4 py-2 text-sm text-blue-400">
+          <span className="rounded-full border border-primary px-4 py-2 text-sm text-primary">
             Certificates
           </span>
 
@@ -31,15 +31,15 @@ function Certificates() {
         ) : error ? (
           <ErrorState message={error} onRetry={retry} />
         ) : certificates?.length === 0 ? (
-          <EmptyState dark title="No certificates" description="Certificates will appear here once added." />
+          <EmptyState title="No certificates" description="Certificates will appear here once added." />
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {certificates?.map((certificate) => (
               <div
                 key={certificate._id}
-                className="rounded-3xl border border-zinc-800 bg-zinc-900 p-8 transition hover:-translate-y-2 hover:border-blue-500"
+                className="rounded-3xl border border-border bg-card p-8 transition hover:-translate-y-2 hover:border-primary"
               >
-                <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-blue-600 text-4xl overflow-hidden">
+                <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary text-4xl text-white overflow-hidden">
                   {certificate.image ? (
                     <img src={certificate.image} alt={certificate.title} className="h-full w-full object-cover" />
                   ) : (
@@ -49,10 +49,10 @@ function Certificates() {
 
                 <h3 className="text-2xl font-bold">{certificate.title}</h3>
 
-                <p className="mt-3 text-blue-400">{certificate.issuer}</p>
+                <p className="mt-3 text-primary">{certificate.issuer}</p>
 
                 {certificate.issuedDate && (
-                  <p className="mt-5 text-zinc-400">{formatDate(certificate.issuedDate, { year: "numeric" })}</p>
+                  <p className="mt-5 text-muted">{formatDate(certificate.issuedDate, { year: "numeric" })}</p>
                 )}
 
                 {certificate.credentialUrl && (
@@ -60,7 +60,7 @@ function Certificates() {
                     href={certificate.credentialUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-block rounded-xl border border-blue-500 px-5 py-3 text-blue-400 transition hover:bg-blue-600 hover:text-white"
+                    className="mt-8 inline-block rounded-xl border border-primary px-5 py-3 text-primary transition hover:bg-primary hover:text-white"
                   >
                     View Credential
                   </a>

@@ -5,7 +5,6 @@ import {
   updateProfile,
   deleteProfile,
   updateProfileImage,
-  updateResume,
 } from "../controllers/profileController.js";
 
 import protect from "../middleware/authMiddleware.js";
@@ -31,13 +30,6 @@ router.put(
   protect,
   upload.single("file"),
   updateProfileImage
-);
-
-router.put(
-  "/resume",
-  protect,
-  upload.single("file"),
-  updateResume
 );
 
 router.delete("/", protect, deleteProfile);

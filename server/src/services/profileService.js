@@ -53,17 +53,3 @@ export const updateProfileImageService = async (imageUrl) => {
 
   return profile;
 };
-
-export const updateResumeService = async (resumeUrl) => {
-  const profile = await Profile.findOne();
-
-  if (!profile) {
-    throw new Error("Profile not found");
-  }
-
-  profile.resume = resumeUrl;
-
-  await profile.save();
-
-  return profile;
-};
