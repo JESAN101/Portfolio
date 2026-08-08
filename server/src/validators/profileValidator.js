@@ -11,6 +11,17 @@ export const profileValidator = [
     .notEmpty()
     .withMessage("Title is required"),
 
+  body("titles")
+    .optional()
+    .isArray()
+    .withMessage("Titles must be an array"),
+
+  body("titles.*")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("Each title must be non-empty"),
+
   body("email")
     .optional()
     .isEmail()

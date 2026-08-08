@@ -4,7 +4,7 @@ export const API_URL =
 export const SITE_URL =
   import.meta.env.VITE_SITE_URL || "https://portfolio.example.com";
 
-export const SITE_NAME = "Portfolio";
+export const SITE_NAME = "Jesan Bogati";
 export const SITE_DESCRIPTION =
   "Full Stack Developer portfolio showcasing projects, skills, experience and certifications.";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/icons.svg`;

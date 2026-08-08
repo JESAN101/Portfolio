@@ -53,3 +53,17 @@ export const updateProfileImageService = async (imageUrl) => {
 
   return profile;
 };
+
+export const removeProfileImageService = async () => {
+  const profile = await Profile.findOne();
+
+  if (!profile) {
+    throw new Error("Profile not found");
+  }
+
+  profile.profileImage = "";
+
+  await profile.save();
+
+  return profile;
+};

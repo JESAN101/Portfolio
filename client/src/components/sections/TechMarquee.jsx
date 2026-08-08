@@ -10,6 +10,10 @@ import {
   SiExpress,
   SiMongodb,
   SiTailwindcss,
+  SiPhp,
+  SiHtml5,
+  SiCss,
+  SiMysql,
 } from "react-icons/si";
 
 // Keeps the tech icons in the hero, but instead of orbiting the
@@ -26,6 +30,10 @@ const icons = [
   { icon: <FaGitAlt />, color: "text-orange-500" },
   { icon: <FaGithub />, color: "text-foreground" },
   { icon: <SiTailwindcss />, color: "text-sky-400" },
+  { icon: <SiPhp />, color: "text-indigo-400" },
+  { icon: <SiHtml5 />, color: "text-orange-500" },
+  { icon: <SiCss />, color: "text-blue-500" },
+  { icon: <SiMysql />, color: "text-sky-600" },
 ];
 
 function TechMarquee() {

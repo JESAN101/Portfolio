@@ -5,6 +5,7 @@ import {
   updateProfileService,
   deleteProfileService,
   updateProfileImageService,
+  removeProfileImageService,
 } from "../services/profileService.js";
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
@@ -15,6 +16,23 @@ export const getProfile = async (req, res) => {
 
     return res.status(200).json({
       success: true,
+      data: profile,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const removeProfileImage = async (req, res) => {
+  try {
+    const profile = await removeProfileImageService();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile image removed successfully",
       data: profile,
     });
   } catch (error) {

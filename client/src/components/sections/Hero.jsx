@@ -1,8 +1,11 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,
   FaInstagram,
+  FaFacebook,
+  FaTwitter,
   FaArrowRight,
 } from "react-icons/fa";
 import Container from "@/components/ui/Container";
@@ -10,8 +13,15 @@ import TechMarquee from "./TechMarquee";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Link } from "react-router-dom";
 import Skeleton from "@/components/ui/Skeleton";
-import profileFallback from "@/assets/images/profile.jpg";
 import resumePdf from "@/assets/resume/resume.pdf";
+import useTypewriter from "@/hooks/useTypewriter";
+import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
+
+const FALLBACK_TITLES = [
+  "Full-Stack Developer",
+  "Web Developer",
+  "Problem Solver",
+];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -24,12 +34,18 @@ const fadeUp = {
 
 function Hero() {
   const { profile, loading } = usePortfolio();
+  const titles = useMemo(() => {
+    if (profile?.titles?.length > 0) return profile.titles;
+    if (profile?.title) return [profile.title];
+    return FALLBACK_TITLES;
+  }, [profile?.titles, profile?.title]);
+  const typedTitle = useTypewriter(titles);
 
   if (loading) {
     return (
-      <section className="relative overflow-hidden bg-background pt-24 text-foreground">
-        <div className="absolute left-[-200px] top-20 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[170px]" />
-        <div className="absolute bottom-0 right-[-150px] h-[500px] w-[500px] rounded-full bg-secondary/20 blur-[180px]" />
+    <section className="relative overflow-hidden bg-background pt-24 text-foreground">
+      <div className="absolute left-[-200px] top-20 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[170px]" />
+      <div className="absolute bottom-0 right-[-150px] h-[500px] w-[500px] rounded-full bg-secondary/20 blur-[180px]" />
 
         <Container>
           <div className="grid min-h-[90vh] items-center gap-20 lg:grid-cols-2">
@@ -76,13 +92,16 @@ function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="show"
-              className="mt-8 text-6xl font-black leading-none md:text-8xl"
+              className="mt-10"
             >
-              Hi, I'm
+              <span className="text-xl font-semibold uppercase tracking-[0.25em] text-muted md:text-2xl">
+                Hi, I'm
+              </span>
               <br />
-              <span className="bg-gradient-to-r from-foreground via-muted to-primary bg-clip-text text-transparent">
+              <span className="gold-shimmer mt-3 inline-block text-6xl font-black leading-tight md:text-7xl">
                 {profile?.fullName || "Bogati"}
               </span>
+              <span className="mt-7 block h-1.5 w-28 rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600" />
             </motion.h1>
 
             <motion.h2
@@ -90,9 +109,13 @@ function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="show"
-              className="mt-8 text-3xl font-semibold text-muted"
+              className="mt-8 flex min-h-10 items-center text-2xl font-semibold text-muted md:text-3xl"
             >
-              {profile?.title || "Full Stack Developer"}
+              <span>{typedTitle}</span>
+              <span
+                aria-hidden="true"
+                className="ml-1.5 inline-block h-8 w-[3px] animate-pulse rounded-full bg-primary md:h-9"
+              />
             </motion.h2>
 
             <motion.p
@@ -100,7 +123,7 @@ function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="show"
-              className="mt-8 max-w-xl text-lg leading-9 text-muted"
+              className="mt-8 max-w-xl text-lg leading-relaxed text-muted [text-align:justify] [text-justify:inter-word]"
             >
               {profile?.shortBio}
             </motion.p>
@@ -119,8 +142,7 @@ function Hero() {
 
               <a
                 href={resumePdf}
-                target="_blank"
-                rel="noreferrer"
+                download="Resume.pdf"
                 className="rounded-xl border border-border px-8 py-4 font-semibold text-foreground transition hover:border-primary hover:bg-primary hover:text-white"
               >
                 Download Resume
@@ -149,6 +171,16 @@ function Hero() {
                   <FaInstagram size={22} />
                 </a>
               )}
+              {profile?.socials?.facebook && (
+                <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-blue-600 hover:text-blue-600">
+                  <FaFacebook size={22} />
+                </a>
+              )}
+              {profile?.socials?.twitter && (
+                <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-sky-500 hover:text-sky-500">
+                  <FaTwitter size={22} />
+                </a>
+              )}
             </motion.div>
           </div>
 
@@ -163,7 +195,7 @@ function Hero() {
                 {/* Rotating conic ring + soft glow behind the portrait */}
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                   className="absolute -inset-3 rounded-full"
                   style={{
                     background:
@@ -173,11 +205,19 @@ function Hero() {
                 <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
 
                 <div className="relative h-[420px] w-[420px] overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]">
-                  <img
-                    src={profile?.profileImage || profileFallback}
-                    alt={profile?.fullName || "Profile"}
-                    className="h-full w-full object-cover"
-                  />
+                  {profile?.profileImage ? (
+                    <img
+                      src={profile.profileImage}
+                      alt={profile?.fullName || "Profile"}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={profilePlaceholder}
+                      alt="Profile placeholder"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
                 </div>
               </div>
 

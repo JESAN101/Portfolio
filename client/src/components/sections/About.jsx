@@ -1,6 +1,7 @@
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
-import profileFallback from "@/assets/images/profile.jpg";
+import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
+
 import Skeleton from "@/components/ui/Skeleton";
 
 function About() {
@@ -41,11 +42,19 @@ function About() {
         <div className="grid items-center gap-20 lg:grid-cols-2">
           <div className="relative">
             <div className="absolute -left-5 -top-5 h-full w-full rounded-3xl border border-primary" />
-            <img
-              src={profile?.profileImage || profileFallback}
-              alt={profile?.fullName || "Profile"}
-              className="relative h-[520px] w-full rounded-3xl object-cover"
-            />
+            {profile?.profileImage ? (
+              <img
+                src={profile.profileImage}
+                alt={profile?.fullName || "Profile"}
+                className="relative h-[520px] w-full rounded-3xl object-cover"
+              />
+            ) : (
+              <img
+                src={profilePlaceholder}
+                alt="Profile placeholder"
+                className="relative h-[520px] w-full rounded-3xl object-cover"
+              />
+            )}
           </div>
 
           <div>

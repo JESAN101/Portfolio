@@ -61,13 +61,6 @@ function Navbar() {
             <div className="flex items-center gap-3">
               <ThemeToggle />
 
-              <Link
-                to="/resume"
-                className="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-105 hover:opacity-90 lg:block"
-              >
-                Resume
-              </Link>
-
               <button
                 onClick={() => setOpen((v) => !v)}
                 className="rounded-lg p-1.5 text-foreground transition hover:bg-surface lg:hidden"
@@ -102,13 +95,6 @@ function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <Link
-                  to="/resume"
-                  className="px-6 py-4 text-center text-base font-semibold text-primary hover:bg-surface"
-                  onClick={() => setOpen(false)}
-                >
-                  Resume
-                </Link>
               </nav>
             </Container>
           </motion.div>

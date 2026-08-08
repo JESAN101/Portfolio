@@ -12,7 +12,6 @@ const ProjectDetails = lazy(() => import("../pages/public/ProjectDetails"));
 const Skills = lazy(() => import("../pages/public/Skills"));
 const Experience = lazy(() => import("../pages/public/Experience"));
 const Certificates = lazy(() => import("../pages/public/Certificates"));
-const Resume = lazy(() => import("../pages/public/Resume"));
 const Contact = lazy(() => import("../pages/public/Contact"));
 const NotFound = lazy(() => import("../pages/public/NotFound"));
 
@@ -52,7 +51,6 @@ function AppRoutes() {
             <Route path="/skills" element={<Skills />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/certificates" element={<Certificates />} />
-            <Route path="/resume" element={<Resume />} />
             <Route path="/contact" element={<Contact />} />
           </Route>
 

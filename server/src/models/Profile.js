@@ -47,6 +47,12 @@ const profileSchema = new mongoose.Schema(
       trim: true,
     },
 
+    titles: {
+      type: [String],
+      default: [],
+      trim: true,
+    },
+
     shortBio: {
       type: String,
       default: "",
