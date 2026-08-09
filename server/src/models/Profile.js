@@ -95,6 +95,11 @@ const profileSchema = new mongoose.Schema(
       default: "",
     },
 
+    aboutImage: {
+      type: String,
+      default: "",
+    },
+
     availableForWork: {
       type: Boolean,
       default: true,

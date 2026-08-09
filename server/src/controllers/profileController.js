@@ -6,6 +6,8 @@ import {
   deleteProfileService,
   updateProfileImageService,
   removeProfileImageService,
+  updateAboutImageService,
+  removeAboutImageService,
 } from "../services/profileService.js";
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
@@ -139,6 +141,58 @@ export const updateProfileImage = async (req, res) => {
       fs.unlinkSync(req.file.path);
     }
 
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateAboutImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No image uploaded",
+      });
+    }
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "portfolio/about",
+      resource_type: "image",
+    });
+
+    fs.unlinkSync(req.file.path);
+
+    const profile = await updateAboutImageService(result.secure_url);
+
+    return res.status(200).json({
+      success: true,
+      message: "About image updated successfully",
+      data: profile,
+    });
+  } catch (error) {
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const removeAboutImage = async (req, res) => {
+  try {
+    const profile = await removeAboutImageService();
+
+    return res.status(200).json({
+      success: true,
+      message: "About image removed successfully",
+      data: profile,
+    });
+  } catch (error) {
     return res.status(500).json({
       success: false,
       message: error.message,

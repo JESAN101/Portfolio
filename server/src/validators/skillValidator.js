@@ -7,6 +7,8 @@ const CATEGORIES = [
   "DevOps",
   "Design",
   "Tools",
+  "CyberSecurity",
+  "Programming Languages",
   "Other",
 ];
 

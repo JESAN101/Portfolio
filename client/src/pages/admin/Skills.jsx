@@ -15,7 +15,7 @@ import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Card from "../../components/ui/Card";
 
-const CATEGORIES = ["Frontend", "Backend", "Database", "DevOps", "Design", "Tools", "Other"];
+const CATEGORIES = ["Frontend", "Backend", "Database", "DevOps", "Design", "Tools", "CyberSecurity", "Programming Languages", "Other"];
 
 const defaultValues = {
   name: "",

@@ -35,6 +35,8 @@ const skillSchema = new mongoose.Schema(
         "DevOps",
         "Design",
         "Tools",
+        "CyberSecurity",
+        "Programming Languages",
         "Other",
       ],
       default: "Other",

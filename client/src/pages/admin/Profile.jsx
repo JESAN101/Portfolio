@@ -15,7 +15,9 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [aboutUploading, setAboutUploading] = useState(false);
   const fileInputRef = useRef();
+  const aboutFileInputRef = useRef();
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   useEffect(() => {
@@ -70,6 +72,42 @@ export default function Profile() {
       setProfile(data.data);
       reset(data.data);
       toast.success("Profile image removed");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to remove image");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAboutImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setAboutUploading(true);
+    try {
+      const { data } = await api.put("/profile/about-image", formData);
+      setProfile(data.data);
+      reset(data.data);
+      toast.success("About image updated");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Upload failed");
+    } finally {
+      setAboutUploading(false);
+    }
+  };
+
+  const removeAboutImage = async () => {
+    if (!profile?.aboutImage) return;
+
+    setSaving(true);
+    try {
+      const { data } = await api.delete("/profile/about-image");
+      setProfile(data.data);
+      reset(data.data);
+      toast.success("About image removed");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to remove image");
     } finally {
@@ -169,6 +207,62 @@ export default function Profile() {
             />
             <p className="mt-4 text-xs text-muted">
               JPG, PNG or WebP. Max 2MB.
+            </p>
+          </Card>
+
+          <Card className="p-6 text-center">
+            <h2 className="text-lg font-semibold mb-4">About Section Image</h2>
+            <div className="relative group mx-auto w-48 h-60 overflow-hidden rounded-2xl border-2 border-dashed border-border shadow-md">
+              {profile?.aboutImage ? (
+                <img 
+                  src={profile.aboutImage} 
+                  alt="About section" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-surface flex items-center justify-center text-muted">
+                  No Image
+                </div>
+              )}
+              
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => aboutFileInputRef.current?.click()}
+                  className="p-3 bg-white/20 hover:bg-white/30 rounded-full text-white transition-colors"
+                  title="Upload New"
+                  disabled={aboutUploading}
+                >
+                  <FaCamera size={20} />
+                </button>
+                {profile?.aboutImage && (
+                  <button
+                    type="button"
+                    onClick={removeAboutImage}
+                    className="p-3 bg-red-500/50 hover:bg-red-500/70 rounded-full text-white transition-colors"
+                    title="Remove"
+                    disabled={saving}
+                  >
+                    <FaTrash size={20} />
+                  </button>
+                )}
+              </div>
+              
+              {aboutUploading && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent animate-spin rounded-full" />
+                </div>
+              )}
+            </div>
+            <input 
+              type="file" 
+              ref={aboutFileInputRef} 
+              className="hidden" 
+              accept="image/*"
+              onChange={handleAboutImageUpload}
+            />
+            <p className="mt-4 text-xs text-muted">
+              Shown in the About section. Falls back to the profile picture if not set.
             </p>
           </Card>
         </div>

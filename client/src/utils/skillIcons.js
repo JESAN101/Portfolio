@@ -7,6 +7,8 @@ import {
   FaCss3Alt,
   FaJsSquare,
   FaDatabase,
+  FaPhp,
+  FaJava,
   FaCode,
 } from "react-icons/fa";
 import {
@@ -24,6 +26,10 @@ import {
   SiPython,
   SiFirebase,
   SiBootstrap,
+  SiMysql,
+  SiC,
+  SiArcgis,
+  SiAutocad,
 } from "react-icons/si";
 
 const SKILL_ICON_MAP = {
@@ -32,6 +38,7 @@ const SKILL_ICON_MAP = {
   nodejs: FaNodeJs,
   express: SiExpress,
   expressjs: SiExpress,
+  "express.js": SiExpress,
   mongodb: SiMongodb,
   javascript: FaJsSquare,
   js: FaJsSquare,
@@ -57,6 +64,14 @@ const SKILL_ICON_MAP = {
   python: SiPython,
   firebase: SiFirebase,
   bootstrap: SiBootstrap,
+  mysql: SiMysql,
+  php: FaPhp,
+  java: FaJava,
+  c: SiC,
+  "c++": SiC,
+  cplusplus: SiC,
+  arcgis: SiArcgis,
+  autocad: SiAutocad,
   database: FaDatabase,
 };
 

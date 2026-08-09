@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,
@@ -7,6 +7,7 @@ import {
   FaFacebook,
   FaTwitter,
   FaArrowRight,
+  FaDownload,
 } from "react-icons/fa";
 import Container from "@/components/ui/Container";
 import TechMarquee from "./TechMarquee";
@@ -16,6 +17,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import resumePdf from "@/assets/resume/resume.pdf";
 import useTypewriter from "@/hooks/useTypewriter";
 import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
+import Lightbox from "@/components/ui/Lightbox";
 
 const FALLBACK_TITLES = [
   "Full-Stack Developer",
@@ -34,6 +36,7 @@ const fadeUp = {
 
 function Hero() {
   const { profile, loading } = usePortfolio();
+  const [showLightbox, setShowLightbox] = useState(false);
   const titles = useMemo(() => {
     if (profile?.titles?.length > 0) return profile.titles;
     if (profile?.title) return [profile.title];
@@ -135,17 +138,21 @@ function Hero() {
               animate="show"
               className="mt-12 flex flex-wrap gap-5"
             >
-              <Link to="/projects" className="flex items-center gap-3 rounded-xl bg-primary px-8 py-4 font-semibold text-white transition hover:scale-105 hover:opacity-90">
+              <Link
+                to="/projects"
+                className="group flex items-center gap-3 rounded-full border border-foreground/15 bg-surface px-8 py-4 font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30"
+              >
                 View Projects
-                <FaArrowRight />
+                <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
 
               <a
                 href={resumePdf}
                 download="Resume.pdf"
-                className="rounded-xl border border-border px-8 py-4 font-semibold text-foreground transition hover:border-primary hover:bg-primary hover:text-white"
+                className="group flex items-center gap-3 rounded-full border border-foreground/15 bg-surface px-8 py-4 font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30"
               >
                 Download Resume
+                <FaDownload className="transition-transform duration-300 group-hover:translate-y-0.5" />
               </a>
             </motion.div>
 
@@ -154,30 +161,30 @@ function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="show"
-              className="mt-14 flex gap-5"
+              className="mt-14 flex gap-5 pb-16"
             >
               {profile?.socials?.github && (
-                <a href={profile.socials.github} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-foreground">
+                <a href={profile.socials.github} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:text-foreground hover:shadow-xl hover:shadow-black/20">
                   <FaGithub size={22} />
                 </a>
               )}
               {profile?.socials?.linkedin && (
-                <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-blue-500 hover:text-blue-500">
+                <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:text-blue-500 hover:shadow-xl hover:shadow-blue-500/30">
                   <FaLinkedin size={22} />
                 </a>
               )}
               {profile?.socials?.instagram && (
-                <a href={profile.socials.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-pink-500 hover:text-pink-500">
+                <a href={profile.socials.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:text-pink-500 hover:shadow-xl hover:shadow-pink-500/30">
                   <FaInstagram size={22} />
                 </a>
               )}
               {profile?.socials?.facebook && (
-                <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-blue-600 hover:text-blue-600">
+                <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-600/30">
                   <FaFacebook size={22} />
                 </a>
               )}
               {profile?.socials?.twitter && (
-                <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="rounded-full border border-border p-4 text-foreground transition hover:border-sky-500 hover:text-sky-500">
+                <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-sky-500 hover:text-sky-500 hover:shadow-xl hover:shadow-sky-500/30">
                   <FaTwitter size={22} />
                 </a>
               )}
@@ -204,18 +211,21 @@ function Hero() {
                 />
                 <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
 
-                <div className="relative h-[420px] w-[420px] overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]">
+                <div 
+                  className="relative h-[420px] w-[420px] cursor-zoom-in overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]"
+                  onClick={() => setShowLightbox(true)}
+                >
                   {profile?.profileImage ? (
                     <img
                       src={profile.profileImage}
                       alt={profile?.fullName || "Profile"}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                   ) : (
                     <img
                       src={profilePlaceholder}
                       alt="Profile placeholder"
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                   )}
                 </div>
@@ -226,6 +236,13 @@ function Hero() {
           </motion.div>
         </div>
       </Container>
+
+      {showLightbox && (
+        <Lightbox
+          images={[{ url: profile?.profileImage || profilePlaceholder, alt: profile?.fullName || "Profile" }]}
+          onClose={() => setShowLightbox(false)}
+        />
+      )}
     </section>
   );
 }
