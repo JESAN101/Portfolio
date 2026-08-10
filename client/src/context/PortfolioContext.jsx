@@ -33,7 +33,7 @@ export function PortfolioProvider({ children }) {
         await Promise.all([
           profileApi.get(),
           skillApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
-          projectApi.getAll({ published: true, limit: DEFAULT_LIMIT }),
+          projectApi.getAll({ published: true, limit: DEFAULT_LIMIT, sort: "order" }),
           experienceApi.getAll(),
           educationApi.getAll(),
           certificateApi.getAll(),

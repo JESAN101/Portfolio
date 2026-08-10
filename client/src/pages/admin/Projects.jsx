@@ -7,6 +7,7 @@ import { projectApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Textarea from "../../components/ui/Textarea";
+import TagInput from "../../components/ui/TagInput";
 import Select from "../../components/ui/Select";
 import Modal from "../../components/ui/Modal";
 import SearchBar from "../../components/ui/SearchBar";
@@ -23,7 +24,6 @@ const defaultValues = {
   title: "",
   shortDescription: "",
   description: "",
-  technologies: "",
   githubUrl: "",
   liveUrl: "",
   category: "Web",
@@ -49,6 +49,7 @@ function Projects() {
   const [coverFile, setCoverFile] = useState(null);
   const [coverPreview, setCoverPreview] = useState("");
   const [galleryFiles, setGalleryFiles] = useState([]);
+  const [technologies, setTechnologies] = useState([]);
   const coverInputRef = useRef(null);
   const galleryInputRef = useRef(null);
 
@@ -93,6 +94,7 @@ function Projects() {
     setCoverFile(null);
     setCoverPreview("");
     setGalleryFiles([]);
+    setTechnologies([]);
     reset(defaultValues);
     setModalOpen(true);
   };
@@ -102,11 +104,11 @@ function Projects() {
     setCoverFile(null);
     setCoverPreview(item.coverImage || "");
     setGalleryFiles([]);
+    setTechnologies(item.technologies || []);
     reset({
       title: item.title,
       shortDescription: item.shortDescription,
       description: item.description,
-      technologies: (item.technologies || []).join(", "),
       githubUrl: item.githubUrl || "",
       liveUrl: item.liveUrl || "",
       category: item.category,
@@ -159,9 +161,7 @@ function Projects() {
         title: data.title.trim(),
         shortDescription: data.shortDescription.trim(),
         description: data.description.trim(),
-        technologies: data.technologies
-          ? data.technologies.split(",").map((t) => t.trim()).filter(Boolean)
-          : [],
+        technologies,
         githubUrl: data.githubUrl || "",
         liveUrl: data.liveUrl || "",
         category: data.category,
@@ -384,10 +384,11 @@ function Projects() {
             </div>
             <Input label="Order" type="number" {...register("order")} />
             <div className="md:col-span-2">
-              <Input
+              <TagInput
                 label="Technologies"
-                placeholder="React, Node.js, MongoDB (comma separated)"
-                {...register("technologies")}
+                placeholder="Type a technology and press Enter"
+                value={technologies}
+                onChange={setTechnologies}
               />
             </div>
           </div>
