@@ -1,13 +1,16 @@
 import { useLocation, Link } from "react-router-dom";
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
 import Skeleton from "@/components/ui/Skeleton";
 import ErrorState from "@/components/ui/ErrorState";
 import EmptyState from "@/components/ui/EmptyState";
 import heroBg from "@/assets/images/HeroBackground.jpg";
 
 const HOME_LIMIT = 4;
+
+const HERO_BUTTON_CLASS =
+  "flex items-center gap-2 rounded-full border border-foreground/15 bg-surface font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30";
 
 function Projects() {
   const { projects, loading, error, retry } = usePortfolio();
@@ -123,12 +126,15 @@ function ProjectCard({ project }) {
       {/* hover glow */}
       <div className="pointer-events-none absolute -top-20 left-1/2 z-20 h-40 w-40 -translate-x-1/2 rounded-full bg-gradient-to-br from-primary/25 to-secondary/25 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
 
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+      {/* bottom accent bar grows on hover — same as skill cards */}
+      <div className="absolute inset-x-6 bottom-0 z-30 h-0.5 w-0 bg-gradient-to-r from-primary to-secondary transition-all duration-500 group-hover:w-[calc(100%-3rem)]" />
+
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-surface to-card">
         {project.coverImage ? (
           <img
             src={project.coverImage}
             alt={project.title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-surface to-card text-muted">
@@ -179,7 +185,7 @@ function ProjectCard({ project }) {
           <div className="flex items-center justify-between gap-3">
             <Link
               to={`/projects/${project.slug}`}
-              className="flex items-center gap-2 font-semibold text-white"
+              className={`${HERO_BUTTON_CLASS} z-30 px-4 py-2 text-xs`}
             >
               View Project
               <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -190,9 +196,10 @@ function ProjectCard({ project }) {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-colors duration-300 hover:bg-white hover:text-black"
+                className={`${HERO_BUTTON_CLASS} z-30 px-4 py-2 text-xs`}
               >
                 Live Demo
+                <FaExternalLinkAlt size={12} />
               </a>
             )}
           </div>

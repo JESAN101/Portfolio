@@ -15,16 +15,19 @@ import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Pagination from "../../components/ui/Pagination";
 
-function StatCard({ label, value, icon: Icon }) {
+function StatCard({ label, value, icon: Icon, colorClass }) {
   return (
-    <Card className="p-5 flex items-center gap-4">
-      <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-        <Icon className="w-5 h-5" />
+    <Card className="group p-6 flex items-center gap-4 relative overflow-hidden">
+      <div className={`p-4 rounded-2xl bg-surface border border-border/50 transition-colors ${colorClass || "bg-primary/10"}`}>
+        <Icon className="w-6 h-6" />
       </div>
       <div>
-        <div className="text-2xl font-bold font-heading text-foreground leading-none">{value}</div>
-        <div className="text-sm text-muted mt-1">{label}</div>
+        <div className="text-3xl font-black text-foreground leading-none">{value}</div>
+        <div className="text-xs text-muted mt-2 font-medium uppercase tracking-wider">{label}</div>
       </div>
+      
+      {/* subtle corner accent */}
+      <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
     </Card>
   );
 }
@@ -130,15 +133,22 @@ function Messages() {
 
   return (
     <div className="space-y-6">
+      {/* page header */}
       <div>
-        <h1 className="font-heading text-2xl font-bold">Messages</h1>
-        <p className="text-sm text-muted mt-1">Enquiries submitted through your contact form.</p>
+        <div className="flex items-center gap-3">
+          <span className="h-px w-8 bg-primary/60" />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">
+            Admin · Inbox
+          </span>
+        </div>
+        <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Messages</h1>
+        <p className="mt-1.5 text-sm text-muted">Enquiries submitted through your contact form.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard label="Total messages" value={stats.total} icon={Inbox} />
-        <StatCard label="Unread" value={stats.unread} icon={Mail} />
-        <StatCard label="Read" value={stats.read} icon={MailOpen} />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <StatCard label="Total" value={stats.total} icon={Inbox} colorClass="group-hover:bg-blue-500/10 text-blue-500" />
+        <StatCard label="Unread" value={stats.unread} icon={Mail} colorClass="group-hover:bg-primary/10 text-primary" />
+        <StatCard label="Read" value={stats.read} icon={MailOpen} colorClass="group-hover:bg-emerald-500/10 text-emerald-500" />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
@@ -227,19 +237,19 @@ function Messages() {
               </Badge>
             </div>
             <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">{selected.message}</p>
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-xs text-muted">
-                Received {format(new Date(selected.createdAt), "MMM d, yyyy 'at' h:mm a")}
-              </span>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => toggleRead(selected)}>
-                  Mark as {selected.read ? "unread" : "read"}
-                </Button>
-                <Button variant="outline" onClick={() => setDeleteTarget(selected)}>
-                  <Trash2 className="w-4 h-4 text-red-500" />
-                </Button>
-              </div>
+          <div className="flex items-center justify-between pt-4 border-t border-border mt-6">
+            <span className="text-xs text-muted">
+              Received {format(new Date(selected.createdAt), "MMM d, yyyy 'at' h:mm a")}
+            </span>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => toggleRead(selected)}>
+                Mark as {selected.read ? "unread" : "read"}
+              </Button>
+              <Button variant="outline" className="hover:bg-red-500/10 hover:text-red-500" onClick={() => setDeleteTarget(selected)}>
+                <Trash2 className="w-4 h-4" />
+              </Button>
             </div>
+          </div>
           </div>
         )}
       </Modal>

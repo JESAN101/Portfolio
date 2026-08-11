@@ -9,8 +9,11 @@ export default function Loader({ size = "md", text }) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-12">
-      <Loader2 className={`${sizes[size]} text-primary animate-spin`} />
-      {text && <p className="text-sm text-muted">{text}</p>}
+      <div className="relative">
+        <div className="pointer-events-none absolute -inset-2 rounded-full bg-primary/20 blur-lg" />
+        <Loader2 className={`${sizes[size]} relative text-primary animate-spin`} />
+      </div>
+      {text && <p className="text-sm font-medium text-muted">{text}</p>}
     </div>
   );
 }

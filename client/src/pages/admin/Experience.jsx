@@ -199,14 +199,21 @@ function Experience() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* page header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-heading text-2xl font-bold">Work Experience</h1>
-          <p className="text-sm text-muted mt-1">
+          <div className="flex items-center gap-3">
+            <span className="h-px w-8 bg-primary/60" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">
+              Admin · Experience
+            </span>
+          </div>
+          <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Work Experience</h1>
+          <p className="mt-1.5 text-sm text-muted">
             Manage your professional experience timeline.
           </p>
         </div>
-        <Button onClick={openCreate} className="shrink-0">
+        <Button onClick={openCreate} className="shrink-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40">
           <Plus className="w-4 h-4" />
           Add Experience
         </Button>
@@ -321,6 +328,7 @@ function Experience() {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="hover:bg-primary/10 hover:text-primary"
                             onClick={() => openEdit(item)}
                             title="Edit"
                           >
@@ -329,10 +337,11 @@ function Experience() {
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="hover:bg-red-500/10 hover:text-red-500"
                             onClick={() => setDeleteTarget(item)}
                             title="Delete"
                           >
-                            <Trash2 className="w-4 h-4 text-red-500" />
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
                       </td>

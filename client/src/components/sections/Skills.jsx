@@ -272,7 +272,7 @@ function SkillCard({ skill, index, onDetails }) {
   const proficiency = skill.proficiency || 0;
 
   return (
-    <div className="group relative flex min-h-[190px] flex-col items-center rounded-2xl border border-foreground/10 bg-card p-4 text-center shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
+    <div className="group relative flex h-[230px] flex-col items-center rounded-2xl border border-foreground/10 bg-card p-4 text-center shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
       {/* hover glow */}
       <div className="pointer-events-none absolute -top-10 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-gradient-to-br from-primary/25 to-secondary/25 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -291,7 +291,7 @@ function SkillCard({ skill, index, onDetails }) {
       </div>
 
       {/* Name */}
-      <h5 className="relative mt-4 w-full text-sm font-bold leading-tight">
+      <h5 className="relative mt-4 w-full truncate text-sm font-bold leading-tight">
         {skill.name}
       </h5>
 
@@ -299,20 +299,18 @@ function SkillCard({ skill, index, onDetails }) {
       <div className="flex-1" />
 
       {/* Proficiency */}
-      {proficiency > 0 && (
-        <div className="relative mt-4 w-full space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] font-semibold">
-            <span className="text-muted">Proficiency</span>
-            <span className="text-primary">{proficiency}%</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
-            <div
-              className={`h-full rounded-full bg-gradient-to-r ${barColor(proficiency)}`}
-              style={{ width: `${proficiency}%` }}
-            />
-          </div>
+      <div className="relative mt-4 w-full space-y-1.5">
+        <div className="flex items-center justify-between text-[10px] font-semibold">
+          <span className="text-muted">Proficiency</span>
+          <span className="text-primary">{proficiency}%</span>
         </div>
-      )}
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
+          <div
+            className={`h-full rounded-full bg-gradient-to-r ${barColor(proficiency)}`}
+            style={{ width: `${proficiency}%` }}
+          />
+        </div>
+      </div>
 
       {/* View Details */}
       <button

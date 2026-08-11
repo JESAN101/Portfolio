@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
 import logo from "@/assets/logo/JB_logo_1.png";
 
-import { FaFolderOpen, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
+import { FaFolderOpen, FaCode, FaBriefcase } from "react-icons/fa";
 
 import Skeleton from "@/components/ui/Skeleton";
 
 function About() {
-  const { profile, projects, skills, experience, certificates, loading } = usePortfolio();
+  const { profile, projects, skills, experience, loading } = usePortfolio();
 
   if (loading) {
     return (
@@ -37,7 +37,6 @@ function About() {
     { value: `${projects?.length || 0}+`, label: "Projects", icon: <FaFolderOpen size={16} />, to: "/projects" },
     { value: `${skills?.length || 0}+`, label: "Technologies", icon: <FaCode size={16} />, to: "/skills" },
     { value: `${experience?.length || 0}+`, label: "Experience", icon: <FaBriefcase size={16} />, to: "/experience" },
-    { value: `${certificates?.length || 0}+`, label: "Certificates", icon: <FaAward size={16} />, to: "/certificates" },
   ];
 
   const imageSrc = profile?.aboutImage || profile?.profileImage || profilePlaceholder;
@@ -105,7 +104,7 @@ function About() {
             </p>
 
             {/* Stats */}
-            <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-foreground/10 pt-10 sm:grid-cols-4">
+            <div className="mt-12 grid grid-cols-3 gap-x-8 gap-y-8 border-t border-foreground/10 pt-10">
               {stats.map((stat) => (
                 <Link
                   to={stat.to}

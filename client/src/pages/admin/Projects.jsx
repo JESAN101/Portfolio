@@ -307,17 +307,17 @@ function Projects() {
                     <p className="text-sm text-muted truncate">{item.shortDescription}</p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
-                    <Button variant="ghost" size="icon" onClick={() => toggleFeature(item)} title={item.featured ? "Unfeature" : "Feature"}>
+                    <Button variant="ghost" size="icon" className="hover:bg-yellow-500/10" onClick={() => toggleFeature(item)} title={item.featured ? "Unfeature" : "Feature"}>
                       <Star className={`w-4 h-4 ${item.featured ? "fill-yellow-400 text-yellow-400" : "text-muted"}`} />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => togglePublish(item)} title={item.published ? "Unpublish" : "Publish"}>
-                      {item.published ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted" />}
+                    <Button variant="ghost" size="icon" className="hover:bg-primary/10" onClick={() => togglePublish(item)} title={item.published ? "Unpublish" : "Publish"}>
+                      {item.published ? <Eye className="w-4 h-4 text-primary" /> : <EyeOff className="w-4 h-4 text-muted" />}
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(item)} title="Edit">
-                      <Pencil className="w-4 h-4" />
+                    <Button variant="ghost" size="icon" className="hover:bg-primary/10" onClick={() => openEdit(item)} title="Edit">
+                      <Pencil className="w-4 h-4 text-muted hover:text-primary transition-colors" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setDeleteTarget(item)} title="Delete">
-                      <Trash2 className="w-4 h-4 text-red-500" />
+                    <Button variant="ghost" size="icon" className="hover:bg-red-500/10" onClick={() => setDeleteTarget(item)} title="Delete">
+                      <Trash2 className="w-4 h-4 text-muted hover:text-red-500 transition-colors" />
                     </Button>
                   </div>
                 </motion.div>

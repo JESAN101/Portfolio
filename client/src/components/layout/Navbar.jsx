@@ -13,7 +13,6 @@ const mobileLinks = [
   { name: "Projects", path: "/projects" },
   { name: "Skills", path: "/skills" },
   { name: "Experience", path: "/experience" },
-  { name: "Certificates", path: "/certificates" },
   { name: "Contact", path: "/contact" },
 ];
 

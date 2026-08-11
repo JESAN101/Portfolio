@@ -6,7 +6,7 @@ export const SITE_URL =
 
 export const SITE_NAME = "Jesan Bogati";
 export const SITE_DESCRIPTION =
-  "Full Stack Developer portfolio showcasing projects, skills, experience and certifications.";
+  "Full Stack Developer portfolio showcasing projects, skills and experience.";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/icons.svg`;
 
 export const NAV_LINKS = [
@@ -14,7 +14,6 @@ export const NAV_LINKS = [
   { name: "Projects", path: "/projects" },
   { name: "Skills", path: "/skills" },
   { name: "Experience", path: "/experience" },
-  { name: "Certificates", path: "/certificates" },
   { name: "Contact", path: "/contact" },
 ];
 

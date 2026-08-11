@@ -21,10 +21,6 @@ export const educationApi = {
   getAll: () => api.get("/education"),
 };
 
-export const certificateApi = {
-  getAll: () => api.get("/certificates"),
-};
-
 export const contactApi = {
   send: (data) => api.post("/messages", data),
 };

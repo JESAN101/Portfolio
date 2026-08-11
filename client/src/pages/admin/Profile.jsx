@@ -269,8 +269,14 @@ export default function Profile() {
 
         {/* Profile Details Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex-1 space-y-8">
-          <Card className="p-6 space-y-4">
-            <h2 className="text-lg font-semibold">Personal Info</h2>
+          <Card className="p-6 relative group overflow-hidden">
+            {/* subtle ambient glow */}
+            <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/5 blur-2xl" />
+            
+            <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
+              <span className="w-1.5 h-6 rounded-full bg-primary" />
+              Personal Info
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input label="Full Name" {...register("fullName", { required: true })} error={errors.fullName?.message} />
               <Input label="Email" type="email" {...register("email")} />
@@ -320,14 +326,26 @@ export default function Profile() {
             </div>
           </Card>
 
-          <Card className="p-6 space-y-4">
-            <h2 className="text-lg font-semibold">About</h2>
-            <Textarea label="Short Bio" {...register("shortBio")} />
-            <Textarea label="About" {...register("about")} className="min-h-[200px]" />
+          <Card className="p-6 relative group overflow-hidden">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-secondary/5 blur-2xl" />
+
+            <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
+              <span className="w-1.5 h-6 rounded-full bg-secondary" />
+              About
+            </h2>
+            <div className="space-y-4">
+              <Textarea label="Short Bio" {...register("shortBio")} placeholder="A quick one-liner about you..." />
+              <Textarea label="About" {...register("about")} className="min-h-[200px]" placeholder="Tell your story..." />
+            </div>
           </Card>
 
-          <Card className="p-6 space-y-4">
-            <h2 className="text-lg font-semibold">Social Links</h2>
+          <Card className="p-6 relative group overflow-hidden">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/5 blur-2xl" />
+
+            <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
+              <span className="w-1.5 h-6 rounded-full bg-primary" />
+              Social Links
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input label="GitHub" {...register("socials.github")} />
               <Input label="LinkedIn" {...register("socials.linkedin")} />
@@ -337,9 +355,11 @@ export default function Profile() {
             </div>
           </Card>
 
-          <Button type="submit" disabled={saving}>
-            {saving ? "Saving..." : "Save Changes"}
-          </Button>
+          <div className="flex justify-end pt-4">
+            <Button type="submit" size="lg" disabled={saving} className="px-10">
+              {saving ? "Saving Changes..." : "Save Changes"}
+            </Button>
+          </div>
         </form>
       </div>
     </div>
