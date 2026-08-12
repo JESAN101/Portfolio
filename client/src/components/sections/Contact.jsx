@@ -37,23 +37,61 @@ function Contact() {
     subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   const socials = getSocialLinks(profile?.socials);
 
+  const validate = (values) => {
+    const errs = {};
+    if (!values.name.trim()) {
+      errs.name = "Name is required";
+    } else if (values.name.trim().length > 100) {
+      errs.name = "Name must be at most 100 characters";
+    }
+    if (!values.email.trim()) {
+      errs.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
+      errs.email = "Invalid email";
+    }
+    if (!values.subject.trim()) {
+      errs.subject = "Subject is required";
+    } else if (values.subject.trim().length > 200) {
+      errs.subject = "Subject must be at most 200 characters";
+    }
+    if (!values.message.trim()) {
+      errs.message = "Message is required";
+    } else if (values.message.trim().length < 10) {
+      errs.message = "Message must be at least 10 characters";
+    } else if (values.message.trim().length > 5000) {
+      errs.message = "Message must be at most 5000 characters";
+    }
+    return errs;
+  };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errs = validate(form);
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     setSubmitting(true);
     try {
       await contactApi.send(form);
       toast.success("Message sent successfully!");
       setForm({ name: "", email: "", subject: "", message: "" });
+      setErrors({});
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to send message.");
+      const serverMsg =
+        err.response?.data?.errors?.[0]?.msg ||
+        err.response?.data?.message ||
+        "Failed to send message.";
+      toast.error(serverMsg);
     } finally {
       setSubmitting(false);
     }
@@ -92,7 +130,20 @@ function Contact() {
   ];
 
   const inputClass =
-    "w-full rounded-xl border border-border bg-surface px-5 py-4 text-foreground placeholder:text-muted outline-none transition-all duration-300 focus:border-primary focus:ring-2 focus:ring-primary/20";
+    "w-full rounded-xl border bg-surface px-5 py-4 text-foreground placeholder:text-muted outline-none transition-all duration-300 focus:ring-2";
+  const normalField =
+    "border-border focus:border-primary focus:ring-primary/20";
+  const errorField =
+    "border-red-500 focus:border-red-500 focus:ring-red-500/20";
+
+  const fieldError = (name) => {
+    if (!errors[name]) return null;
+    return (
+      <p className="mt-2 text-sm text-red-500" role="alert">
+        {errors[name]}
+      </p>
+    );
+  };
 
   return (
     <section className="relative overflow-hidden bg-background py-28 text-foreground md:py-36">
@@ -257,8 +308,10 @@ function Contact() {
                     value={form.name}
                     onChange={handleChange}
                     required
-                    className={inputClass}
+                    aria-invalid={!!errors.name}
+                    className={`${inputClass} ${errors.name ? errorField : normalField}`}
                   />
+                  {fieldError("name")}
                 </div>
                 <div>
                   <label
@@ -275,8 +328,10 @@ function Contact() {
                     value={form.email}
                     onChange={handleChange}
                     required
-                    className={inputClass}
+                    aria-invalid={!!errors.email}
+                    className={`${inputClass} ${errors.email ? errorField : normalField}`}
                   />
+                  {fieldError("email")}
                 </div>
               </div>
 
@@ -295,8 +350,10 @@ function Contact() {
                   value={form.subject}
                   onChange={handleChange}
                   required
-                  className={inputClass}
+                  aria-invalid={!!errors.subject}
+                  className={`${inputClass} ${errors.subject ? errorField : normalField}`}
                 />
+                {fieldError("subject")}
               </div>
 
               <div>
@@ -314,8 +371,10 @@ function Contact() {
                   value={form.message}
                   onChange={handleChange}
                   required
-                  className={`${inputClass} resize-none`}
+                  aria-invalid={!!errors.message}
+                  className={`${inputClass} resize-none ${errors.message ? errorField : normalField}`}
                 />
+                {fieldError("message")}
               </div>
 
               <button
