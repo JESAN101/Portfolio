@@ -1,11 +1,19 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "./Button";
+import useDialogA11y from "@/hooks/useDialogA11y";
 
 export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, message, confirmText = "Delete", loading }) {
+  const dialogRef = useDialogA11y({ isOpen, onClose });
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

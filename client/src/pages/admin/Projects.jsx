@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { Plus, Pencil, Trash2, FolderKanban, AlertCircle, ImagePlus, Star, Eye, EyeOff, X } from "lucide-react";
+import { Plus, Pencil, Trash2, FolderKanban, AlertCircle, X, Star, Eye, EyeOff } from "lucide-react";
 import { projectApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -17,6 +17,8 @@ import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Card from "../../components/ui/Card";
 import Pagination from "../../components/ui/Pagination";
+import ImageUpload from "../../components/ui/ImageUpload";
+import Checkbox from "../../components/ui/Checkbox";
 
 const CATEGORIES = ["Web", "Mobile", "Desktop", "UI/UX", "Other"];
 
@@ -50,7 +52,6 @@ function Projects() {
   const [coverPreview, setCoverPreview] = useState("");
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [technologies, setTechnologies] = useState([]);
-  const coverInputRef = useRef(null);
   const galleryInputRef = useRef(null);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
@@ -128,8 +129,27 @@ function Projects() {
     const file = e.target.files?.[0];
     if (!file) return;
     setCoverFile(file);
-    setCoverPreview(URL.createObjectURL(file));
+    setCoverPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return URL.createObjectURL(file);
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      if (coverPreview) URL.revokeObjectURL(coverPreview);
+    };
+  }, [coverPreview]);
+
+  const galleryPreviewUrls = useMemo(
+    () => galleryFiles.map((file) => URL.createObjectURL(file)),
+    [galleryFiles]
+  );
+
+  useEffect(() => {
+    const urls = galleryPreviewUrls;
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [galleryPreviewUrls]);
 
   const onGalleryChange = (e) => {
     const files = Array.from(e.target.files || []);
@@ -330,87 +350,81 @@ function Projects() {
       <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />
 
       <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Project" : "Add Project"} size="xl">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => coverInputRef.current?.click()}
-              className="w-28 h-20 rounded-xl border border-dashed border-border flex items-center justify-center overflow-hidden shrink-0 hover:border-primary transition-colors"
-            >
-              {coverPreview ? (
-                <img src={coverPreview} alt="Cover preview" className="w-full h-full object-cover" />
-              ) : (
-                <ImagePlus className="w-5 h-5 text-muted" />
-              )}
-            </button>
-            <div className="text-sm">
-              <button type="button" onClick={() => coverInputRef.current?.click()} className="text-primary font-medium hover:underline">
-                Upload cover image
-              </button>
-              <p className="text-muted mt-0.5">Shown on the project card and detail page.</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="md:col-span-4">
+              <ImageUpload
+                label="Cover Image"
+                preview={coverPreview}
+                onUpload={onCoverChange}
+                onRemove={() => { setCoverFile(null); setCoverPreview(""); }}
+                className="w-full h-48"
+                size="full"
+              />
             </div>
-            <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={onCoverChange} />
+            
+            <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="md:col-span-2">
+                <Input
+                  label="Title"
+                  placeholder="E-commerce Dashboard"
+                  error={errors.title?.message}
+                  {...register("title", { required: "Title is required" })}
+                />
+              </div>
+              <div className="md:col-span-2">
+                <Input
+                  label="Short Description"
+                  placeholder="One-line summary shown in project cards"
+                  error={errors.shortDescription?.message}
+                  {...register("shortDescription", { required: "Short description is required" })}
+                />
+              </div>
+              <Input label="GitHub URL" placeholder="https://github.com/..." {...register("githubUrl")} />
+              <Input label="Live URL" placeholder="https://..." {...register("liveUrl")} />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="md:col-span-2">
-              <Input
-                label="Title"
-                placeholder="E-commerce Dashboard"
-                error={errors.title?.message}
-                {...register("title", { required: "Title is required" })}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <Input
-                label="Short Description"
-                placeholder="One-line summary shown in project cards"
-                error={errors.shortDescription?.message}
-                {...register("shortDescription", { required: "Short description is required" })}
-              />
-            </div>
-            <Input label="GitHub URL" placeholder="https://github.com/..." {...register("githubUrl")} />
-            <Input label="Live URL" placeholder="https://..." {...register("liveUrl")} />
-            <div>
-              <label className="text-sm font-medium text-foreground">Category</label>
-              <select
-                className="mt-1.5 w-full h-10 px-3 rounded-xl border border-border bg-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                {...register("category")}
-              >
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Select
+              label="Category"
+              options={CATEGORIES.map(c => ({ value: c, label: c }))}
+              {...register("category")}
+            />
             <Input label="Order" type="number" {...register("order")} />
-            <div className="md:col-span-2">
-              <TagInput
-                label="Technologies"
-                placeholder="Type a technology and press Enter"
-                value={technologies}
-                onChange={setTechnologies}
-              />
+            <div className="flex items-end gap-6 pb-2">
+              <Checkbox label="Featured" {...register("featured")} />
+              <Checkbox label="Published" {...register("published")} />
             </div>
           </div>
 
-          <Textarea
-            label="Full Description"
-            placeholder="The problem, your approach, and the outcome..."
-            error={errors.description?.message}
-            {...register("description", { required: "Description is required" })}
-          />
+          <div className="space-y-6">
+            <TagInput
+              label="Technologies"
+              placeholder="Type a technology and press Enter"
+              value={technologies}
+              onChange={setTechnologies}
+            />
 
-          <div>
-            <div className="flex items-center justify-between mb-2">
+            <Textarea
+              label="Full Description"
+              placeholder="The problem, your approach, and the outcome..."
+              error={errors.description?.message}
+              {...register("description", { required: "Description is required" })}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-foreground">Gallery</label>
-              <button type="button" onClick={() => galleryInputRef.current?.click()} className="text-sm text-primary font-medium hover:underline">
+              <Button type="button" variant="outline" size="sm" onClick={() => galleryInputRef.current?.click()}>
                 + Add images
-              </button>
+              </Button>
               <input ref={galleryInputRef} type="file" accept="image/*" multiple className="hidden" onChange={onGalleryChange} />
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3">
               {editing?.galleryImages?.map((img) => (
-                <div key={img._id} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
+                <div key={img._id} className="relative aspect-square rounded-xl overflow-hidden border border-border group">
                   <img src={img.url} alt="Gallery" className="w-full h-full object-cover" />
                   <button
                     type="button"
@@ -422,8 +436,8 @@ function Projects() {
                 </div>
               ))}
               {galleryFiles.map((file, i) => (
-                <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
-                  <img src={URL.createObjectURL(file)} alt="New gallery" className="w-full h-full object-cover" />
+                <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-border group">
+                  <img src={galleryPreviewUrls[i]} alt="New gallery" className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => removeGalleryFile(i)}
@@ -433,24 +447,15 @@ function Projects() {
                   </button>
                 </div>
               ))}
-              {!editing?.galleryImages?.length && !galleryFiles.length && (
-                <p className="text-sm text-muted">No gallery images yet.</p>
-              )}
             </div>
+            {!editing?.galleryImages?.length && !galleryFiles.length && (
+              <p className="text-xs text-muted text-center py-4 border-2 border-dashed border-border rounded-xl">
+                No gallery images yet.
+              </p>
+            )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-6">
-            <label className="flex items-center gap-2.5 cursor-pointer select-none">
-              <input type="checkbox" className="w-4 h-4 rounded border-border accent-primary" {...register("featured")} />
-              <span className="text-sm font-medium text-foreground">Featured</span>
-            </label>
-            <label className="flex items-center gap-2.5 cursor-pointer select-none">
-              <input type="checkbox" className="w-4 h-4 rounded border-border accent-primary" {...register("published")} />
-              <span className="text-sm font-medium text-foreground">Published</span>
-            </label>
-          </div>
-
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-4 border-t border-border/60">
             <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
             <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
           </div>

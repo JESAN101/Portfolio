@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useReducedMotion } from "./useReducedMotion";
 
 const TYPE_SPEED = 90;
 const DELETE_SPEED = 35;
@@ -16,8 +17,10 @@ export default function useTypewriter(words) {
   const wordIndexRef = useRef(0);
   const lastKeyRef = useRef("");
   const wordsKey = safeWords.join("|");
+  const reduced = useReducedMotion();
 
   useEffect(() => {
+    if (reduced) return;
     if (lastKeyRef.current === wordsKey) return;
     lastKeyRef.current = wordsKey;
     wordIndexRef.current = 0;
@@ -27,9 +30,10 @@ export default function useTypewriter(words) {
       setStarted(false);
     }, 0);
     return () => clearTimeout(resetTimeout);
-  }, [wordsKey]);
+  }, [wordsKey, reduced]);
 
   useEffect(() => {
+    if (reduced) return;
     if (safeWords.length === 0) return;
 
     const target = safeWords[wordIndexRef.current % safeWords.length];
@@ -52,7 +56,7 @@ export default function useTypewriter(words) {
     }
 
     return () => clearTimeout(timeout);
-  }, [text, deleting, started, safeWords]);
+  }, [text, deleting, started, safeWords, reduced]);
 
-  return text;
+  return reduced ? safeWords[0] || "" : text;
 }

@@ -6,15 +6,7 @@ import Container from "@/components/ui/Container";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import ThemeToggle from "./ThemeToggle";
-
-const mobileLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Projects", path: "/projects" },
-  { name: "Skills", path: "/skills" },
-  { name: "Experience", path: "/experience" },
-  { name: "Contact", path: "/contact" },
-];
+import { NAV_LINKS } from "@/config";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -84,7 +76,7 @@ function Navbar() {
           >
             <Container>
               <nav className="mt-2 flex flex-col overflow-hidden rounded-2xl border border-border bg-background/95 shadow-lg backdrop-blur-2xl">
-                {mobileLinks.map((item) => (
+                {NAV_LINKS.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}

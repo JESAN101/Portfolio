@@ -5,6 +5,7 @@ import { FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
 import Skeleton from "@/components/ui/Skeleton";
 import ErrorState from "@/components/ui/ErrorState";
 import EmptyState from "@/components/ui/EmptyState";
+import Image from "@/components/ui/Image";
 import heroBg from "@/assets/images/HeroBackground.jpg";
 
 const HOME_LIMIT = 4;
@@ -28,7 +29,7 @@ function Projects() {
       <Container className="relative">
         <div className="grid gap-16 lg:grid-cols-12 lg:items-start">
           {/* Left column — heading */}
-          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:-mt-3 space-y-6">
+          <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-primary/60" />
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -37,7 +38,8 @@ function Projects() {
             </div>
 
             <h2 className="text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl">
-              Featured{" "}
+              Featured
+              <br />
               <span className="relative inline-block text-primary">
                 Work
                 <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
@@ -57,7 +59,7 @@ function Projects() {
 
               <div className="relative rounded-[30px] border border-white/60 bg-white/30 p-2 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
                 <div className="relative overflow-hidden rounded-[24px]">
-                  <img
+                  <Image
                     src={heroBg}
                     alt="Projects visual representation"
                     className="w-full h-auto object-cover transition-transform duration-700 ease-out hover:scale-105"
@@ -131,7 +133,7 @@ function ProjectCard({ project }) {
 
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-surface to-card">
         {project.coverImage ? (
-          <img
+          <Image
             src={project.coverImage}
             alt={project.title}
             className="absolute inset-0 h-full w-full object-contain"

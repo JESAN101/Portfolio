@@ -33,11 +33,38 @@ export const projectApi = {
 
 export const profileApi = {
   get: () => api.get("/profile"),
+  create: (data) => api.post("/profile", data),
   update: (data) => api.put("/profile", data),
   updateImage: (formData) =>
     api.put("/profile/image", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     }),
+  removeImage: () => api.delete("/profile/image"),
+  updateAboutImage: (formData) =>
+    api.put("/profile/about-image", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
+  removeAboutImage: () => api.delete("/profile/about-image"),
+};
+
+export const experienceApi = {
+  getAll: (params) => api.get("/experience", { params }),
+  create: (data) => api.post("/experience", data),
+  update: (id, data) => api.put(`/experience/${id}`, data),
+  delete: (id) => api.delete(`/experience/${id}`),
+  reorder: (order) => api.put("/experience/reorder", { order }),
+};
+
+export const educationApi = {
+  getAll: (params) => api.get("/education", { params }),
+  create: (data) => api.post("/education", data),
+  update: (id, data) => api.put(`/education/${id}`, data),
+  delete: (id) => api.delete(`/education/${id}`),
+  reorder: (order) => api.put("/education/reorder", { order }),
+};
+
+export const dashboardApi = {
+  get: () => api.get("/dashboard"),
 };
 
 export const skillApi = {

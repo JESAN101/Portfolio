@@ -1,5 +1,7 @@
-import fs from "fs";
-import cloudinary from "../config/cloudinary.js";
+import {
+  uploadAndCleanupLocalFile,
+} from "../services/cloudinaryService.js";
+import { sendError } from "../utils/sendError.js";
 
 export const uploadFile = async (req, res) => {
   try {
@@ -10,29 +12,20 @@ export const uploadFile = async (req, res) => {
       });
     }
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    const result = await uploadAndCleanupLocalFile(req.file.path, {
       folder: "portfolio",
       resource_type: "auto",
     });
-
-    fs.unlinkSync(req.file.path);
 
     return res.status(200).json({
       success: true,
       message: "File uploaded successfully",
       data: {
-        url: result.secure_url,
-        publicId: result.public_id,
+        url: result.url,
+        publicId: result.publicId,
       },
     });
   } catch (error) {
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
-    }
-
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return sendError(res, error);
   }
 };

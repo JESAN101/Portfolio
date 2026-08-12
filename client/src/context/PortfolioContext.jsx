@@ -4,7 +4,7 @@ import {
   skillApi,
   projectApi,
   experienceApi,
-  educationApi,
+  certificateApi,
 } from "../services/publicApi";
 
 const PortfolioContext = createContext(null);
@@ -17,7 +17,7 @@ export function PortfolioProvider({ children }) {
     skills: [],
     projects: [],
     experience: [],
-    education: [],
+    certificates: [],
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,13 +27,13 @@ export function PortfolioProvider({ children }) {
     setError(null);
 
     try {
-      const [profileRes, skillsRes, projectsRes, experienceRes, educationRes] =
+      const [profileRes, skillsRes, projectsRes, experienceRes, certificatesRes] =
         await Promise.all([
           profileApi.get(),
           skillApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
           projectApi.getAll({ published: true, limit: DEFAULT_LIMIT, sort: "order" }),
           experienceApi.getAll(),
-          educationApi.getAll(),
+          certificateApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
         ]);
 
       setData({
@@ -41,7 +41,7 @@ export function PortfolioProvider({ children }) {
         skills: skillsRes.data.data,
         projects: projectsRes.data.data,
         experience: experienceRes.data.data,
-        education: educationRes.data.data,
+        certificates: certificatesRes.data.data,
       });
     } catch (err) {
       setError(err?.response?.data?.message || err?.message || "Failed to load portfolio data");

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../services/api";
+import { profileApi } from "../../services/apiServices";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -23,7 +23,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await api.get("/profile");
+        const { data } = await profileApi.get();
         setProfile(data.data);
         reset(data.data);
         setTitles(
@@ -52,7 +52,7 @@ export default function Profile() {
 
     setUploading(true);
     try {
-      const { data } = await api.put("/profile/image", formData);
+      const { data } = await profileApi.updateImage(formData);
       setProfile(data.data);
       reset(data.data);
       toast.success("Profile image updated");
@@ -68,7 +68,7 @@ export default function Profile() {
     
     setSaving(true);
     try {
-      const { data } = await api.delete("/profile/image");
+      const { data } = await profileApi.removeImage();
       setProfile(data.data);
       reset(data.data);
       toast.success("Profile image removed");
@@ -88,7 +88,7 @@ export default function Profile() {
 
     setAboutUploading(true);
     try {
-      const { data } = await api.put("/profile/about-image", formData);
+      const { data } = await profileApi.updateAboutImage(formData);
       setProfile(data.data);
       reset(data.data);
       toast.success("About image updated");
@@ -104,7 +104,7 @@ export default function Profile() {
 
     setSaving(true);
     try {
-      const { data } = await api.delete("/profile/about-image");
+      const { data } = await profileApi.removeAboutImage();
       setProfile(data.data);
       reset(data.data);
       toast.success("About image removed");
@@ -130,11 +130,11 @@ export default function Profile() {
     };
     try {
       if (profile) {
-        const { data } = await api.put("/profile", payload);
+        const { data } = await profileApi.update(payload);
         setProfile(data.data);
         toast.success("Profile updated");
       } else {
-        const { data } = await api.post("/profile", payload);
+        const { data } = await profileApi.create(payload);
         setProfile(data.data);
         toast.success("Profile created");
       }

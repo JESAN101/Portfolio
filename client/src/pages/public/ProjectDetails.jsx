@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
+import Seo from "@/components/seo/Seo";
+import Image from "@/components/ui/Image";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -92,14 +94,17 @@ function ProjectDetails() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-background text-foreground">
+      <Seo
+        title={project.title}
+        description={project.shortDescription}
+        image={project.coverImage}
+        type="article"
+      />
       {/* ---------- Cinematic Hero ---------- */}
       <div className="relative">
         <div className="relative h-[60vh] min-h-[420px] w-full overflow-hidden md:h-[68vh]">
           {project.coverImage && (
-            <motion.img
-              initial={{ scale: 1.15 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.6, ease: "easeOut" }}
+            <img
               src={project.coverImage}
               alt={project.title}
               className="h-full w-full object-cover"
@@ -107,8 +112,8 @@ function ProjectDetails() {
           )}
 
           {/* gradient overlays for guaranteed contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent" />
 
           <Container className="relative flex h-full flex-col justify-between py-10">
             <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -154,7 +159,7 @@ function ProjectDetails() {
       </div>
 
       {/* ---------- Body ---------- */}
-      <Container className="relative pb-20 md:pb-24">
+      <Container className="relative pb-20 pt-16 md:pb-24 md:pt-20">
         <div className="grid gap-14 lg:grid-cols-3 lg:gap-16">
           {/* Main column */}
           <motion.div
@@ -174,7 +179,8 @@ function ProjectDetails() {
               </div>
 
               <h2 className="mt-6 text-3xl font-black leading-[1.15] tracking-tight md:text-4xl">
-                About{" "}
+                About
+                <br />
                 <span className="relative inline-block text-primary">
                   this project
                   <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
@@ -240,7 +246,7 @@ function ProjectDetails() {
             viewport={{ once: true, amount: 0.15 }}
             className="lg:col-span-1"
           >
-            <div className="sticky top-24 rounded-[30px] border border-white/60 bg-white/30 p-7 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
+            <div className="sticky top-24 rounded-[30px] border border-foreground/15 bg-white/30 p-7 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
               {/* corner accents — same as About card */}
               <div className="pointer-events-none absolute -right-[3px] -top-[3px] h-[55%] w-[55%] rounded-tr-[30px] border-r-[3px] border-t-[3px] border-primary" />
               <div className="pointer-events-none absolute -bottom-[3px] -left-[3px] h-[55%] w-[55%] rounded-bl-[30px] border-b-[3px] border-l-[3px] border-primary" />
@@ -253,7 +259,7 @@ function ProjectDetails() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex w-full items-center justify-center gap-3 rounded-full border border-primary/40 bg-surface px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
+                    className="group flex w-full items-center justify-center gap-3 rounded-full border border-primary/40 bg-surface px-6 py-4 text-sm font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
                   >
                     <FaExternalLinkAlt className="transition-transform duration-300 group-hover:rotate-12" />
                     View Live Demo
@@ -304,7 +310,12 @@ function ProjectDetails() {
                   </span>
                 </div>
                 <h2 className="mt-5 text-3xl font-black tracking-tight md:text-4xl">
-                  Project <span className="text-primary">Gallery</span>
+                  Project
+                  <br />
+                  <span className="relative inline-block text-primary">
+                    Gallery
+                    <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
+                  </span>
                 </h2>
               </div>
               <span className="hidden text-sm font-medium text-muted sm:block">
@@ -324,12 +335,12 @@ function ProjectDetails() {
                   key={img._id || i}
                   variants={fadeUp}
                   onClick={() => setLightboxIndex(i)}
-                  className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/60 bg-card shadow-xl shadow-black/10 backdrop-blur-xl dark:border-white/10"
+                  className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-foreground/15 bg-gradient-to-br from-surface to-card shadow-xl shadow-black/10 backdrop-blur-xl dark:border-white/10"
                 >
                   <img
                     src={img.url}
                     alt={`${project.title} gallery ${i + 1}`}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                    className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -358,7 +369,12 @@ function ProjectDetails() {
                   </span>
                 </div>
                 <h2 className="mt-5 text-3xl font-black tracking-tight md:text-4xl">
-                  More <span className="text-primary">Projects</span>
+                  More
+                  <br />
+                  <span className="relative inline-block text-primary">
+                    Projects
+                    <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
+                  </span>
                 </h2>
               </div>
               <Link
@@ -379,7 +395,7 @@ function ProjectDetails() {
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-surface to-card">
                     {p.coverImage ? (
-                      <img
+                      <Image
                         src={p.coverImage}
                         alt={p.title}
                         className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"

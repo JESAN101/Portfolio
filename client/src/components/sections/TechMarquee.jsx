@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
   FaReact,
   FaNodeJs,
@@ -37,13 +38,14 @@ const icons = [
 ];
 
 function TechMarquee() {
-  const loopItems = [...icons, ...icons];
+  const reduced = useReducedMotion();
+  const loopItems = reduced ? icons : [...icons, ...icons];
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl border border-border bg-card/60 py-3 backdrop-blur-xl">
       <motion.div
         className="flex w-max items-center gap-3 will-change-transform px-3"
-        animate={{ x: ["0%", "-50%"] }}
+        animate={reduced ? {} : { x: ["0%", "-50%"] }}
         transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
       >
         {loopItems.map((item, index) => (

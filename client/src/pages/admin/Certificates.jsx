@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
@@ -16,6 +16,9 @@ import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Card from "../../components/ui/Card";
 import Pagination from "../../components/ui/Pagination";
+import ImageUpload from "../../components/ui/ImageUpload";
+import Checkbox from "../../components/ui/Checkbox";
+import Select from "../../components/ui/Select";
 
 const defaultValues = {
   title: "",
@@ -28,15 +31,6 @@ const defaultValues = {
   order: 0,
   isActive: true,
 };
-
-function Checkbox({ label, ...props }) {
-  return (
-    <label className="flex items-center gap-2.5 cursor-pointer select-none">
-      <input type="checkbox" className="w-4 h-4 rounded border-border accent-primary cursor-pointer" {...props} />
-      <span className="text-sm font-medium text-foreground">{label}</span>
-    </label>
-  );
-}
 
 function Certificates() {
   const [items, setItems] = useState([]);
@@ -53,7 +47,6 @@ function Certificates() {
   const [deleting, setDeleting] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const fileInputRef = useRef(null);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
 
@@ -125,8 +118,17 @@ function Certificates() {
     const file = e.target.files?.[0];
     if (!file) return;
     setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
+    setImagePreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return URL.createObjectURL(file);
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
 
   const onSubmit = async (data) => {
     setSaving(true);
@@ -270,53 +272,45 @@ function Certificates() {
       <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />
 
       <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Certificate" : "Add Certificate"} size="lg">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="w-20 h-20 rounded-xl border border-dashed border-border flex items-center justify-center overflow-hidden shrink-0 hover:border-primary transition-colors"
-            >
-              {imagePreview ? (
-                <img src={imagePreview} alt="Certificate preview" className="w-full h-full object-cover" />
-              ) : (
-                <ImagePlus className="w-5 h-5 text-muted" />
-              )}
-            </button>
-            <div className="text-sm">
-              <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary font-medium hover:underline">
-                Upload certificate image
-              </button>
-              <p className="text-muted mt-0.5">A scan or screenshot of the certificate.</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="md:col-span-4">
+              <ImageUpload
+                label="Certificate Image"
+                preview={imagePreview}
+                onUpload={onImageChange}
+                onRemove={() => { setImageFile(null); setImagePreview(""); }}
+                className="w-full h-48"
+                size="full"
+              />
             </div>
-            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onImageChange} />
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Input
-              label="Title"
-              placeholder="AWS Certified Solutions Architect"
-              error={errors.title?.message}
-              {...register("title", { required: "Title is required" })}
-            />
-            <Input
-              label="Issuer"
-              placeholder="Amazon Web Services"
-              error={errors.issuer?.message}
-              {...register("issuer", { required: "Issuer is required" })}
-            />
-            <Input label="Issued Date" type="date" {...register("issuedDate")} />
-            <Input label="Expiry Date" type="date" {...register("expiryDate")} />
-            <Input label="Credential ID" placeholder="ABC-12345" {...register("credentialId")} />
-            <Input label="Credential URL" placeholder="https://..." {...register("credentialUrl")} />
-            <Input label="Order" type="number" {...register("order")} />
+            <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+              <Input
+                label="Title"
+                placeholder="AWS Certified Solutions Architect"
+                error={errors.title?.message}
+                {...register("title", { required: "Title is required" })}
+              />
+              <Input
+                label="Issuer"
+                placeholder="Amazon Web Services"
+                error={errors.issuer?.message}
+                {...register("issuer", { required: "Issuer is required" })}
+              />
+              <Input label="Issued Date" type="date" {...register("issuedDate")} />
+              <Input label="Expiry Date" type="date" {...register("expiryDate")} />
+              <Input label="Credential ID" placeholder="ABC-12345" {...register("credentialId")} />
+              <Input label="Credential URL" placeholder="https://..." {...register("credentialUrl")} />
+              <Input label="Order" type="number" {...register("order")} />
+            </div>
           </div>
 
           <Textarea label="Description" placeholder="What this certification covers..." {...register("description")} />
 
           <Checkbox label="Visible on the public site" {...register("isActive")} />
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-4 border-t border-border/60">
             <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
             <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
           </div>

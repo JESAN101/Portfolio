@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
-import { getSocialLinks } from "@/utils/socials";
+import { getSocialLinks, SOCIAL_HOVER } from "@/utils/socials";
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -111,7 +111,8 @@ function Contact() {
           </div>
 
           <h2 className="mt-6 text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl">
-            Let's{" "}
+            Let's
+            <br />
             <span className="relative inline-block text-primary">
               Work Together
               <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
@@ -206,7 +207,9 @@ function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={name}
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30"
+                    className={`flex h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 ${
+                      SOCIAL_HOVER[name] || "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
+                    }`}
                   >
                     <Icon size={18} />
                   </a>
@@ -232,13 +235,14 @@ function Contact() {
             <div className="relative space-y-5">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                  <label htmlFor="name" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
                     Your Name
                   </label>
                   <input
                     type="text"
+                    id="name"
                     name="name"
-                    placeholder="John Doe"
+                    placeholder="Full Name"
                     value={form.name}
                     onChange={handleChange}
                     required
@@ -246,13 +250,14 @@ function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                  <label htmlFor="email" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
                     Your Email
                   </label>
                   <input
                     type="email"
+                    id="email"
                     name="email"
-                    placeholder="john@example.com"
+                    placeholder="your@email.com"
                     value={form.email}
                     onChange={handleChange}
                     required
@@ -262,11 +267,12 @@ function Contact() {
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                <label htmlFor="subject" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
                   Subject
                 </label>
                 <input
                   type="text"
+                  id="subject"
                   name="subject"
                   placeholder="What's this about?"
                   value={form.subject}
@@ -277,10 +283,11 @@ function Contact() {
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                <label htmlFor="message" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
                   Message
                 </label>
                 <textarea
+                  id="message"
                   rows="6"
                   name="message"
                   placeholder="Tell me about your project..."
@@ -294,7 +301,7 @@ function Contact() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="group flex w-full items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/40 hover:brightness-110 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
+                className="group flex w-full items-center justify-center gap-3 rounded-full border border-foreground/15 bg-surface px-8 py-4 font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
               >
                 {submitting ? (
                   <>

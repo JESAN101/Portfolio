@@ -15,7 +15,7 @@ const protect = async (req, res, next) => {
 
       req.admin = await Admin.findById(decoded.id).select("-password");
 
-      if (!req.admin) {
+      if (!req.admin || !req.admin.isActive) {
         return res.status(401).json({
           success: false,
           message: "Unauthorized",

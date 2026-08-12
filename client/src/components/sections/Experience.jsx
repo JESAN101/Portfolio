@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { formatDuration } from "@/utils/format";
@@ -9,6 +10,7 @@ import {
   FaBriefcase,
   FaCalendarAlt,
   FaMapMarkerAlt,
+  FaArrowRight,
 } from "react-icons/fa";
 
 const fadeUp = {
@@ -20,7 +22,7 @@ const fadeUp = {
   }),
 };
 
-function Experience() {
+function Experience({ compact = false }) {
   const { experience, loading, error, retry } = usePortfolio();
 
   return (
@@ -41,7 +43,8 @@ function Experience() {
           </div>
 
           <h2 className="mt-6 text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl">
-            My Professional{" "}
+            My Professional
+            <br />
             <span className="relative inline-block text-primary">
               Journey
               <div className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r from-primary/60 to-secondary/60" />
@@ -73,7 +76,7 @@ function Experience() {
 
             <div className="space-y-12">
               {experience?.map((item, index) => (
-                <ExperienceCard key={item._id} item={item} index={index} />
+                <ExperienceCard key={item._id} item={item} index={index} compact={compact} />
               ))}
             </div>
           </div>
@@ -83,7 +86,7 @@ function Experience() {
   );
 }
 
-function ExperienceCard({ item, index }) {
+function ExperienceCard({ item, index, compact = false }) {
   const isEven = index % 2 === 0;
 
   return (
@@ -159,7 +162,7 @@ function ExperienceCard({ item, index }) {
             </div>
 
             {/* description */}
-            {item.description && (
+            {!compact && item.description && (
               <p className="mt-5 leading-8 text-muted [text-align:justify] [text-justify:inter-word]">
                 {item.description}
               </p>
@@ -177,6 +180,16 @@ function ExperienceCard({ item, index }) {
                   </span>
                 ))}
               </div>
+            )}
+
+            {compact && (
+              <Link
+                to="/experience"
+                className="group mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-surface px-6 py-3 text-sm font-semibold text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30"
+              >
+                See Details
+                <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             )}
           </div>
         </div>

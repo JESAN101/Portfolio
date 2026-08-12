@@ -3,8 +3,8 @@ import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import {
-  LayoutDashboard, FolderKanban, BrainCircuit, Briefcase,
-  Mail, Settings, LogOut, User, Menu, X,
+  LayoutDashboard, FolderKanban, BrainCircuit, Briefcase, GraduationCap,
+  Award, Mail, Settings, LogOut, User, Menu, X,
 } from "lucide-react";
 import ThemeToggle from "../components/layout/ThemeToggle";
 import Logo from "../components/layout/Logo";
@@ -14,6 +14,8 @@ const navItems = [
   { path: "/admin/projects", name: "Projects", icon: FolderKanban },
   { path: "/admin/skills", name: "Skills", icon: BrainCircuit },
   { path: "/admin/experience", name: "Experience", icon: Briefcase },
+  { path: "/admin/education", name: "Education", icon: GraduationCap },
+  { path: "/admin/certificates", name: "Certificates", icon: Award },
   { path: "/admin/messages", name: "Messages", icon: Mail },
   { path: "/admin/profile", name: "Profile", icon: User },
   { path: "/admin/settings", name: "Settings", icon: Settings },

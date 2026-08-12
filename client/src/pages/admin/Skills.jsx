@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { Plus, Pencil, Trash2, BrainCircuit, AlertCircle, ImagePlus } from "lucide-react";
+import { Plus, Pencil, Trash2, BrainCircuit, AlertCircle } from "lucide-react";
 import { skillApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -10,12 +10,16 @@ import Select from "../../components/ui/Select";
 import Modal from "../../components/ui/Modal";
 import SearchBar from "../../components/ui/SearchBar";
 import Badge from "../../components/ui/Badge";
+import Checkbox from "../../components/ui/Checkbox";
 import EmptyState from "../../components/ui/EmptyState";
 import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Card from "../../components/ui/Card";
+import ImageUpload from "../../components/ui/ImageUpload";
+import Slider from "../../components/ui/Slider";
 
 const CATEGORIES = ["Frontend", "Backend", "Database", "DevOps", "Design", "Tools", "CyberSecurity", "Programming Languages", "Other"];
+
 
 const defaultValues = {
   name: "",
@@ -24,15 +28,6 @@ const defaultValues = {
   order: 0,
   isActive: true,
 };
-
-function Checkbox({ label, ...props }) {
-  return (
-    <label className="flex items-center gap-2.5 cursor-pointer select-none">
-      <input type="checkbox" className="w-4 h-4 rounded border-border accent-primary cursor-pointer" {...props} />
-      <span className="text-sm font-medium text-foreground">{label}</span>
-    </label>
-  );
-}
 
 function Skills() {
   const [items, setItems] = useState([]);
@@ -48,9 +43,9 @@ function Skills() {
   const [deleting, setDeleting] = useState(false);
   const [iconFile, setIconFile] = useState(null);
   const [iconPreview, setIconPreview] = useState("");
-  const fileInputRef = useRef(null);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({ defaultValues });
+  const proficiency = watch("proficiency");
 
   useEffect(() => {
     if (search === debouncedSearch) return;
@@ -112,8 +107,17 @@ function Skills() {
     const file = e.target.files?.[0];
     if (!file) return;
     setIconFile(file);
-    setIconPreview(URL.createObjectURL(file));
+    setIconPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return URL.createObjectURL(file);
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      if (iconPreview) URL.revokeObjectURL(iconPreview);
+    };
+  }, [iconPreview]);
 
   const onSubmit = async (data) => {
     setSaving(true);
@@ -261,27 +265,15 @@ function Skills() {
       </Card>
 
       <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Skill" : "Add Skill"} size="md">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="w-16 h-16 rounded-xl border border-dashed border-border flex items-center justify-center overflow-hidden shrink-0 hover:border-primary transition-colors"
-            >
-              {iconPreview ? (
-                <img src={iconPreview} alt="Icon preview" className="w-10 h-10 object-contain" />
-              ) : (
-                <ImagePlus className="w-5 h-5 text-muted" />
-              )}
-            </button>
-            <div className="text-sm">
-              <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary font-medium hover:underline">
-                Upload icon
-              </button>
-              <p className="text-muted mt-0.5">PNG or SVG, square works best.</p>
-            </div>
-            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onIconChange} />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <ImageUpload
+            label="Icon"
+            preview={iconPreview}
+            onUpload={onIconChange}
+            onRemove={() => { setIconFile(null); setIconPreview(""); }}
+            loading={false}
+            size="sm"
+          />
 
           <Input
             label="Name"
@@ -291,37 +283,25 @@ function Skills() {
           />
 
           <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm font-medium text-foreground">Category</label>
-              <select
-                className="mt-1.5 w-full h-10 px-3 rounded-xl border border-border bg-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                {...register("category")}
-              >
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label="Category"
+              options={CATEGORIES.map((c) => ({ value: c, label: c }))}
+              {...register("category")}
+            />
             <Input label="Order" type="number" {...register("order")} />
           </div>
 
-          <div>
-            <label className="text-sm font-medium text-foreground">
-              Proficiency — {" "}
-              <span className="text-muted font-normal">shown as a progress bar</span>
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              className="mt-2 w-full accent-primary"
-              {...register("proficiency")}
-            />
-          </div>
+          <Slider
+            label="Proficiency"
+            min={0}
+            max={100}
+            value={proficiency}
+            {...register("proficiency", { valueAsNumber: true })}
+          />
 
           <Checkbox label="Visible on the public site" {...register("isActive")} />
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-2 border-t border-foreground/10">
             <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
             <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
           </div>

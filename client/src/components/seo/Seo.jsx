@@ -37,7 +37,9 @@ function renderStructuredData(data) {
 /**
  * Builds a Person structured-data payload from profile data.
  */
-export function buildPersonStructuredData(profile = {}) {
+export function buildPersonStructuredData(profile) {
+  if (!profile) return null;
+
   const sameAs = Object.values(profile.socials || {}).filter(Boolean);
 
   return {

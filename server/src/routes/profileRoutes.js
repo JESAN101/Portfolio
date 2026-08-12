@@ -11,6 +11,7 @@ import {
 } from "../controllers/profileController.js";
 
 import protect from "../middleware/authMiddleware.js";
+import validate from "../middleware/validate.js";
 import { profileValidator } from "../validators/profileValidator.js";
 import upload from "../middleware/uploadMiddleware.js";
 
@@ -24,9 +25,9 @@ router.get("/", getProfile);
 /*
 Protected Routes
 */
-router.post("/", protect, profileValidator, createProfile);
+router.post("/", protect, profileValidator, validate, createProfile);
 
-router.put("/", protect, profileValidator, updateProfile);
+router.put("/", protect, profileValidator, validate, updateProfile);
 
 router.put(
   "/image",

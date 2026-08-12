@@ -13,9 +13,3 @@ export const reorderValidator = [
     .isInt()
     .withMessage("Order must be an integer"),
 ];
-
-export const toggleBooleanValidator = (field) => [
-  body(field)
-    .isBoolean()
-    .withMessage(`${field} must be a boolean`),
-];

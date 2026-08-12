@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import useDialogA11y from "@/hooks/useDialogA11y";
 
 export default function Modal({ isOpen, onClose, title, children, size = "md" }) {
-  const overlayRef = useRef(null);
+  const dialogRef = useDialogA11y({ isOpen, onClose });
 
   useEffect(() => {
     if (isOpen) {
@@ -25,22 +26,27 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" })
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div
-            ref={overlayRef}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={onClose}
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className={`relative w-full ${sizes[size]} overflow-hidden rounded-[24px] border border-foreground/10 bg-card shadow-2xl shadow-black/20 max-h-[85vh] flex flex-col`}
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={title}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={onClose}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className={`relative w-full ${sizes[size]} overflow-hidden rounded-[24px] border border-foreground/10 bg-card shadow-2xl shadow-black/20 max-h-[85vh] flex flex-col`}
+            >
             {/* gradient top accent */}
             <div className="pointer-events-none absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-primary via-secondary to-transparent" />
             {/* corner accents */}
@@ -58,7 +64,7 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" })
               </button>
             </div>
 
-            <div className="overflow-y-auto">{children}</div>
+            <div className="overflow-y-auto p-6">{children}</div>
           </motion.div>
         </div>
       )}

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { Plus, Pencil, Trash2, Briefcase, AlertCircle } from "lucide-react";
-import api from "../../services/api";
+import { experienceApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Textarea from "../../components/ui/Textarea";
@@ -17,6 +17,7 @@ import Loader from "../../components/ui/Loader";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import Card from "../../components/ui/Card";
 import Pagination from "../../components/ui/Pagination";
+import Checkbox from "../../components/ui/Checkbox";
 
 const defaultValues = {
   company: "",
@@ -38,19 +39,6 @@ const buildParams = (search, activeFilter, page) => ({
   limit: 10,
   sort: "-startDate",
 });
-
-function Checkbox({ label, className = "", ...props }) {
-  return (
-    <label className={`flex items-center gap-2.5 cursor-pointer select-none ${className}`}>
-      <input
-        type="checkbox"
-        className="w-4 h-4 rounded border-border accent-primary cursor-pointer"
-        {...props}
-      />
-      <span className="text-sm font-medium text-foreground">{label}</span>
-    </label>
-  );
-}
 
 function Experience() {
   const [items, setItems] = useState([]);
@@ -90,9 +78,7 @@ function Experience() {
 
   const fetchItems = useCallback(async () => {
     try {
-      const res = await api.get("/experience", {
-        params: buildParams(debouncedSearch, activeFilter, page),
-      });
+      const res = await experienceApi.getAll(buildParams(debouncedSearch, activeFilter, page));
       setItems(res.data.data || []);
       setPagination(res.data.pagination || { page: 1, totalPages: 1, total: 0 });
       setError("");
@@ -161,10 +147,10 @@ function Experience() {
       };
 
       if (editing) {
-        await api.put(`/experience/${editing._id}`, payload);
+        await experienceApi.update(editing._id, payload);
         toast.success("Experience updated");
       } else {
-        await api.post("/experience", payload);
+        await experienceApi.create(payload);
         toast.success("Experience created");
       }
 
@@ -182,7 +168,7 @@ function Experience() {
     setDeleting(true);
     setLoading(true);
     try {
-      await api.delete(`/experience/${deleteTarget._id}`);
+      await experienceApi.delete(deleteTarget._id);
       toast.success("Experience deleted");
       setDeleteTarget(null);
       if (items.length === 1 && page > 1) {
@@ -366,8 +352,8 @@ function Experience() {
         title={editing ? "Edit Experience" : "Add Experience"}
         size="lg"
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <Input
                 label="Company"
@@ -411,16 +397,14 @@ function Experience() {
             />
           </div>
 
-          <div className="flex flex-wrap items-end gap-6">
-            <Checkbox label="I currently work here" {...register("current")} />
-            <div className="w-36">
-              <Input
-                label="Order"
-                type="number"
-                placeholder="0"
-                {...register("order")}
-              />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Input
+              label="Order"
+              type="number"
+              placeholder="0"
+              {...register("order")}
+            />
+            <Checkbox label="Currently work here" {...register("current")} />
             <Checkbox label="Active" {...register("isActive")} />
           </div>
 
@@ -435,7 +419,7 @@ function Experience() {
             {...register("description")}
           />
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-4 border-t border-border/60">
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>

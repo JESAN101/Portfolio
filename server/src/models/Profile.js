@@ -95,7 +95,17 @@ const profileSchema = new mongoose.Schema(
       default: "",
     },
 
+    profileImagePublicId: {
+      type: String,
+      default: "",
+    },
+
     aboutImage: {
+      type: String,
+      default: "",
+    },
+
+    aboutImagePublicId: {
       type: String,
       default: "",
     },

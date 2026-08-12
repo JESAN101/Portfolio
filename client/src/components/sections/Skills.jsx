@@ -1,7 +1,9 @@
 // client/src/components/sections/Skills.jsx
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { createElement } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Container from "@/components/ui/Container";
+import Image from "@/components/ui/Image";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { getSkillIcon } from "@/utils/skillIcons";
 import SkillCardSkeleton from "@/components/skeletons/SkillCardSkeleton";
@@ -53,6 +55,15 @@ function Skills() {
 
   const [activeSkill, setActiveSkill] = useState(null);
 
+  useEffect(() => {
+    if (!activeSkill) return;
+    const handleKey = (e) => {
+      if (e.key === "Escape") setActiveSkill(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [activeSkill]);
+
   const groups = useMemo(() => {
     const categorized = {};
     (skills || []).forEach((skill) => {
@@ -79,8 +90,11 @@ function Skills() {
         label,
         icon: categoryConfig[label]?.icon || FaLayerGroup,
         accent: categoryConfig[label]?.accent || "text-primary",
-        items,
-      }))
+            items: items.sort((a, b) => {
+              if (a.order !== b.order) return (a.order || 0) - (b.order || 0);
+              return (b.proficiency || 0) - (a.proficiency || 0);
+            }),
+          }))
       .sort((a, b) => b.items.length - a.items.length);
   }, [skills]);
 
@@ -128,7 +142,7 @@ function Skills() {
               {/* glassmorphism card */}
               <div className="relative rounded-[30px] border border-white/60 bg-white/30 p-2 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
                 <div className="relative overflow-hidden rounded-[24px]">
-                  <img
+                  <Image
                     src={skillsBg}
                     alt="Skills Visual representation"
                     className="w-full h-auto object-cover transition-transform duration-700 ease-out hover:scale-105"
@@ -209,12 +223,17 @@ function Skills() {
       {/* Details modal */}
       {activeSkill && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeSkill.name} proficiency details`}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
           onClick={() => setActiveSkill(null)}
         >
           <div
             className="relative w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.key === "Escape" && setActiveSkill(null)}
+            tabIndex={-1}
           >
             <div className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl" />
 
@@ -227,10 +246,7 @@ function Skills() {
                     className="h-9 w-9 object-contain"
                   />
                 ) : (
-                  (() => {
-                    const Icon = getSkillIcon(activeSkill.name);
-                    return <Icon size={34} />;
-                  })()
+                  createElement(getSkillIcon(activeSkill.name), { size: 34 })
                 )}
               </div>
               <div>
@@ -268,8 +284,12 @@ function Skills() {
 }
 
 function SkillCard({ skill, index, onDetails }) {
-  const Icon = getSkillIcon(skill.name);
   const proficiency = skill.proficiency || 0;
+  const icon = skill.icon ? (
+    <Image src={skill.icon} alt={skill.name} className="h-7 w-7 object-contain" />
+  ) : (
+    createElement(getSkillIcon(skill.name), { size: 24 })
+  );
 
   return (
     <div className="group relative flex h-[230px] flex-col items-center rounded-2xl border border-foreground/10 bg-card p-4 text-center shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
@@ -283,11 +303,7 @@ function SkillCard({ skill, index, onDetails }) {
       <div
         className={`relative mt-3 flex h-14 w-14 items-center justify-center rounded-full ring-1 shadow-inner transition-all duration-300 group-hover:scale-110 group-hover:ring-primary/40 ${badgeStyle(index)}`}
       >
-        {skill.icon ? (
-          <img src={skill.icon} alt={skill.name} className="h-7 w-7 object-contain" />
-        ) : (
-          <Icon size={24} />
-        )}
+        {icon}
       </div>
 
       {/* Name */}

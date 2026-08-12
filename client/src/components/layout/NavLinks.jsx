@@ -1,21 +1,13 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-
-const links = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Projects", path: "/projects" },
-  { name: "Skills", path: "/skills" },
-  { name: "Experience", path: "/experience" },
-  { name: "Contact", path: "/contact" },
-];
+import { NAV_LINKS } from "@/config";
 
 function NavLinks() {
   const location = useLocation();
 
   return (
     <nav className="flex items-center gap-1 rounded-full border border-border bg-surface/60 p-1.5">
-      {links.map((link) => {
+      {NAV_LINKS.map((link) => {
         // "/" must match exactly, everything else can match sub-routes
         // (e.g. /projects/:slug still highlights "Projects")
         const isActive =

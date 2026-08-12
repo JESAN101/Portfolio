@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import Container from "@/components/ui/Container";
 import Logo from "./Logo";
 import { usePortfolio } from "@/context/PortfolioContext";
-import { getSocialLinks } from "@/utils/socials";
+import { getSocialLinks, SOCIAL_HOVER } from "@/utils/socials";
+import { NAV_LINKS } from "@/config";
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -10,14 +11,6 @@ import {
   FaArrowUp,
   FaArrowRight,
 } from "react-icons/fa";
-
-const FOOTER_LINKS = [
-  { name: "About", path: "/about" },
-  { name: "Projects", path: "/projects" },
-  { name: "Skills", path: "/skills" },
-  { name: "Experience", path: "/experience" },
-  { name: "Contact", path: "/contact" },
-];
 
 function Footer() {
   const { profile } = usePortfolio();
@@ -56,7 +49,7 @@ function Footer() {
               Navigate
             </h4>
             <ul className="mt-5 space-y-3">
-              {FOOTER_LINKS.map((link) => (
+              {NAV_LINKS.filter((link) => link.path !== "/").map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -121,7 +114,9 @@ function Footer() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={name}
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/30"
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 ${
+                      SOCIAL_HOVER[name] || "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
+                    }`}
                   >
                     <Icon size={16} />
                   </a>
@@ -147,7 +142,7 @@ function Footer() {
         <Container className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <p className="text-center text-xs text-muted">
             &copy; {new Date().getFullYear()}{" "}
-            {profile?.fullName || "Portfolio"}. Crafted with care. All rights reserved.
+            {profile?.fullName || "Portfolio"}. All rights reserved.
           </p>
 
           <button

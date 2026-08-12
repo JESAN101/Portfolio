@@ -39,6 +39,13 @@ const optionalFields = [
     .isArray()
     .withMessage("Technologies must be an array"),
 
+  body("technologies.*")
+    .optional()
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("Each technology must be a non-empty string"),
+
   body("order")
     .optional()
     .isInt()

@@ -5,7 +5,10 @@ import { FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 function Lightbox({ images = [], initialIndex = 0, onClose }) {
   const [index, setIndex] = useState(initialIndex);
   const closeRef = useRef(onClose);
-  closeRef.current = onClose;
+
+  useEffect(() => {
+    closeRef.current = onClose;
+  }, [onClose]);
 
   const current = images[index];
   const hasPrev = images.length > 1;

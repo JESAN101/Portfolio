@@ -35,6 +35,13 @@ const optionalFields = [
     .isArray()
     .withMessage("Technologies must be an array"),
 
+  body("technologies.*")
+    .optional()
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("Each technology must be a non-empty string"),
+
   body("featured")
     .optional()
     .isBoolean()
@@ -91,6 +98,12 @@ const projectValidator = [
   body("technologies")
     .isArray({ min: 1 })
     .withMessage("At least one technology is required"),
+
+  body("technologies.*")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("Each technology must be a non-empty string"),
 ];
 
 export const updateProjectValidator = [

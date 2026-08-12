@@ -1,18 +1,20 @@
 import { forwardRef } from "react";
 import { ChevronDown } from "lucide-react";
 
-const Select = forwardRef(({ label, error, options = [], placeholder, className = "", ...props }, ref) => {
+const Select = forwardRef(({ label, error, options = [], placeholder, className = "", id, ...props }, ref) => {
+  const selectId = id || props.name;
   return (
     <div className="space-y-1.5">
       {label && (
-        <label className="text-sm font-medium text-foreground">
+        <label htmlFor={selectId} className="text-sm font-medium text-foreground">
           {label}
         </label>
       )}
       <div className="relative">
         <select
+          id={selectId}
           ref={ref}
-          className={`w-full h-10 px-3 pr-10 rounded-xl border border-border bg-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors appearance-none ${error ? "border-red-500" : ""} ${className}`}
+          className={`w-full h-11 px-4 pr-10 rounded-xl border border-border/60 bg-surface/50 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none ${error ? "border-red-500" : ""} ${className}`}
           {...props}
         >
           {placeholder && (

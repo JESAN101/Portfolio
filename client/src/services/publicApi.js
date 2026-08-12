@@ -1,26 +1,36 @@
-import api from "./api";
+import axios from "axios";
+
+const publicApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+});
 
 export const profileApi = {
-  get: () => api.get("/profile"),
+  get: () => publicApi.get("/profile"),
 };
 
 export const projectApi = {
-  getAll: (params) => api.get("/projects", { params }),
-  getById: (id) => api.get(`/projects/${id}`),
+  getAll: (params) => publicApi.get("/projects", { params }),
+  getById: (id) => publicApi.get(`/projects/${id}`),
 };
 
 export const skillApi = {
-  getAll: (params) => api.get("/skills", { params }),
+  getAll: (params) => publicApi.get("/skills", { params }),
 };
 
 export const experienceApi = {
-  getAll: () => api.get("/experience"),
+  getAll: () => publicApi.get("/experience"),
 };
 
 export const educationApi = {
-  getAll: () => api.get("/education"),
+  getAll: () => publicApi.get("/education"),
+};
+
+export const certificateApi = {
+  getAll: (params) => publicApi.get("/certificates", { params }),
 };
 
 export const contactApi = {
-  send: (data) => api.post("/messages", data),
+  send: (data) => publicApi.post("/messages", data),
 };
+
+export default publicApi;

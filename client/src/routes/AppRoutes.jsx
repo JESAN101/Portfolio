@@ -11,6 +11,7 @@ const Projects = lazy(() => import("../pages/public/Projects"));
 const ProjectDetails = lazy(() => import("../pages/public/ProjectDetails"));
 const Skills = lazy(() => import("../pages/public/Skills"));
 const Experience = lazy(() => import("../pages/public/Experience"));
+const Certificates = lazy(() => import("../pages/public/Certificates"));
 const Contact = lazy(() => import("../pages/public/Contact"));
 const NotFound = lazy(() => import("../pages/public/NotFound"));
 
@@ -21,6 +22,8 @@ const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const AdminProjects = lazy(() => import("../pages/admin/Projects"));
 const AdminSkills = lazy(() => import("../pages/admin/Skills"));
 const AdminExperience = lazy(() => import("../pages/admin/Experience"));
+const AdminCertificates = lazy(() => import("../pages/admin/Certificates"));
+const AdminEducation = lazy(() => import("../pages/admin/Education"));
 const Messages = lazy(() => import("../pages/admin/Messages"));
 const Settings = lazy(() => import("../pages/admin/Settings"));
 const Profile = lazy(() => import("../pages/admin/Profile"));
@@ -47,6 +50,7 @@ function AppRoutes() {
             <Route path="/projects/:slug" element={<ProjectDetails />} />
             <Route path="/skills" element={<Skills />} />
             <Route path="/experience" element={<Experience />} />
+            <Route path="/certificates" element={<Certificates />} />
             <Route path="/contact" element={<Contact />} />
           </Route>
 
@@ -58,6 +62,8 @@ function AppRoutes() {
             <Route path="projects" element={<AdminProjects />} />
             <Route path="skills" element={<AdminSkills />} />
             <Route path="experience" element={<AdminExperience />} />
+            <Route path="education" element={<AdminEducation />} />
+            <Route path="certificates" element={<AdminCertificates />} />
             <Route path="messages" element={<Messages />} />
             <Route path="settings" element={<Settings />} />
             <Route path="profile" element={<Profile />} />

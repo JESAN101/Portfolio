@@ -1,3 +1,4 @@
+import Image from "@/components/ui/Image";
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { FaAward } from "react-icons/fa";
@@ -41,7 +42,7 @@ function Certificates() {
               >
                 <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary text-4xl text-white overflow-hidden">
                   {certificate.image ? (
-                    <img src={certificate.image} alt={certificate.title} className="h-full w-full object-cover" />
+                    <Image src={certificate.image} alt={certificate.title} className="h-full w-full object-cover" />
                   ) : (
                     <FaAward />
                   )}

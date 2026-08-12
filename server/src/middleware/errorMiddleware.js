@@ -1,7 +1,9 @@
+import { AppError } from "../utils/AppError.js";
+
 export const notFound = (req, res, next) => {
   res.status(404).json({
     success: false,
-    message: `Route ${req.originalUrl} not found`,
+    message: "Route not found",
   });
 };
 
@@ -15,6 +17,13 @@ export const errorHandler = (err, req, res, next) => {
     return res.status(400).json({
       success: false,
       message,
+    });
+  }
+
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
     });
   }
 
@@ -43,6 +52,6 @@ export const errorHandler = (err, req, res, next) => {
 
   res.status(err.statusCode || 500).json({
     success: false,
-    message: err.message || "Internal server error",
+    message: "Internal server error",
   });
 };

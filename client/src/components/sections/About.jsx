@@ -1,6 +1,7 @@
 import Container from "@/components/ui/Container";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Link } from "react-router-dom";
+import Image from "@/components/ui/Image";
 import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
 import logo from "@/assets/logo/JB_logo_1.png";
 
@@ -62,7 +63,7 @@ function About() {
             {/* glassmorphism portrait card */}
             <div className="relative rounded-[30px] border border-white/60 bg-white/30 p-2 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
               <div className="relative overflow-hidden rounded-[24px]">
-                <img
+                <Image
                   src={imageSrc}
                   alt={imageAlt}
                   className="h-[480px] w-full object-cover transition-transform duration-700 ease-out hover:scale-105 lg:h-[540px]"
@@ -72,7 +73,7 @@ function About() {
             </div>
 
             {/* logo straddling the right border */}
-            <img
+            <Image
               src={logo}
               alt="Logo"
               className="absolute -right-8 top-100/105 h-16 w-16 -translate-y-1/2 select-none object-contain lg:-right-10 lg:h-20 lg:w-20"

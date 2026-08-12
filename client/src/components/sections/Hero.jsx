@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Skeleton from "@/components/ui/Skeleton";
 import resumePdf from "@/assets/resume/resume.pdf";
 import useTypewriter from "@/hooks/useTypewriter";
+import Image from "@/components/ui/Image";
 import profilePlaceholder from "@/assets/images/Profile_placeholder.webp";
 import Lightbox from "@/components/ui/Lightbox";
 
@@ -37,11 +38,12 @@ const fadeUp = {
 function Hero() {
   const { profile, loading } = usePortfolio();
   const [showLightbox, setShowLightbox] = useState(false);
-  const titles = useMemo(() => {
-    if (profile?.titles?.length > 0) return profile.titles;
-    if (profile?.title) return [profile.title];
-    return FALLBACK_TITLES;
-  }, [profile?.titles, profile?.title]);
+  const titles =
+    profile?.titles?.length > 0
+      ? profile.titles
+      : profile?.title
+        ? [profile.title]
+        : FALLBACK_TITLES;
   const typedTitle = useTypewriter(titles);
 
   if (loading) {
@@ -216,15 +218,17 @@ function Hero() {
                   onClick={() => setShowLightbox(true)}
                 >
                   {profile?.profileImage ? (
-                    <img
+                    <Image
                       src={profile.profileImage}
                       alt={profile?.fullName || "Profile"}
+                      loading="eager"
                       className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                   ) : (
-                    <img
+                    <Image
                       src={profilePlaceholder}
                       alt="Profile placeholder"
+                      loading="eager"
                       className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                   )}

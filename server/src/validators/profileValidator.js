@@ -2,14 +2,16 @@ import { body } from "express-validator";
 
 export const profileValidator = [
   body("fullName")
+    .optional()
     .trim()
     .notEmpty()
-    .withMessage("Full name is required"),
+    .withMessage("Full name cannot be empty"),
 
   body("title")
+    .optional()
     .trim()
     .notEmpty()
-    .withMessage("Title is required"),
+    .withMessage("Title cannot be empty"),
 
   body("titles")
     .optional()
@@ -27,13 +29,54 @@ export const profileValidator = [
     .isEmail()
     .withMessage("Invalid email"),
 
-  body("github")
+  body("phone")
+    .optional()
+    .isString()
+    .isLength({ max: 30 })
+    .withMessage("Phone must be at most 30 characters"),
+
+  body("address")
+    .optional()
+    .isString()
+    .withMessage("Address must be a string"),
+
+  body("location")
+    .optional()
+    .isString()
+    .withMessage("Location must be a string"),
+
+  body("shortBio")
+    .optional()
+    .isString()
+    .withMessage("Short bio must be a string"),
+
+  body("about")
+    .optional()
+    .isString()
+    .withMessage("About must be a string"),
+
+  body("socials.github")
     .optional()
     .isURL()
     .withMessage("Invalid GitHub URL"),
 
-  body("linkedin")
+  body("socials.linkedin")
     .optional()
     .isURL()
     .withMessage("Invalid LinkedIn URL"),
+
+  body("socials.twitter")
+    .optional()
+    .isURL()
+    .withMessage("Invalid Twitter URL"),
+
+  body("socials.instagram")
+    .optional()
+    .isURL()
+    .withMessage("Invalid Instagram URL"),
+
+  body("socials.facebook")
+    .optional()
+    .isURL()
+    .withMessage("Invalid Facebook URL"),
 ];

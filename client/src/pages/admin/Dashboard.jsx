@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
+import { dashboardApi } from "../../services/apiServices";
 import DashboardStats from "../../components/admin/Dashboard";
 import Card from "../../components/ui/Card";
 import Badge from "../../components/ui/Badge";
@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { data } = await api.get("/dashboard");
+        const { data } = await dashboardApi.get();
         setStats(data.data);
       } catch {
         toast.error("Failed to load dashboard stats");

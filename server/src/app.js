@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
-import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
@@ -16,6 +15,7 @@ import messageRoutes from "./routes/messageRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import { apiLimiter } from "./middleware/rateLimiters.js";
 
 const app = express();
 
@@ -30,7 +30,6 @@ app.use(
 
 app.use(helmet());
 app.use(compression());
-app.use(cookieParser());
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
@@ -41,6 +40,8 @@ app.get("/", (req, res) => {
     message: "Portfolio CMS API Running 🚀",
   });
 });
+
+app.use("/api", apiLimiter);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
