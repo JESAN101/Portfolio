@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, DEFAULT_OG_IMAGE } from "@/config";
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+} from "@/config";
 
 function upsertMeta(attr, key, content) {
   if (!content) return;

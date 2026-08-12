@@ -6,12 +6,6 @@ import { uploadFile } from "../controllers/uploadController.js";
 
 const router = express.Router();
 
-router.post(
-  "/",
-  protect,
-  uploadLimiter,
-  upload.single("file"),
-  uploadFile
-);
+router.post("/", protect, uploadLimiter, upload.single("file"), uploadFile);
 
 export default router;

@@ -35,28 +35,37 @@ router.post("/", protect, projectValidator, validate, createProject);
 router.put("/:id", protect, updateProjectValidator, validate, updateProject);
 router.delete("/:id", protect, deleteProject);
 
-router.patch("/:id/publish", protect, publishValidator, validate, togglePublish);
-router.patch("/:id/feature", protect, featureValidator, validate, toggleFeatured);
-router.patch("/:id/order", protect, orderValidator, validate, updateProjectOrder);
-
-router.post(
-  "/:id/cover",
+router.patch(
+  "/:id/publish",
   protect,
-  upload.single("file"),
-  uploadProjectCover
+  publishValidator,
+  validate,
+  togglePublish,
 );
+router.patch(
+  "/:id/feature",
+  protect,
+  featureValidator,
+  validate,
+  toggleFeatured,
+);
+router.patch(
+  "/:id/order",
+  protect,
+  orderValidator,
+  validate,
+  updateProjectOrder,
+);
+
+router.post("/:id/cover", protect, upload.single("file"), uploadProjectCover);
 
 router.post(
   "/:id/gallery",
   protect,
   upload.array("files", 10),
-  addProjectGallery
+  addProjectGallery,
 );
 
-router.delete(
-  "/:id/gallery/:imageId",
-  protect,
-  deleteProjectGalleryImage
-);
+router.delete("/:id/gallery/:imageId", protect, deleteProjectGalleryImage);
 
 export default router;

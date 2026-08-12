@@ -7,17 +7,18 @@ const optionalFields = [
     .isLength({ max: 200 })
     .withMessage("Location must be at most 200 characters"),
 
-  body("startDate")
-    .optional()
-    .isISO8601()
-    .withMessage("Invalid start date"),
+  body("startDate").optional().isISO8601().withMessage("Invalid start date"),
 
   body("endDate")
     .optional({ values: "falsy" })
     .isISO8601()
     .withMessage("Invalid end date")
     .custom((value, { req }) => {
-      if (value && req.body.startDate && new Date(value) < new Date(req.body.startDate)) {
+      if (
+        value &&
+        req.body.startDate &&
+        new Date(value) < new Date(req.body.startDate)
+      ) {
         throw new Error("End date must be after start date");
       }
       return true;
@@ -46,10 +47,7 @@ const optionalFields = [
     .notEmpty()
     .withMessage("Each technology must be a non-empty string"),
 
-  body("order")
-    .optional()
-    .isInt()
-    .withMessage("Order must be an integer"),
+  body("order").optional().isInt().withMessage("Order must be an integer"),
 
   body("isActive")
     .optional()

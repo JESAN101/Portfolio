@@ -2,7 +2,10 @@ import express from "express";
 import protect from "../middleware/authMiddleware.js";
 import validate from "../middleware/validate.js";
 import { contactLimiter } from "../middleware/rateLimiters.js";
-import { messageValidator, readMessageValidator } from "../validators/messageValidator.js";
+import {
+  messageValidator,
+  readMessageValidator,
+} from "../validators/messageValidator.js";
 import {
   createMessage,
   getMessages,
@@ -26,7 +29,7 @@ router.patch(
   protect,
   readMessageValidator,
   validate,
-  setMessageRead
+  setMessageRead,
 );
 
 router.delete("/", protect, deleteAllMessages);

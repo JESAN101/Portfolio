@@ -2,7 +2,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "./Button";
 import useDialogA11y from "@/hooks/useDialogA11y";
 
-export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, message, confirmText = "Delete", loading }) {
+export default function ConfirmDialog({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmText = "Delete",
+  loading,
+}) {
   const dialogRef = useDialogA11y({ isOpen, onClose });
   return (
     <AnimatePresence>
@@ -27,13 +35,19 @@ export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, messa
             exit={{ opacity: 0, scale: 0.95 }}
             className="relative w-full max-w-sm bg-card border border-border rounded-2xl shadow-2xl p-6"
           >
-            <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              {title}
+            </h3>
             <p className="text-sm text-muted mb-6">{message}</p>
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={onConfirm} disabled={loading}>
+              <Button
+                variant="destructive"
+                onClick={onConfirm}
+                disabled={loading}
+              >
                 {confirmText}
               </Button>
             </div>

@@ -16,7 +16,13 @@ export const NAV_LINKS = [
   { name: "Contact", path: "/contact" },
 ];
 
-export const PROJECT_CATEGORIES = ["Web", "Mobile", "Desktop", "UI/UX", "Other"];
+export const PROJECT_CATEGORIES = [
+  "Web",
+  "Mobile",
+  "Desktop",
+  "UI/UX",
+  "Other",
+];
 
 export const PROJECTS_PER_PAGE = 6;
 

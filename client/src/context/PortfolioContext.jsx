@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   profileApi,
   skillApi,
@@ -27,14 +34,23 @@ export function PortfolioProvider({ children }) {
     setError(null);
 
     try {
-      const [profileRes, skillsRes, projectsRes, experienceRes, certificatesRes] =
-        await Promise.all([
-          profileApi.get(),
-          skillApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
-          projectApi.getAll({ published: true, limit: DEFAULT_LIMIT, sort: "order" }),
-          experienceApi.getAll(),
-          certificateApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
-        ]);
+      const [
+        profileRes,
+        skillsRes,
+        projectsRes,
+        experienceRes,
+        certificatesRes,
+      ] = await Promise.all([
+        profileApi.get(),
+        skillApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
+        projectApi.getAll({
+          published: true,
+          limit: DEFAULT_LIMIT,
+          sort: "order",
+        }),
+        experienceApi.getAll(),
+        certificateApi.getAll({ limit: DEFAULT_LIMIT, sort: "order" }),
+      ]);
 
       setData({
         profile: profileRes.data.data,
@@ -44,7 +60,11 @@ export function PortfolioProvider({ children }) {
         certificates: certificatesRes.data.data,
       });
     } catch (err) {
-      setError(err?.response?.data?.message || err?.message || "Failed to load portfolio data");
+      setError(
+        err?.response?.data?.message ||
+          err?.message ||
+          "Failed to load portfolio data",
+      );
     } finally {
       setLoading(false);
     }
@@ -56,7 +76,7 @@ export function PortfolioProvider({ children }) {
 
   const value = useMemo(
     () => ({ ...data, loading, error, retry: fetchAll }),
-    [data, loading, error, fetchAll]
+    [data, loading, error, fetchAll],
   );
 
   return (
@@ -68,6 +88,7 @@ export function PortfolioProvider({ children }) {
 
 export const usePortfolio = () => {
   const ctx = useContext(PortfolioContext);
-  if (!ctx) throw new Error("usePortfolio must be used within PortfolioProvider");
+  if (!ctx)
+    throw new Error("usePortfolio must be used within PortfolioProvider");
   return ctx;
 };

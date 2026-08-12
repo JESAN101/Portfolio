@@ -18,20 +18,11 @@ const optionalFields = [
     .isInt({ min: 0, max: 100 })
     .withMessage("Proficiency must be a number between 0 and 100"),
 
-  body("category")
-    .optional()
-    .isIn(CATEGORIES)
-    .withMessage("Invalid category"),
+  body("category").optional().isIn(CATEGORIES).withMessage("Invalid category"),
 
-  body("icon")
-    .optional()
-    .isString()
-    .withMessage("Icon must be a string"),
+  body("icon").optional().isString().withMessage("Icon must be a string"),
 
-  body("order")
-    .optional()
-    .isInt()
-    .withMessage("Order must be an integer"),
+  body("order").optional().isInt().withMessage("Order must be an integer"),
 
   body("isActive")
     .optional()

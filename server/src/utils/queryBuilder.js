@@ -15,7 +15,7 @@ export const paginateOptions = (query = {}) => {
 export const buildFilters = (
   query = {},
   filterable = [],
-  { booleanFields = [] } = {}
+  { booleanFields = [] } = {},
 ) => {
   const filters = {};
 
@@ -43,8 +43,7 @@ export const buildFilters = (
 };
 
 export const buildSearch = (query = {}, searchable = []) => {
-  const term =
-    typeof query.search === "string" ? query.search.trim() : "";
+  const term = typeof query.search === "string" ? query.search.trim() : "";
 
   if (!term || searchable.length === 0) return {};
 

@@ -25,7 +25,8 @@ export const projectApi = {
     api.post(`/projects/${id}/gallery`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     }),
-  deleteGallery: (id, imageId) => api.delete(`/projects/${id}/gallery/${imageId}`),
+  deleteGallery: (id, imageId) =>
+    api.delete(`/projects/${id}/gallery/${imageId}`),
   togglePublish: (id) => api.patch(`/projects/${id}/publish`),
   toggleFeature: (id) => api.patch(`/projects/${id}/feature`),
   reorder: (order) => api.put("/projects/reorder", { order }),

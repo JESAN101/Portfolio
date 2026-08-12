@@ -3,8 +3,18 @@ import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import {
-  LayoutDashboard, FolderKanban, BrainCircuit, Briefcase, GraduationCap,
-  Award, Mail, Settings, LogOut, User, Menu, X,
+  LayoutDashboard,
+  FolderKanban,
+  BrainCircuit,
+  Briefcase,
+  GraduationCap,
+  Award,
+  Mail,
+  Settings,
+  LogOut,
+  User,
+  Menu,
+  X,
 } from "lucide-react";
 import ThemeToggle from "../components/layout/ThemeToggle";
 import Logo from "../components/layout/Logo";
@@ -27,7 +37,9 @@ function Brand() {
       <div className="flex items-center gap-3">
         <Logo />
         <div>
-          <p className="font-heading text-lg font-black leading-none text-foreground">Admin</p>
+          <p className="font-heading text-lg font-black leading-none text-foreground">
+            Admin
+          </p>
           <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-primary">
             Control Panel
           </p>
@@ -107,7 +119,9 @@ function AdminLayout() {
               {admin?.name?.[0]?.toUpperCase() || "A"}
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-foreground">{admin?.name}</p>
+              <p className="truncate text-sm font-semibold text-foreground">
+                {admin?.name}
+              </p>
               <p className="truncate text-xs text-muted">{admin?.email}</p>
             </div>
           </div>
@@ -129,7 +143,9 @@ function AdminLayout() {
           >
             <Menu size={22} />
           </button>
-          <span className="font-heading text-lg font-bold text-foreground">Admin CMS</span>
+          <span className="font-heading text-lg font-bold text-foreground">
+            Admin CMS
+          </span>
           <ThemeToggle />
         </header>
 
@@ -168,8 +184,12 @@ function AdminLayout() {
                       {admin?.name?.[0]?.toUpperCase() || "A"}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-foreground">{admin?.name}</p>
-                      <p className="truncate text-xs text-muted">{admin?.email}</p>
+                      <p className="truncate text-sm font-semibold text-foreground">
+                        {admin?.name}
+                      </p>
+                      <p className="truncate text-xs text-muted">
+                        {admin?.email}
+                      </p>
                     </div>
                   </div>
                   <LogoutButton onLogout={logout} />

@@ -2,7 +2,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { Plus, Pencil, Trash2, FolderKanban, AlertCircle, X, Star, Eye, EyeOff } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  FolderKanban,
+  AlertCircle,
+  X,
+  Star,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { projectApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -36,7 +46,11 @@ const defaultValues = {
 
 function Projects() {
   const [items, setItems] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -54,7 +68,12 @@ function Projects() {
   const [technologies, setTechnologies] = useState([]);
   const galleryInputRef = useRef(null);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ defaultValues });
 
   useEffect(() => {
     if (search === debouncedSearch) return;
@@ -76,7 +95,9 @@ function Projects() {
         sort: "-createdAt",
       });
       setItems(res.data.data || []);
-      setPagination(res.data.pagination || { page: 1, totalPages: 1, total: 0 });
+      setPagination(
+        res.data.pagination || { page: 1, totalPages: 1, total: 0 },
+      );
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load projects");
@@ -143,7 +164,7 @@ function Projects() {
 
   const galleryPreviewUrls = useMemo(
     () => galleryFiles.map((file) => URL.createObjectURL(file)),
-    [galleryFiles]
+    [galleryFiles],
   );
 
   useEffect(() => {
@@ -216,7 +237,9 @@ function Projects() {
         try {
           await projectApi.uploadGallery(projectId, formData);
         } catch {
-          toast.error("Project saved, but some gallery images failed to upload");
+          toast.error(
+            "Project saved, but some gallery images failed to upload",
+          );
         }
       }
 
@@ -251,7 +274,11 @@ function Projects() {
   const togglePublish = async (item) => {
     try {
       await projectApi.togglePublish(item._id);
-      setItems((prev) => prev.map((p) => (p._id === item._id ? { ...p, published: !p.published } : p)));
+      setItems((prev) =>
+        prev.map((p) =>
+          p._id === item._id ? { ...p, published: !p.published } : p,
+        ),
+      );
     } catch (err) {
       toast.error(err.response?.data?.message || "Could not update project");
     }
@@ -260,7 +287,11 @@ function Projects() {
   const toggleFeature = async (item) => {
     try {
       await projectApi.toggleFeature(item._id);
-      setItems((prev) => prev.map((p) => (p._id === item._id ? { ...p, featured: !p.featured } : p)));
+      setItems((prev) =>
+        prev.map((p) =>
+          p._id === item._id ? { ...p, featured: !p.featured } : p,
+        ),
+      );
     } catch (err) {
       toast.error(err.response?.data?.message || "Could not update project");
     }
@@ -271,7 +302,9 @@ function Projects() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-heading text-2xl font-bold">Projects</h1>
-          <p className="text-sm text-muted mt-1">Manage the case studies shown on your portfolio.</p>
+          <p className="text-sm text-muted mt-1">
+            Manage the case studies shown on your portfolio.
+          </p>
         </div>
         <Button onClick={openCreate} className="shrink-0">
           <Plus className="w-4 h-4" />
@@ -281,13 +314,20 @@ function Projects() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
-          <SearchBar value={search} onChange={setSearch} placeholder="Search projects..." />
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            placeholder="Search projects..."
+          />
         </div>
         <div className="w-full sm:w-48">
           <Select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            options={[{ value: "", label: "All categories" }, ...CATEGORIES.map((c) => ({ value: c, label: c }))]}
+            options={[
+              { value: "", label: "All categories" },
+              ...CATEGORIES.map((c) => ({ value: c, label: c })),
+            ]}
           />
         </div>
       </div>
@@ -296,9 +336,17 @@ function Projects() {
         {loading ? (
           <Loader text="Loading projects..." />
         ) : error ? (
-          <EmptyState icon={AlertCircle} title="Failed to load" description={error} />
+          <EmptyState
+            icon={AlertCircle}
+            title="Failed to load"
+            description={error}
+          />
         ) : items.length === 0 ? (
-          <EmptyState icon={FolderKanban} title="No projects yet" description="Add your first project to showcase your work." />
+          <EmptyState
+            icon={FolderKanban}
+            title="No projects yet"
+            description="Add your first project to showcase your work."
+          />
         ) : (
           <div className="divide-y divide-border">
             <AnimatePresence>
@@ -312,7 +360,11 @@ function Projects() {
                 >
                   <div className="w-16 h-12 rounded-lg bg-surface border border-border overflow-hidden shrink-0">
                     {item.coverImage ? (
-                      <img src={item.coverImage} alt={item.title} className="w-full h-full object-cover" />
+                      <img
+                        src={item.coverImage}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <FolderKanban className="w-5 h-5 text-muted" />
@@ -321,22 +373,56 @@ function Projects() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-foreground truncate">{item.title}</span>
+                      <span className="font-medium text-foreground truncate">
+                        {item.title}
+                      </span>
                       <Badge variant="primary">{item.category}</Badge>
                     </div>
-                    <p className="text-sm text-muted truncate">{item.shortDescription}</p>
+                    <p className="text-sm text-muted truncate">
+                      {item.shortDescription}
+                    </p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
-                    <Button variant="ghost" size="icon" className="hover:bg-yellow-500/10" onClick={() => toggleFeature(item)} title={item.featured ? "Unfeature" : "Feature"}>
-                      <Star className={`w-4 h-4 ${item.featured ? "fill-yellow-400 text-yellow-400" : "text-muted"}`} />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-yellow-500/10"
+                      onClick={() => toggleFeature(item)}
+                      title={item.featured ? "Unfeature" : "Feature"}
+                    >
+                      <Star
+                        className={`w-4 h-4 ${item.featured ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
+                      />
                     </Button>
-                    <Button variant="ghost" size="icon" className="hover:bg-primary/10" onClick={() => togglePublish(item)} title={item.published ? "Unpublish" : "Publish"}>
-                      {item.published ? <Eye className="w-4 h-4 text-primary" /> : <EyeOff className="w-4 h-4 text-muted" />}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-primary/10"
+                      onClick={() => togglePublish(item)}
+                      title={item.published ? "Unpublish" : "Publish"}
+                    >
+                      {item.published ? (
+                        <Eye className="w-4 h-4 text-primary" />
+                      ) : (
+                        <EyeOff className="w-4 h-4 text-muted" />
+                      )}
                     </Button>
-                    <Button variant="ghost" size="icon" className="hover:bg-primary/10" onClick={() => openEdit(item)} title="Edit">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-primary/10"
+                      onClick={() => openEdit(item)}
+                      title="Edit"
+                    >
                       <Pencil className="w-4 h-4 text-muted hover:text-primary transition-colors" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="hover:bg-red-500/10" onClick={() => setDeleteTarget(item)} title="Delete">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-red-500/10"
+                      onClick={() => setDeleteTarget(item)}
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4 text-muted hover:text-red-500 transition-colors" />
                     </Button>
                   </div>
@@ -347,9 +433,18 @@ function Projects() {
         )}
       </Card>
 
-      <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />
+      <Pagination
+        currentPage={pagination.page}
+        totalPages={pagination.totalPages}
+        onPageChange={setPage}
+      />
 
-      <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Project" : "Add Project"} size="xl">
+      <Modal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        title={editing ? "Edit Project" : "Add Project"}
+        size="xl"
+      >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-4">
@@ -357,12 +452,15 @@ function Projects() {
                 label="Cover Image"
                 preview={coverPreview}
                 onUpload={onCoverChange}
-                onRemove={() => { setCoverFile(null); setCoverPreview(""); }}
+                onRemove={() => {
+                  setCoverFile(null);
+                  setCoverPreview("");
+                }}
                 className="w-full h-48"
                 size="full"
               />
             </div>
-            
+
             <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Input
@@ -377,18 +475,28 @@ function Projects() {
                   label="Short Description"
                   placeholder="One-line summary shown in project cards"
                   error={errors.shortDescription?.message}
-                  {...register("shortDescription", { required: "Short description is required" })}
+                  {...register("shortDescription", {
+                    required: "Short description is required",
+                  })}
                 />
               </div>
-              <Input label="GitHub URL" placeholder="https://github.com/..." {...register("githubUrl")} />
-              <Input label="Live URL" placeholder="https://..." {...register("liveUrl")} />
+              <Input
+                label="GitHub URL"
+                placeholder="https://github.com/..."
+                {...register("githubUrl")}
+              />
+              <Input
+                label="Live URL"
+                placeholder="https://..."
+                {...register("liveUrl")}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Select
               label="Category"
-              options={CATEGORIES.map(c => ({ value: c, label: c }))}
+              options={CATEGORIES.map((c) => ({ value: c, label: c }))}
               {...register("category")}
             />
             <Input label="Order" type="number" {...register("order")} />
@@ -410,22 +518,45 @@ function Projects() {
               label="Full Description"
               placeholder="The problem, your approach, and the outcome..."
               error={errors.description?.message}
-              {...register("description", { required: "Description is required" })}
+              {...register("description", {
+                required: "Description is required",
+              })}
             />
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-foreground">Gallery</label>
-              <Button type="button" variant="outline" size="sm" onClick={() => galleryInputRef.current?.click()}>
+              <label className="text-sm font-medium text-foreground">
+                Gallery
+              </label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => galleryInputRef.current?.click()}
+              >
                 + Add images
               </Button>
-              <input ref={galleryInputRef} type="file" accept="image/*" multiple className="hidden" onChange={onGalleryChange} />
+              <input
+                ref={galleryInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={onGalleryChange}
+              />
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3">
               {editing?.galleryImages?.map((img) => (
-                <div key={img._id} className="relative aspect-square rounded-xl overflow-hidden border border-border group">
-                  <img src={img.url} alt="Gallery" className="w-full h-full object-cover" />
+                <div
+                  key={img._id}
+                  className="relative aspect-square rounded-xl overflow-hidden border border-border group"
+                >
+                  <img
+                    src={img.url}
+                    alt="Gallery"
+                    className="w-full h-full object-cover"
+                  />
                   <button
                     type="button"
                     onClick={() => removeExistingGalleryImage(img._id)}
@@ -436,8 +567,15 @@ function Projects() {
                 </div>
               ))}
               {galleryFiles.map((file, i) => (
-                <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-border group">
-                  <img src={galleryPreviewUrls[i]} alt="New gallery" className="w-full h-full object-cover" />
+                <div
+                  key={i}
+                  className="relative aspect-square rounded-xl overflow-hidden border border-border group"
+                >
+                  <img
+                    src={galleryPreviewUrls[i]}
+                    alt="New gallery"
+                    className="w-full h-full object-cover"
+                  />
                   <button
                     type="button"
                     onClick={() => removeGalleryFile(i)}
@@ -456,8 +594,12 @@ function Projects() {
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-border/60">
-            <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
-            <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={saving}>
+              {saving ? "Saving..." : editing ? "Update" : "Create"}
+            </Button>
           </div>
         </form>
       </Modal>

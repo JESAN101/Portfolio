@@ -23,7 +23,13 @@ router.get("/:id", getExperience);
 router.put("/reorder", protect, reorderValidator, validate, reorderExperiences);
 
 router.post("/", protect, experienceValidator, validate, createExperience);
-router.put("/:id", protect, updateExperienceValidator, validate, updateExperience);
+router.put(
+  "/:id",
+  protect,
+  updateExperienceValidator,
+  validate,
+  updateExperience,
+);
 router.delete("/:id", protect, deleteExperience);
 
 export default router;

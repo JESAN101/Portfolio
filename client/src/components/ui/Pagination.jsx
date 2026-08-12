@@ -6,7 +6,11 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+    if (
+      i === 1 ||
+      i === totalPages ||
+      (i >= currentPage - 1 && i <= currentPage + 1)
+    ) {
       pages.push(i);
     } else if (pages[pages.length - 1] !== "...") {
       pages.push("...");
@@ -25,7 +29,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       </Button>
       {pages.map((page, idx) =>
         page === "..." ? (
-          <span key={`dots-${idx}`} className="px-2 text-muted">...</span>
+          <span key={`dots-${idx}`} className="px-2 text-muted">
+            ...
+          </span>
         ) : (
           <Button
             key={page}
@@ -35,7 +41,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           >
             {page}
           </Button>
-        )
+        ),
       )}
       <Button
         variant="ghost"

@@ -1,6 +1,9 @@
 import { FaExclamationTriangle, FaRedo } from "react-icons/fa";
 
-function ErrorState({ message = "Something went wrong while loading data.", onRetry }) {
+function ErrorState({
+  message = "Something went wrong while loading data.",
+  onRetry,
+}) {
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 py-16 text-center">
       <FaExclamationTriangle className="h-10 w-10 text-amber-400" />

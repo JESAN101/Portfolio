@@ -23,7 +23,13 @@ router.get("/:id", getEducation);
 router.put("/reorder", protect, reorderValidator, validate, reorderEducations);
 
 router.post("/", protect, educationValidator, validate, createEducation);
-router.put("/:id", protect, updateEducationValidator, validate, updateEducation);
+router.put(
+  "/:id",
+  protect,
+  updateEducationValidator,
+  validate,
+  updateEducation,
+);
 router.delete("/:id", protect, deleteEducation);
 
 export default router;

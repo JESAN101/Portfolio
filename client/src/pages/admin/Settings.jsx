@@ -11,7 +11,13 @@ import Input from "../../components/ui/Input";
 function Settings() {
   const { admin, logout } = useAuth();
   const [saving, setSaving] = useState(false);
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
   const newPassword = watch("newPassword");
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
@@ -43,8 +49,12 @@ function Settings() {
             Admin · Account
           </span>
         </div>
-        <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Settings</h1>
-        <p className="mt-1.5 text-sm text-muted">Manage your admin account and password.</p>
+        <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">
+          Settings
+        </h1>
+        <p className="mt-1.5 text-sm text-muted">
+          Manage your admin account and password.
+        </p>
       </div>
 
       <Card className="p-6 flex items-center gap-4 relative overflow-hidden group">
@@ -54,9 +64,15 @@ function Settings() {
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-bold text-foreground text-lg">{admin?.name}</div>
-          <div className="text-sm text-muted truncate mt-0.5">{admin?.email}</div>
+          <div className="text-sm text-muted truncate mt-0.5">
+            {admin?.email}
+          </div>
         </div>
-        <Button variant="outline" onClick={logout} className="hover:bg-red-500/10 hover:text-red-500">
+        <Button
+          variant="outline"
+          onClick={logout}
+          className="hover:bg-red-500/10 hover:text-red-500"
+        >
           <LogOut className="w-4 h-4" />
           Log out
         </Button>
@@ -71,7 +87,9 @@ function Settings() {
           </div>
           <div>
             <h2 className="font-heading font-bold text-foreground">Security</h2>
-            <p className="text-xs text-muted mt-0.5">Update your password to keep your account secure.</p>
+            <p className="text-xs text-muted mt-0.5">
+              Update your password to keep your account secure.
+            </p>
           </div>
         </div>
 
@@ -82,7 +100,9 @@ function Settings() {
               type={showCurrent ? "text" : "password"}
               placeholder="••••••••"
               error={errors.currentPassword?.message}
-              {...register("currentPassword", { required: "Current password is required" })}
+              {...register("currentPassword", {
+                required: "Current password is required",
+              })}
             />
             <button
               type="button"
@@ -102,7 +122,10 @@ function Settings() {
               error={errors.newPassword?.message}
               {...register("newPassword", {
                 required: "New password is required",
-                minLength: { value: 8, message: "Must be at least 8 characters" },
+                minLength: {
+                  value: 8,
+                  message: "Must be at least 8 characters",
+                },
               })}
             />
             <button
@@ -123,7 +146,8 @@ function Settings() {
               error={errors.confirmPassword?.message}
               {...register("confirmPassword", {
                 required: "Please confirm your new password",
-                validate: (value) => value === newPassword || "Passwords do not match",
+                validate: (value) =>
+                  value === newPassword || "Passwords do not match",
               })}
             />
             <button

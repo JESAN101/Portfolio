@@ -18,7 +18,12 @@ export default function Profile() {
   const [aboutUploading, setAboutUploading] = useState(false);
   const fileInputRef = useRef();
   const aboutFileInputRef = useRef();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -31,7 +36,7 @@ export default function Profile() {
             ? data.data.titles
             : data.data?.title
               ? [data.data.title]
-              : [""]
+              : [""],
         );
       } catch {
         setProfile(null);
@@ -65,7 +70,7 @@ export default function Profile() {
 
   const removeImage = async () => {
     if (!profile?.profileImage) return;
-    
+
     setSaving(true);
     try {
       const { data } = await profileApi.removeImage();
@@ -119,7 +124,9 @@ export default function Profile() {
   const changeTitle = (index, value) =>
     setTitles((prev) => prev.map((item, i) => (i === index ? value : item)));
   const removeTitle = (index) =>
-    setTitles((prev) => (prev.length > 1 ? prev.filter((_, i) => i !== index) : prev));
+    setTitles((prev) =>
+      prev.length > 1 ? prev.filter((_, i) => i !== index) : prev,
+    );
 
   const onSubmit = async (formData) => {
     setSaving(true);
@@ -150,7 +157,7 @@ export default function Profile() {
   return (
     <div className="space-y-6 max-w-5xl">
       <h1 className="font-heading text-3xl font-bold">Profile</h1>
-      
+
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Profile Image Sidebar */}
         <div className="w-full lg:w-1/3 space-y-6">
@@ -158,9 +165,9 @@ export default function Profile() {
             <h2 className="text-lg font-semibold mb-4">Profile Picture</h2>
             <div className="relative group mx-auto w-48 h-48 rounded-full overflow-hidden border-4 border-border shadow-md">
               {profile?.profileImage ? (
-                <img 
-                  src={profile.profileImage} 
-                  alt="Profile" 
+                <img
+                  src={profile.profileImage}
+                  alt="Profile"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -168,7 +175,7 @@ export default function Profile() {
                   No Image
                 </div>
               )}
-              
+
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                 <button
                   type="button"
@@ -191,17 +198,17 @@ export default function Profile() {
                   </button>
                 )}
               </div>
-              
+
               {uploading && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <div className="w-8 h-8 border-2 border-primary border-t-transparent animate-spin rounded-full" />
                 </div>
               )}
             </div>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              className="hidden" 
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
               accept="image/*"
               onChange={handleImageUpload}
             />
@@ -214,9 +221,9 @@ export default function Profile() {
             <h2 className="text-lg font-semibold mb-4">About Section Image</h2>
             <div className="relative group mx-auto w-48 h-60 overflow-hidden rounded-2xl border-2 border-dashed border-border shadow-md">
               {profile?.aboutImage ? (
-                <img 
-                  src={profile.aboutImage} 
-                  alt="About section" 
+                <img
+                  src={profile.aboutImage}
+                  alt="About section"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -224,7 +231,7 @@ export default function Profile() {
                   No Image
                 </div>
               )}
-              
+
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                 <button
                   type="button"
@@ -247,22 +254,23 @@ export default function Profile() {
                   </button>
                 )}
               </div>
-              
+
               {aboutUploading && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <div className="w-8 h-8 border-2 border-primary border-t-transparent animate-spin rounded-full" />
                 </div>
               )}
             </div>
-            <input 
-              type="file" 
-              ref={aboutFileInputRef} 
-              className="hidden" 
+            <input
+              type="file"
+              ref={aboutFileInputRef}
+              className="hidden"
               accept="image/*"
               onChange={handleAboutImageUpload}
             />
             <p className="mt-4 text-xs text-muted">
-              Shown in the About section. Falls back to the profile picture if not set.
+              Shown in the About section. Falls back to the profile picture if
+              not set.
             </p>
           </Card>
         </div>
@@ -272,13 +280,17 @@ export default function Profile() {
           <Card className="p-6 relative group overflow-hidden">
             {/* subtle ambient glow */}
             <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/5 blur-2xl" />
-            
+
             <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
               <span className="w-1.5 h-6 rounded-full bg-primary" />
               Personal Info
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input label="Full Name" {...register("fullName", { required: true })} error={errors.fullName?.message} />
+              <Input
+                label="Full Name"
+                {...register("fullName", { required: true })}
+                error={errors.fullName?.message}
+              />
               <Input label="Email" type="email" {...register("email")} />
               <Input label="Phone" {...register("phone")} />
               <Input label="Location" {...register("location")} />
@@ -290,7 +302,10 @@ export default function Profile() {
                   {...register("availableForWork")}
                   className="h-4 w-4 rounded border-border bg-card text-primary focus:ring-primary/30"
                 />
-                <label htmlFor="availableForWork" className="text-sm font-medium text-foreground cursor-pointer">
+                <label
+                  htmlFor="availableForWork"
+                  className="text-sm font-medium text-foreground cursor-pointer"
+                >
                   Available for work
                 </label>
               </div>
@@ -298,7 +313,10 @@ export default function Profile() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">
-                Titles <span className="text-muted">(cycled in the hero typewriter)</span>
+                Titles{" "}
+                <span className="text-muted">
+                  (cycled in the hero typewriter)
+                </span>
               </label>
               <div className="space-y-2">
                 {titles.map((title, index) => (
@@ -320,7 +338,12 @@ export default function Profile() {
                   </div>
                 ))}
               </div>
-              <Button type="button" variant="outline" size="sm" onClick={addTitle}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addTitle}
+              >
                 + Add Title
               </Button>
             </div>
@@ -334,8 +357,17 @@ export default function Profile() {
               About
             </h2>
             <div className="space-y-4">
-              <Textarea label="Short Bio" {...register("shortBio")} placeholder="A quick one-liner about you..." />
-              <Textarea label="About" {...register("about")} className="min-h-[200px]" placeholder="Tell your story..." />
+              <Textarea
+                label="Short Bio"
+                {...register("shortBio")}
+                placeholder="A quick one-liner about you..."
+              />
+              <Textarea
+                label="About"
+                {...register("about")}
+                className="min-h-[200px]"
+                placeholder="Tell your story..."
+              />
             </div>
           </Card>
 

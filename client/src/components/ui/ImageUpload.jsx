@@ -21,11 +21,19 @@ export default function ImageUpload({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      {label && <label className="text-sm font-medium text-foreground">{label}</label>}
-      <div className={`relative group ${sizes[size]} rounded-2xl border-2 border-dashed border-border overflow-hidden bg-surface`}>
+      {label && (
+        <label className="text-sm font-medium text-foreground">{label}</label>
+      )}
+      <div
+        className={`relative group ${sizes[size]} rounded-2xl border-2 border-dashed border-border overflow-hidden bg-surface`}
+      >
         {preview ? (
           <>
-            <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
               <Button
                 type="button"

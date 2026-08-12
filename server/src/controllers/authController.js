@@ -63,14 +63,20 @@ export const updatePassword = async (req, res) => {
       throw new AppError("New password must be at least 8 characters", 400);
     }
 
-    if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+    if (
+      !/[A-Z]/.test(newPassword) ||
+      !/[a-z]/.test(newPassword) ||
+      !/[0-9]/.test(newPassword)
+    ) {
       throw new AppError(
         "New password must contain at least one uppercase letter, one lowercase letter, and one number",
-        400
+        400,
       );
     }
 
-    const admin = await Admin.findById(req.admin.id || req.admin._id).select("+password");
+    const admin = await Admin.findById(req.admin.id || req.admin._id).select(
+      "+password",
+    );
 
     const isMatch = await admin.comparePassword(currentPassword);
     if (!isMatch) {
@@ -78,7 +84,10 @@ export const updatePassword = async (req, res) => {
     }
 
     if (await admin.comparePassword(newPassword)) {
-      throw new AppError("New password must be different from the current password", 400);
+      throw new AppError(
+        "New password must be different from the current password",
+        400,
+      );
     }
 
     admin.password = newPassword; // re-hashed by the pre("save") hook on the model

@@ -31,8 +31,5 @@ export const messageValidator = [
 ];
 
 export const readMessageValidator = [
-  body("read")
-    .optional()
-    .isBoolean()
-    .withMessage("read must be a boolean"),
+  body("read").optional().isBoolean().withMessage("read must be a boolean"),
 ];

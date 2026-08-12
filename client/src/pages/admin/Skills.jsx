@@ -18,8 +18,17 @@ import Card from "../../components/ui/Card";
 import ImageUpload from "../../components/ui/ImageUpload";
 import Slider from "../../components/ui/Slider";
 
-const CATEGORIES = ["Frontend", "Backend", "Database", "DevOps", "Design", "Tools", "CyberSecurity", "Programming Languages", "Other"];
-
+const CATEGORIES = [
+  "Frontend",
+  "Backend",
+  "Database",
+  "DevOps",
+  "Design",
+  "Tools",
+  "CyberSecurity",
+  "Programming Languages",
+  "Other",
+];
 
 const defaultValues = {
   name: "",
@@ -44,7 +53,13 @@ function Skills() {
   const [iconFile, setIconFile] = useState(null);
   const [iconPreview, setIconPreview] = useState("");
 
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({ defaultValues });
   const proficiency = watch("proficiency");
 
   useEffect(() => {
@@ -185,10 +200,17 @@ function Skills() {
               Admin · Skills
             </span>
           </div>
-          <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Skills</h1>
-          <p className="mt-1.5 text-sm text-muted">Manage the tech stack shown on your portfolio.</p>
+          <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">
+            Skills
+          </h1>
+          <p className="mt-1.5 text-sm text-muted">
+            Manage the tech stack shown on your portfolio.
+          </p>
         </div>
-        <Button onClick={openCreate} className="shrink-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40">
+        <Button
+          onClick={openCreate}
+          className="shrink-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+        >
           <Plus className="w-4 h-4" />
           Add Skill
         </Button>
@@ -196,13 +218,20 @@ function Skills() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
-          <SearchBar value={search} onChange={setSearch} placeholder="Search skills..." />
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            placeholder="Search skills..."
+          />
         </div>
         <div className="w-full sm:w-56">
           <Select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            options={[{ value: "", label: "All categories" }, ...CATEGORIES.map((c) => ({ value: c, label: c }))]}
+            options={[
+              { value: "", label: "All categories" },
+              ...CATEGORIES.map((c) => ({ value: c, label: c })),
+            ]}
           />
         </div>
       </div>
@@ -211,9 +240,17 @@ function Skills() {
         {loading ? (
           <Loader text="Loading skills..." />
         ) : error ? (
-          <EmptyState icon={AlertCircle} title="Failed to load" description={error} />
+          <EmptyState
+            icon={AlertCircle}
+            title="Failed to load"
+            description={error}
+          />
         ) : items.length === 0 ? (
-          <EmptyState icon={BrainCircuit} title="No skills yet" description="Add the technologies you work with." />
+          <EmptyState
+            icon={BrainCircuit}
+            title="No skills yet"
+            description="Add the technologies you work with."
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
             <AnimatePresence>
@@ -228,19 +265,29 @@ function Skills() {
                 >
                   <div className="w-12 h-12 rounded-xl border border-foreground/10 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center shrink-0 overflow-hidden transition-transform duration-300 group-hover:scale-110">
                     {item.icon ? (
-                      <img src={item.icon} alt={item.name} className="w-6 h-6 object-contain" />
+                      <img
+                        src={item.icon}
+                        alt={item.name}
+                        className="w-6 h-6 object-contain"
+                      />
                     ) : (
                       <BrainCircuit className="w-5 h-5 text-primary" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-foreground truncate">{item.name}</span>
-                      {!item.isActive && <Badge variant="secondary">Hidden</Badge>}
+                      <span className="font-medium text-foreground truncate">
+                        {item.name}
+                      </span>
+                      {!item.isActive && (
+                        <Badge variant="secondary">Hidden</Badge>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="primary">{item.category}</Badge>
-                      <span className="text-xs text-muted">{item.proficiency}%</span>
+                      <span className="text-xs text-muted">
+                        {item.proficiency}%
+                      </span>
                     </div>
                     <div className="mt-2 h-1.5 w-full rounded-full bg-foreground/10 overflow-hidden">
                       <div
@@ -250,10 +297,20 @@ function Skills() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-1 shrink-0">
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(item)} title="Edit">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openEdit(item)}
+                      title="Edit"
+                    >
                       <Pencil className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setDeleteTarget(item)} title="Delete">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setDeleteTarget(item)}
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4 text-red-500" />
                     </Button>
                   </div>
@@ -264,13 +321,21 @@ function Skills() {
         )}
       </Card>
 
-      <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Skill" : "Add Skill"} size="md">
+      <Modal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        title={editing ? "Edit Skill" : "Add Skill"}
+        size="md"
+      >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <ImageUpload
             label="Icon"
             preview={iconPreview}
             onUpload={onIconChange}
-            onRemove={() => { setIconFile(null); setIconPreview(""); }}
+            onRemove={() => {
+              setIconFile(null);
+              setIconPreview("");
+            }}
             loading={false}
             size="sm"
           />
@@ -299,11 +364,18 @@ function Skills() {
             {...register("proficiency", { valueAsNumber: true })}
           />
 
-          <Checkbox label="Visible on the public site" {...register("isActive")} />
+          <Checkbox
+            label="Visible on the public site"
+            {...register("isActive")}
+          />
 
           <div className="flex justify-end gap-3 pt-2 border-t border-foreground/10">
-            <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
-            <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={saving}>
+              {saving ? "Saving..." : editing ? "Update" : "Create"}
+            </Button>
           </div>
         </form>
       </Modal>

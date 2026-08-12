@@ -55,7 +55,7 @@ export const setMessageRead = async (req, res) => {
   try {
     const message = await setMessageReadService(
       req.params.id,
-      req.body.read !== undefined ? req.body.read : true
+      req.body.read !== undefined ? req.body.read : true,
     );
 
     return res.status(200).json({

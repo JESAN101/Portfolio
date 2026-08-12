@@ -6,7 +6,10 @@ function SkillCardSkeleton({ count = 12, cols = "sm:grid-cols-2" }) {
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="grid grid-cols-3 gap-3">
           {Array.from({ length: 3 }).map((_, j) => (
-            <div key={j} className="flex min-h-[230px] flex-col items-center rounded-2xl border border-border bg-card p-4">
+            <div
+              key={j}
+              className="flex min-h-[230px] flex-col items-center rounded-2xl border border-border bg-card p-4"
+            >
               <Skeleton className="mt-3 h-14 w-14 rounded-full" />
               <Skeleton className="mx-auto mt-4 h-4 w-3/4 rounded-lg" />
               <div className="flex-1" />

@@ -1,11 +1,6 @@
 import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import {
-  FaReact,
-  FaNodeJs,
-  FaGitAlt,
-  FaGithub,
-} from "react-icons/fa";
+import { FaReact, FaNodeJs, FaGitAlt, FaGithub } from "react-icons/fa";
 import {
   SiJavascript,
   SiExpress,

@@ -30,7 +30,7 @@ const socialSchema = new mongoose.Schema(
   },
   {
     _id: false,
-  }
+  },
 );
 
 const profileSchema = new mongoose.Schema(
@@ -122,7 +122,7 @@ const profileSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("Profile", profileSchema);

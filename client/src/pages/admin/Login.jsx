@@ -5,7 +5,13 @@ import { useForm } from "react-hook-form";
 import ThemeToggle from "../../components/layout/ThemeToggle";
 import Logo from "../../components/layout/Logo";
 import toast from "react-hot-toast";
-import { FaLock, FaEnvelope, FaEye, FaEyeSlash, FaArrowLeft } from "react-icons/fa";
+import {
+  FaLock,
+  FaEnvelope,
+  FaEye,
+  FaEyeSlash,
+  FaArrowLeft,
+} from "react-icons/fa";
 
 function Login() {
   const { login } = useAuth();
@@ -65,11 +71,14 @@ function Login() {
         </div>
 
         {/* decorative grid pattern */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.04]" style={{
-          backgroundImage:
-            "linear-gradient(var(--color-primary) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }} />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--color-primary) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
       </div>
 
       {/* Right panel — form */}
@@ -122,7 +131,9 @@ function Login() {
                 />
               </div>
               {errors.email && (
-                <p className="mt-1.5 text-xs font-medium text-red-500">{errors.email.message}</p>
+                <p className="mt-1.5 text-xs font-medium text-red-500">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -134,7 +145,9 @@ function Login() {
                   type={showPw ? "text" : "password"}
                   placeholder="••••••••"
                   className={`${inputClass} pl-11 pr-11 ${errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""}`}
-                  {...register("password", { required: "Password is required" })}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
                 />
                 <button
                   type="button"
@@ -147,7 +160,9 @@ function Login() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1.5 text-xs font-medium text-red-500">{errors.password.message}</p>
+                <p className="mt-1.5 text-xs font-medium text-red-500">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 

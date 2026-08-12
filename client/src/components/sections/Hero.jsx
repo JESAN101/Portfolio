@@ -48,9 +48,9 @@ function Hero() {
 
   if (loading) {
     return (
-    <section className="relative overflow-hidden bg-background pt-24 text-foreground">
-      <div className="absolute left-[-200px] top-20 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[170px]" />
-      <div className="absolute bottom-0 right-[-150px] h-[500px] w-[500px] rounded-full bg-secondary/20 blur-[180px]" />
+      <section className="relative overflow-hidden bg-background pt-24 text-foreground">
+        <div className="absolute left-[-200px] top-20 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[170px]" />
+        <div className="absolute bottom-0 right-[-150px] h-[500px] w-[500px] rounded-full bg-secondary/20 blur-[180px]" />
 
         <Container>
           <div className="grid min-h-[90vh] items-center gap-20 lg:grid-cols-2">
@@ -89,7 +89,9 @@ function Hero() {
               animate="show"
               className="inline-flex rounded-full border border-border bg-surface px-4 py-2 text-sm text-muted"
             >
-              {profile?.availableForWork ? "👋 Available for work" : "👋 Currently unavailable"}
+              {profile?.availableForWork
+                ? "👋 Available for work"
+                : "👋 Currently unavailable"}
             </motion.span>
 
             <motion.h1
@@ -166,27 +168,52 @@ function Hero() {
               className="mt-14 flex gap-5 pb-16"
             >
               {profile?.socials?.github && (
-                <a href={profile.socials.github} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:text-foreground hover:shadow-xl hover:shadow-black/20">
+                <a
+                  href={profile.socials.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:text-foreground hover:shadow-xl hover:shadow-black/20"
+                >
                   <FaGithub size={22} />
                 </a>
               )}
               {profile?.socials?.linkedin && (
-                <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:text-blue-500 hover:shadow-xl hover:shadow-blue-500/30">
+                <a
+                  href={profile.socials.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:text-blue-500 hover:shadow-xl hover:shadow-blue-500/30"
+                >
                   <FaLinkedin size={22} />
                 </a>
               )}
               {profile?.socials?.instagram && (
-                <a href={profile.socials.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:text-pink-500 hover:shadow-xl hover:shadow-pink-500/30">
+                <a
+                  href={profile.socials.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:text-pink-500 hover:shadow-xl hover:shadow-pink-500/30"
+                >
                   <FaInstagram size={22} />
                 </a>
               )}
               {profile?.socials?.facebook && (
-                <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-600/30">
+                <a
+                  href={profile.socials.facebook}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-600/30"
+                >
                   <FaFacebook size={22} />
                 </a>
               )}
               {profile?.socials?.twitter && (
-                <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-sky-500 hover:text-sky-500 hover:shadow-xl hover:shadow-sky-500/30">
+                <a
+                  href={profile.socials.twitter}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-foreground/15 bg-surface p-4 text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-sky-500 hover:text-sky-500 hover:shadow-xl hover:shadow-sky-500/30"
+                >
                   <FaTwitter size={22} />
                 </a>
               )}
@@ -213,7 +240,7 @@ function Hero() {
                 />
                 <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
 
-                <div 
+                <div
                   className="relative h-[420px] w-[420px] cursor-zoom-in overflow-hidden rounded-full border-4 border-border shadow-[0_0_80px_rgba(59,130,246,.25)]"
                   onClick={() => setShowLightbox(true)}
                 >
@@ -243,7 +270,12 @@ function Hero() {
 
       {showLightbox && (
         <Lightbox
-          images={[{ url: profile?.profileImage || profilePlaceholder, alt: profile?.fullName || "Profile" }]}
+          images={[
+            {
+              url: profile?.profileImage || profilePlaceholder,
+              alt: profile?.fullName || "Profile",
+            },
+          ]}
           onClose={() => setShowLightbox(false)}
         />
       )}

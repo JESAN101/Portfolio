@@ -40,7 +40,10 @@ export const deleteProfileService = async () => {
     throw new AppError("Profile not found", 404);
   }
 
-  const publicIds = [profile.profileImagePublicId, profile.aboutImagePublicId].filter(Boolean);
+  const publicIds = [
+    profile.profileImagePublicId,
+    profile.aboutImagePublicId,
+  ].filter(Boolean);
 
   await profile.deleteOne();
 
@@ -51,7 +54,12 @@ export const deleteProfileService = async () => {
   return true;
 };
 
-const updateImageService = async ({ field, publicIdField, filePath, folder }) => {
+const updateImageService = async ({
+  field,
+  publicIdField,
+  filePath,
+  folder,
+}) => {
   const profile = await Profile.findOne();
 
   if (!profile) {

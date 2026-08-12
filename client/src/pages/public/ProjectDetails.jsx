@@ -54,8 +54,10 @@ function ProjectDetails() {
     if (lightboxIndex === null) return;
     const onKey = (e) => {
       if (e.key === "Escape") setLightboxIndex(null);
-      if (e.key === "ArrowRight") setLightboxIndex((i) => (i + 1) % gallery.length);
-      if (e.key === "ArrowLeft") setLightboxIndex((i) => (i - 1 + gallery.length) % gallery.length);
+      if (e.key === "ArrowRight")
+        setLightboxIndex((i) => (i + 1) % gallery.length);
+      if (e.key === "ArrowLeft")
+        setLightboxIndex((i) => (i - 1 + gallery.length) % gallery.length);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -77,7 +79,11 @@ function ProjectDetails() {
   }
 
   const metaItems = [
-    { icon: <FaFolderOpen size={15} />, label: "Category", value: project.category },
+    {
+      icon: <FaFolderOpen size={15} />,
+      label: "Category",
+      value: project.category,
+    },
     {
       icon: <FaLayerGroup size={15} />,
       label: "Tech Stack",
@@ -116,7 +122,11 @@ function ProjectDetails() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent" />
 
           <Container className="relative flex h-full flex-col justify-between py-10">
-            <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <Link
                 to="/projects"
                 className="group inline-flex w-fit items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
@@ -126,7 +136,12 @@ function ProjectDetails() {
               </Link>
             </motion.div>
 
-            <motion.div variants={fadeUp} custom={0.15} initial="hidden" animate="show">
+            <motion.div
+              variants={fadeUp}
+              custom={0.15}
+              initial="hidden"
+              animate="show"
+            >
               <div className="flex flex-wrap items-center gap-3">
                 {project.featured && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-black shadow-lg shadow-amber-500/30">
@@ -209,7 +224,9 @@ function ProjectDetails() {
                   <p className="mt-4 text-xs font-medium uppercase tracking-wider text-muted">
                     {item.label}
                   </p>
-                  <p className="mt-1 text-sm font-bold text-foreground">{item.value}</p>
+                  <p className="mt-1 text-sm font-bold text-foreground">
+                    {item.value}
+                  </p>
                 </div>
               ))}
             </motion.div>
@@ -251,7 +268,9 @@ function ProjectDetails() {
               <div className="pointer-events-none absolute -right-[3px] -top-[3px] h-[55%] w-[55%] rounded-tr-[30px] border-r-[3px] border-t-[3px] border-primary" />
               <div className="pointer-events-none absolute -bottom-[3px] -left-[3px] h-[55%] w-[55%] rounded-bl-[30px] border-b-[3px] border-l-[3px] border-primary" />
 
-              <h3 className="text-sm font-bold uppercase tracking-wide">Project Links</h3>
+              <h3 className="text-sm font-bold uppercase tracking-wide">
+                Project Links
+              </h3>
 
               <div className="mt-6 space-y-3.5">
                 {project.liveUrl && (
@@ -288,9 +307,14 @@ function ProjectDetails() {
 
               <div className="mt-8 space-y-4 border-t border-foreground/10 pt-6">
                 {metaItems.slice(0, 2).map((item) => (
-                  <div key={item.label} className="flex items-center justify-between text-sm">
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between text-sm"
+                  >
                     <span className="text-muted">{item.label}</span>
-                    <span className="font-semibold text-foreground">{item.value}</span>
+                    <span className="font-semibold text-foreground">
+                      {item.value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -410,7 +434,9 @@ function ProjectDetails() {
                       <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
                         {p.category}
                       </p>
-                      <h3 className="mt-1 text-lg font-bold text-white">{p.title}</h3>
+                      <h3 className="mt-1 text-lg font-bold text-white">
+                        {p.title}
+                      </h3>
                     </div>
                   </div>
 
@@ -456,7 +482,9 @@ function ProjectDetails() {
                   className="absolute left-4 text-white/70 transition hover:text-white md:left-8"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setLightboxIndex((i) => (i - 1 + gallery.length) % gallery.length);
+                    setLightboxIndex(
+                      (i) => (i - 1 + gallery.length) % gallery.length,
+                    );
                   }}
                   aria-label="Previous image"
                 >

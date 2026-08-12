@@ -2,7 +2,9 @@ import { forwardRef } from "react";
 
 const Checkbox = forwardRef(({ label, className = "", ...props }, ref) => {
   return (
-    <label className={`flex items-center gap-2.5 cursor-pointer select-none ${className}`}>
+    <label
+      className={`flex items-center gap-2.5 cursor-pointer select-none ${className}`}
+    >
       <input
         ref={ref}
         type="checkbox"

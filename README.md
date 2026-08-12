@@ -3,9 +3,11 @@
 ## Project Overview
 
 ### Project Name
+
 Portfolio CMS (Working Title)
 
 ### Description
+
 Portfolio CMS is a premium full-stack web application designed to showcase my skills, projects, experience, and achievements while providing a secure admin dashboard to manage all content dynamically.
 
 The project is built to demonstrate professional MERN Stack development skills, modern UI/UX principles, scalable architecture, and production-ready coding practices.
@@ -99,15 +101,19 @@ Can:
 ## Deployment
 
 Frontend:
+
 - Vercel
 
 Backend:
+
 - Render
 
 Database:
+
 - MongoDB Atlas
 
 Image Storage:
+
 - Cloudinary
 
 ---

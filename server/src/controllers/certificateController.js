@@ -90,7 +90,7 @@ export const uploadCertificateImage = async (req, res) => {
 
     const certificate = await uploadCertificateImageService(
       req.params.id,
-      req.file.path
+      req.file.path,
     );
 
     removeLocalFile(req.file.path);

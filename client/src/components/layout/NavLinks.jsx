@@ -28,7 +28,9 @@ function NavLinks() {
                 className="absolute inset-0 rounded-full bg-primary shadow-sm"
               />
             )}
-            <span className={`relative z-10 transition-colors ${isActive ? "text-white" : "text-muted hover:text-foreground"}`}>
+            <span
+              className={`relative z-10 transition-colors ${isActive ? "text-white" : "text-muted hover:text-foreground"}`}
+            >
               {link.name}
             </span>
           </NavLink>

@@ -52,7 +52,8 @@ function Experience({ compact = false }) {
           </h2>
 
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-muted">
-            A timeline of the roles, projects, and growth that shaped me as a developer.
+            A timeline of the roles, projects, and growth that shaped me as a
+            developer.
           </p>
         </div>
 
@@ -66,7 +67,10 @@ function Experience({ compact = false }) {
         ) : error ? (
           <ErrorState message={error} onRetry={retry} />
         ) : experience?.length === 0 ? (
-          <EmptyState title="No experience yet" description="Experience entries will appear here once added." />
+          <EmptyState
+            title="No experience yet"
+            description="Experience entries will appear here once added."
+          />
         ) : (
           <div className="relative mx-auto mt-20 max-w-4xl">
             {/* gradient timeline rail */}
@@ -76,7 +80,12 @@ function Experience({ compact = false }) {
 
             <div className="space-y-12">
               {experience?.map((item, index) => (
-                <ExperienceCard key={item._id} item={item} index={index} compact={compact} />
+                <ExperienceCard
+                  key={item._id}
+                  item={item}
+                  index={index}
+                  compact={compact}
+                />
               ))}
             </div>
           </div>

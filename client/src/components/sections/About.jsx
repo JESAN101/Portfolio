@@ -14,7 +14,10 @@ function About() {
 
   if (loading) {
     return (
-      <section id="about" className="bg-background py-28 text-foreground md:py-36">
+      <section
+        id="about"
+        className="bg-background py-28 text-foreground md:py-36"
+      >
         <Container>
           <div className="grid items-center gap-20 lg:grid-cols-2">
             <Skeleton className="h-[520px] w-full rounded-3xl" />
@@ -35,16 +38,38 @@ function About() {
   }
 
   const stats = [
-    { value: `${projects?.length || 0}+`, label: "Projects", icon: <FaFolderOpen size={16} />, to: "/projects" },
-    { value: `${skills?.length || 0}+`, label: "Technologies", icon: <FaCode size={16} />, to: "/skills" },
-    { value: `${experience?.length || 0}+`, label: "Experience", icon: <FaBriefcase size={16} />, to: "/experience" },
+    {
+      value: `${projects?.length || 0}+`,
+      label: "Projects",
+      icon: <FaFolderOpen size={16} />,
+      to: "/projects",
+    },
+    {
+      value: `${skills?.length || 0}+`,
+      label: "Technologies",
+      icon: <FaCode size={16} />,
+      to: "/skills",
+    },
+    {
+      value: `${experience?.length || 0}+`,
+      label: "Experience",
+      icon: <FaBriefcase size={16} />,
+      to: "/experience",
+    },
   ];
 
-  const imageSrc = profile?.aboutImage || profile?.profileImage || profilePlaceholder;
-  const imageAlt = imageSrc === profilePlaceholder ? "Profile placeholder" : profile?.fullName || "Profile";
+  const imageSrc =
+    profile?.aboutImage || profile?.profileImage || profilePlaceholder;
+  const imageAlt =
+    imageSrc === profilePlaceholder
+      ? "Profile placeholder"
+      : profile?.fullName || "Profile";
 
   return (
-    <section id="about" className="relative overflow-hidden bg-background py-28 text-foreground md:py-36">
+    <section
+      id="about"
+      className="relative overflow-hidden bg-background py-28 text-foreground md:py-36"
+    >
       {/* ambient accents */}
       <div className="pointer-events-none absolute left-[-200px] top-20 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[170px]" />
       <div className="pointer-events-none absolute bottom-0 right-[-150px] h-[500px] w-[500px] rounded-full bg-secondary/20 blur-[180px]" />

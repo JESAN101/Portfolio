@@ -42,7 +42,11 @@ const buildParams = (search, activeFilter, page) => ({
 
 function Education() {
   const [items, setItems] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -78,9 +82,13 @@ function Education() {
 
   const fetchItems = useCallback(async () => {
     try {
-      const res = await educationApi.getAll(buildParams(debouncedSearch, activeFilter, page));
+      const res = await educationApi.getAll(
+        buildParams(debouncedSearch, activeFilter, page),
+      );
       setItems(res.data.data || []);
-      setPagination(res.data.pagination || { page: 1, totalPages: 1, total: 0 });
+      setPagination(
+        res.data.pagination || { page: 1, totalPages: 1, total: 0 },
+      );
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load education");
@@ -111,7 +119,9 @@ function Education() {
       institution: item.institution,
       degree: item.degree,
       fieldOfStudy: item.fieldOfStudy || "",
-      startDate: item.startDate ? format(new Date(item.startDate), "yyyy-MM-dd") : "",
+      startDate: item.startDate
+        ? format(new Date(item.startDate), "yyyy-MM-dd")
+        : "",
       endDate: item.endDate ? format(new Date(item.endDate), "yyyy-MM-dd") : "",
       current: item.current,
       grade: item.grade || "",
@@ -263,10 +273,16 @@ function Education() {
                       className="border-b border-border last:border-0 hover:bg-surface/50"
                     >
                       <td className="px-6 py-4">
-                        <div className="font-medium text-foreground">{item.institution}</div>
+                        <div className="font-medium text-foreground">
+                          {item.institution}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 text-foreground">{item.degree}</td>
-                      <td className="px-6 py-4 text-muted">{item.fieldOfStudy || "—"}</td>
+                      <td className="px-6 py-4 text-foreground">
+                        {item.degree}
+                      </td>
+                      <td className="px-6 py-4 text-muted">
+                        {item.fieldOfStudy || "—"}
+                      </td>
                       <td className="px-6 py-4 text-muted whitespace-nowrap">
                         {format(new Date(item.startDate), "MMM yyyy")}
                       </td>
@@ -281,9 +297,13 @@ function Education() {
                           <span className="text-muted">—</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-muted">{item.grade || "—"}</td>
+                      <td className="px-6 py-4 text-muted">
+                        {item.grade || "—"}
+                      </td>
                       <td className="px-6 py-4">
-                        <Badge variant={item.isActive ? "success" : "secondary"}>
+                        <Badge
+                          variant={item.isActive ? "success" : "secondary"}
+                        >
                           {item.isActive ? "Active" : "Inactive"}
                         </Badge>
                       </td>
@@ -335,7 +355,9 @@ function Education() {
                 label="Institution"
                 placeholder="Stanford University"
                 error={errors.institution?.message}
-                {...register("institution", { required: "Institution is required" })}
+                {...register("institution", {
+                  required: "Institution is required",
+                })}
               />
             </div>
             <Input
@@ -364,7 +386,10 @@ function Education() {
                 validate: (value) => {
                   if (getValues("current")) return true;
                   if (!value) return true;
-                  if (getValues("startDate") && value < getValues("startDate")) {
+                  if (
+                    getValues("startDate") &&
+                    value < getValues("startDate")
+                  ) {
                     return "End date must be after start date";
                   }
                   return true;

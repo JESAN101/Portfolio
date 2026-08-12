@@ -93,7 +93,10 @@ export const uploadProjectCover = async (req, res) => {
       });
     }
 
-    const project = await uploadProjectCoverService(req.params.id, req.file.path);
+    const project = await uploadProjectCoverService(
+      req.params.id,
+      req.file.path,
+    );
 
     removeLocalFile(req.file.path);
 
@@ -138,7 +141,7 @@ export const deleteProjectGalleryImage = async (req, res) => {
   try {
     const project = await deleteProjectGalleryImageService(
       req.params.id,
-      req.params.imageId
+      req.params.imageId,
     );
 
     return res.status(200).json({
@@ -155,7 +158,7 @@ export const togglePublish = async (req, res) => {
   try {
     const project = await setPublishStatusService(
       req.params.id,
-      req.body.published
+      req.body.published,
     );
 
     return res.status(200).json({
@@ -172,7 +175,7 @@ export const toggleFeatured = async (req, res) => {
   try {
     const project = await setFeaturedStatusService(
       req.params.id,
-      req.body.featured
+      req.body.featured,
     );
 
     return res.status(200).json({
@@ -189,7 +192,7 @@ export const updateProjectOrder = async (req, res) => {
   try {
     const project = await updateProjectOrderService(
       req.params.id,
-      req.body.order
+      req.body.order,
     );
 
     return res.status(200).json({

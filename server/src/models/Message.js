@@ -38,7 +38,7 @@ const messageSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 messageSchema.index({ read: 1, createdAt: -1 });

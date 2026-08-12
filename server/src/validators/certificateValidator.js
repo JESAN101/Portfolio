@@ -28,10 +28,7 @@ const optionalFields = [
     .isLength({ max: 5000 })
     .withMessage("Description must be at most 5000 characters"),
 
-  body("order")
-    .optional()
-    .isInt()
-    .withMessage("Order must be an integer"),
+  body("order").optional().isInt().withMessage("Order must be an integer"),
 
   body("isActive")
     .optional()

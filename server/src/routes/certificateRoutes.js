@@ -22,17 +22,29 @@ const router = express.Router();
 router.get("/", getCertificates);
 router.get("/:id", getCertificate);
 
-router.put("/reorder", protect, reorderValidator, validate, reorderCertificates);
+router.put(
+  "/reorder",
+  protect,
+  reorderValidator,
+  validate,
+  reorderCertificates,
+);
 
 router.post("/", protect, certificateValidator, validate, createCertificate);
-router.put("/:id", protect, updateCertificateValidator, validate, updateCertificate);
+router.put(
+  "/:id",
+  protect,
+  updateCertificateValidator,
+  validate,
+  updateCertificate,
+);
 router.delete("/:id", protect, deleteCertificate);
 
 router.post(
   "/:id/image",
   protect,
   upload.single("file"),
-  uploadCertificateImage
+  uploadCertificateImage,
 );
 
 export default router;

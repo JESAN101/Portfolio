@@ -12,7 +12,7 @@ const createAdmin = async () => {
     if (!ADMIN_PASSWORD || ADMIN_PASSWORD.length < 8) {
       console.error(
         "Admin password is required and must be at least 8 characters.\n" +
-          "Set ADMIN_PASSWORD in your environment or pass it as the first argument."
+          "Set ADMIN_PASSWORD in your environment or pass it as the first argument.",
       );
       process.exit(1);
     }

@@ -42,7 +42,11 @@ const buildParams = (search, activeFilter, page) => ({
 
 function Experience() {
   const [items, setItems] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -78,9 +82,13 @@ function Experience() {
 
   const fetchItems = useCallback(async () => {
     try {
-      const res = await experienceApi.getAll(buildParams(debouncedSearch, activeFilter, page));
+      const res = await experienceApi.getAll(
+        buildParams(debouncedSearch, activeFilter, page),
+      );
       setItems(res.data.data || []);
-      setPagination(res.data.pagination || { page: 1, totalPages: 1, total: 0 });
+      setPagination(
+        res.data.pagination || { page: 1, totalPages: 1, total: 0 },
+      );
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load experiences");
@@ -111,7 +119,9 @@ function Experience() {
       company: item.company,
       position: item.position,
       location: item.location || "",
-      startDate: item.startDate ? format(new Date(item.startDate), "yyyy-MM-dd") : "",
+      startDate: item.startDate
+        ? format(new Date(item.startDate), "yyyy-MM-dd")
+        : "",
       endDate: item.endDate ? format(new Date(item.endDate), "yyyy-MM-dd") : "",
       current: item.current,
       description: item.description || "",
@@ -140,7 +150,10 @@ function Experience() {
         current: data.current || false,
         description: data.description || "",
         technologies: data.technologies
-          ? data.technologies.split(",").map((t) => t.trim()).filter(Boolean)
+          ? data.technologies
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean)
           : [],
         order: Number(data.order) || 0,
         isActive: data.isActive || false,
@@ -194,12 +207,17 @@ function Experience() {
               Admin · Experience
             </span>
           </div>
-          <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Work Experience</h1>
+          <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">
+            Work Experience
+          </h1>
           <p className="mt-1.5 text-sm text-muted">
             Manage your professional experience timeline.
           </p>
         </div>
-        <Button onClick={openCreate} className="shrink-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40">
+        <Button
+          onClick={openCreate}
+          className="shrink-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+        >
           <Plus className="w-4 h-4" />
           Add Experience
         </Button>
@@ -272,10 +290,16 @@ function Experience() {
                       className="border-b border-border last:border-0 hover:bg-surface/50"
                     >
                       <td className="px-6 py-4">
-                        <div className="font-medium text-foreground">{item.company}</div>
+                        <div className="font-medium text-foreground">
+                          {item.company}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 text-foreground">{item.position}</td>
-                      <td className="px-6 py-4 text-muted">{item.location || "—"}</td>
+                      <td className="px-6 py-4 text-foreground">
+                        {item.position}
+                      </td>
+                      <td className="px-6 py-4 text-muted">
+                        {item.location || "—"}
+                      </td>
                       <td className="px-6 py-4 text-muted whitespace-nowrap">
                         {format(new Date(item.startDate), "MMM yyyy")}
                       </td>
@@ -305,7 +329,9 @@ function Experience() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <Badge variant={item.isActive ? "success" : "secondary"}>
+                        <Badge
+                          variant={item.isActive ? "success" : "secondary"}
+                        >
                           {item.isActive ? "Active" : "Inactive"}
                         </Badge>
                       </td>
@@ -388,7 +414,10 @@ function Experience() {
                 validate: (value) => {
                   if (getValues("current")) return true;
                   if (!value) return true;
-                  if (getValues("startDate") && value < getValues("startDate")) {
+                  if (
+                    getValues("startDate") &&
+                    value < getValues("startDate")
+                  ) {
                     return "End date must be after start date";
                   }
                   return true;

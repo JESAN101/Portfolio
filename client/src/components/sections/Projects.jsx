@@ -18,7 +18,9 @@ function Projects() {
   const location = useLocation();
   const isAllProjectsPage = location.pathname === "/projects";
 
-  const visible = isAllProjectsPage ? projects : (projects || []).slice(0, HOME_LIMIT);
+  const visible = isAllProjectsPage
+    ? projects
+    : (projects || []).slice(0, HOME_LIMIT);
 
   return (
     <section className="relative overflow-hidden bg-background py-28 text-foreground md:py-36">

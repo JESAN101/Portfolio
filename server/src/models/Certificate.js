@@ -64,7 +64,7 @@ const certificateSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 certificateSchema.index({ title: "text", issuer: "text", description: "text" });

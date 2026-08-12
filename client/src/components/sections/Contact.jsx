@@ -31,7 +31,12 @@ const stagger = {
 
 function Contact() {
   const { profile } = usePortfolio();
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const socials = getSocialLinks(profile?.socials);
@@ -71,7 +76,8 @@ function Contact() {
       href: profile?.phone ? `tel:${profile.phone}` : null,
       hover: "hover:border-emerald-500/50 hover:shadow-emerald-500/10",
       iconClass: "text-emerald-600 dark:text-emerald-400",
-      iconHover: "group-hover:bg-emerald-500/10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
+      iconHover:
+        "group-hover:bg-emerald-500/10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
     },
     {
       icon: <FaMapMarkerAlt />,
@@ -80,7 +86,8 @@ function Contact() {
       href: null,
       hover: "hover:border-pink-500/50 hover:shadow-pink-500/10",
       iconClass: "text-pink-600 dark:text-pink-400",
-      iconHover: "group-hover:bg-pink-500/10 group-hover:text-pink-600 dark:group-hover:text-pink-400",
+      iconHover:
+        "group-hover:bg-pink-500/10 group-hover:text-pink-600 dark:group-hover:text-pink-400",
     },
   ];
 
@@ -120,8 +127,8 @@ function Contact() {
           </h2>
 
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-muted">
-            Have a project in mind or just want to say hi? My inbox is always open —
-            I'll get back to you as soon as possible.
+            Have a project in mind or just want to say hi? My inbox is always
+            open — I'll get back to you as soon as possible.
           </p>
         </motion.div>
 
@@ -208,7 +215,8 @@ function Contact() {
                     rel="noreferrer"
                     aria-label={name}
                     className={`flex h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 ${
-                      SOCIAL_HOVER[name] || "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
+                      SOCIAL_HOVER[name] ||
+                      "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
                     }`}
                   >
                     <Icon size={18} />
@@ -235,7 +243,10 @@ function Contact() {
             <div className="relative space-y-5">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                  <label
+                    htmlFor="name"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted"
+                  >
                     Your Name
                   </label>
                   <input
@@ -250,7 +261,10 @@ function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted"
+                  >
                     Your Email
                   </label>
                   <input
@@ -267,7 +281,10 @@ function Contact() {
               </div>
 
               <div>
-                <label htmlFor="subject" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                <label
+                  htmlFor="subject"
+                  className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted"
+                >
                   Subject
                 </label>
                 <input
@@ -283,7 +300,10 @@ function Contact() {
               </div>
 
               <div>
-                <label htmlFor="message" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted">
+                <label
+                  htmlFor="message"
+                  className="mb-2 block text-xs font-semibold uppercase tracking-widest text-muted"
+                >
                   Message
                 </label>
                 <textarea

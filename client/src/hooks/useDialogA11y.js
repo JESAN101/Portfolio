@@ -17,8 +17,8 @@ export default function useDialogA11y({ isOpen, onClose }) {
     const getFocusables = () =>
       Array.from(
         dialog.querySelectorAll(
-          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-        )
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ),
       );
 
     const firstFocusable = getFocusables()[0];

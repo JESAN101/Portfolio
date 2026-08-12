@@ -55,7 +55,7 @@ const experienceSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 experienceSchema.index({ isActive: 1, startDate: -1 });

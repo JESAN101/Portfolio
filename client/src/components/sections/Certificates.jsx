@@ -18,9 +18,7 @@ function Certificates() {
             Certificates
           </span>
 
-          <h2 className="mt-6 text-5xl font-black">
-            Certifications
-          </h2>
+          <h2 className="mt-6 text-5xl font-black">Certifications</h2>
         </div>
 
         {loading ? (
@@ -32,7 +30,10 @@ function Certificates() {
         ) : error ? (
           <ErrorState message={error} onRetry={retry} />
         ) : certificates?.length === 0 ? (
-          <EmptyState title="No certificates" description="Certificates will appear here once added." />
+          <EmptyState
+            title="No certificates"
+            description="Certificates will appear here once added."
+          />
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {certificates?.map((certificate) => (
@@ -42,7 +43,11 @@ function Certificates() {
               >
                 <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary text-4xl text-white overflow-hidden">
                   {certificate.image ? (
-                    <Image src={certificate.image} alt={certificate.title} className="h-full w-full object-cover" />
+                    <Image
+                      src={certificate.image}
+                      alt={certificate.title}
+                      className="h-full w-full object-cover"
+                    />
                   ) : (
                     <FaAward />
                   )}
@@ -53,7 +58,9 @@ function Certificates() {
                 <p className="mt-3 text-primary">{certificate.issuer}</p>
 
                 {certificate.issuedDate && (
-                  <p className="mt-5 text-muted">{formatDate(certificate.issuedDate, { year: "numeric" })}</p>
+                  <p className="mt-5 text-muted">
+                    {formatDate(certificate.issuedDate, { year: "numeric" })}
+                  </p>
                 )}
 
                 {certificate.credentialUrl && (

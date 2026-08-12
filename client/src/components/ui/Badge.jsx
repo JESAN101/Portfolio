@@ -1,4 +1,8 @@
-export default function Badge({ children, variant = "default", className = "" }) {
+export default function Badge({
+  children,
+  variant = "default",
+  className = "",
+}) {
   const variants = {
     default: "bg-surface text-muted",
     primary: "bg-primary/10 text-primary",
@@ -9,7 +13,9 @@ export default function Badge({ children, variant = "default", className = "" })
   };
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium ${variants[variant]} ${className}`}>
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium ${variants[variant]} ${className}`}
+    >
       {children}
     </span>
   );

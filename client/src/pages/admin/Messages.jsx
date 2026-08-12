@@ -18,14 +18,20 @@ import Pagination from "../../components/ui/Pagination";
 function StatCard({ label, value, icon: Icon, colorClass }) {
   return (
     <Card className="group p-6 flex items-center gap-4 relative overflow-hidden">
-      <div className={`p-4 rounded-2xl bg-surface border border-border/50 transition-colors ${colorClass || "bg-primary/10"}`}>
+      <div
+        className={`p-4 rounded-2xl bg-surface border border-border/50 transition-colors ${colorClass || "bg-primary/10"}`}
+      >
         <Icon className="w-6 h-6" />
       </div>
       <div>
-        <div className="text-3xl font-black text-foreground leading-none">{value}</div>
-        <div className="text-xs text-muted mt-2 font-medium uppercase tracking-wider">{label}</div>
+        <div className="text-3xl font-black text-foreground leading-none">
+          {value}
+        </div>
+        <div className="text-xs text-muted mt-2 font-medium uppercase tracking-wider">
+          {label}
+        </div>
       </div>
-      
+
       {/* subtle corner accent */}
       <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
     </Card>
@@ -35,7 +41,11 @@ function StatCard({ label, value, icon: Icon, colorClass }) {
 function Messages() {
   const [items, setItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, read: 0, unread: 0 });
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -69,8 +79,12 @@ function Messages() {
         messageApi.getStats(),
       ]);
       setItems(listRes.data.data || []);
-      setPagination(listRes.data.pagination || { page: 1, totalPages: 1, total: 0 });
-      setStats(statsRes.data.data || statsRes.data || { total: 0, read: 0, unread: 0 });
+      setPagination(
+        listRes.data.pagination || { page: 1, totalPages: 1, total: 0 },
+      );
+      setStats(
+        statsRes.data.data || statsRes.data || { total: 0, read: 0, unread: 0 },
+      );
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load messages");
@@ -89,8 +103,14 @@ function Messages() {
     if (!item.read) {
       try {
         await messageApi.markRead(item._id, true);
-        setItems((prev) => prev.map((m) => (m._id === item._id ? { ...m, read: true } : m)));
-        setStats((s) => ({ ...s, read: s.read + 1, unread: Math.max(0, s.unread - 1) }));
+        setItems((prev) =>
+          prev.map((m) => (m._id === item._id ? { ...m, read: true } : m)),
+        );
+        setStats((s) => ({
+          ...s,
+          read: s.read + 1,
+          unread: Math.max(0, s.unread - 1),
+        }));
       } catch {
         // non-fatal — the message still opens even if the read receipt fails
       }
@@ -100,11 +120,13 @@ function Messages() {
   const toggleRead = async (item) => {
     try {
       await messageApi.markRead(item._id, !item.read);
-      setItems((prev) => prev.map((m) => (m._id === item._id ? { ...m, read: !item.read } : m)));
+      setItems((prev) =>
+        prev.map((m) => (m._id === item._id ? { ...m, read: !item.read } : m)),
+      );
       setStats((s) =>
         !item.read
           ? { ...s, read: s.read + 1, unread: Math.max(0, s.unread - 1) }
-          : { ...s, read: Math.max(0, s.read - 1), unread: s.unread + 1 }
+          : { ...s, read: Math.max(0, s.read - 1), unread: s.unread + 1 },
       );
     } catch (err) {
       toast.error(err.response?.data?.message || "Could not update message");
@@ -141,19 +163,42 @@ function Messages() {
             Admin · Inbox
           </span>
         </div>
-        <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">Messages</h1>
-        <p className="mt-1.5 text-sm text-muted">Enquiries submitted through your contact form.</p>
+        <h1 className="font-heading mt-3 text-3xl font-black tracking-tight">
+          Messages
+        </h1>
+        <p className="mt-1.5 text-sm text-muted">
+          Enquiries submitted through your contact form.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <StatCard label="Total" value={stats.total} icon={Inbox} colorClass="group-hover:bg-blue-500/10 text-blue-500" />
-        <StatCard label="Unread" value={stats.unread} icon={Mail} colorClass="group-hover:bg-primary/10 text-primary" />
-        <StatCard label="Read" value={stats.read} icon={MailOpen} colorClass="group-hover:bg-emerald-500/10 text-emerald-500" />
+        <StatCard
+          label="Total"
+          value={stats.total}
+          icon={Inbox}
+          colorClass="group-hover:bg-blue-500/10 text-blue-500"
+        />
+        <StatCard
+          label="Unread"
+          value={stats.unread}
+          icon={Mail}
+          colorClass="group-hover:bg-primary/10 text-primary"
+        />
+        <StatCard
+          label="Read"
+          value={stats.read}
+          icon={MailOpen}
+          colorClass="group-hover:bg-emerald-500/10 text-emerald-500"
+        />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
-          <SearchBar value={search} onChange={setSearch} placeholder="Search by name, email, or subject..." />
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            placeholder="Search by name, email, or subject..."
+          />
         </div>
         <div className="w-full sm:w-48">
           <Select
@@ -175,9 +220,17 @@ function Messages() {
         {loading ? (
           <Loader text="Loading messages..." />
         ) : error ? (
-          <EmptyState icon={AlertCircle} title="Failed to load" description={error} />
+          <EmptyState
+            icon={AlertCircle}
+            title="Failed to load"
+            description={error}
+          />
         ) : items.length === 0 ? (
-          <EmptyState icon={Inbox} title="No messages yet" description="Messages sent through your contact form will show up here." />
+          <EmptyState
+            icon={Inbox}
+            title="No messages yet"
+            description="Messages sent through your contact form will show up here."
+          />
         ) : (
           <div className="divide-y divide-border">
             <AnimatePresence>
@@ -195,19 +248,29 @@ function Messages() {
                     {item.read ? (
                       <MailOpen className="w-4 h-4 text-muted" />
                     ) : (
-                      <span className="block w-2.5 h-2.5 rounded-full bg-primary" title="Unread" />
+                      <span
+                        className="block w-2.5 h-2.5 rounded-full bg-primary"
+                        title="Unread"
+                      />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-3">
-                      <span className={`truncate ${item.read ? "text-foreground" : "font-semibold text-foreground"}`}>
-                        {item.name} <span className="text-muted font-normal">— {item.email}</span>
+                      <span
+                        className={`truncate ${item.read ? "text-foreground" : "font-semibold text-foreground"}`}
+                      >
+                        {item.name}{" "}
+                        <span className="text-muted font-normal">
+                          — {item.email}
+                        </span>
                       </span>
                       <span className="text-xs text-muted whitespace-nowrap">
                         {format(new Date(item.createdAt), "MMM d, yyyy")}
                       </span>
                     </div>
-                    <div className={`truncate text-sm mt-0.5 ${item.read ? "text-muted" : "text-foreground/90"}`}>
+                    <div
+                      className={`truncate text-sm mt-0.5 ${item.read ? "text-muted" : "text-foreground/90"}`}
+                    >
                       {item.subject}
                     </div>
                   </div>
@@ -224,32 +287,49 @@ function Messages() {
         onPageChange={setPage}
       />
 
-      <Modal isOpen={!!selected} onClose={() => setSelected(null)} title={selected?.subject} size="lg">
+      <Modal
+        isOpen={!!selected}
+        onClose={() => setSelected(null)}
+        title={selected?.subject}
+        size="lg"
+      >
         {selected && (
           <div className="space-y-5">
             <div className="flex items-center justify-between gap-4 pb-4 border-b border-border">
               <div>
-                <div className="font-medium text-foreground">{selected.name}</div>
+                <div className="font-medium text-foreground">
+                  {selected.name}
+                </div>
                 <div className="text-sm text-muted">{selected.email}</div>
               </div>
               <Badge variant={selected.read ? "secondary" : "primary"}>
                 {selected.read ? "Read" : "Unread"}
               </Badge>
             </div>
-            <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">{selected.message}</p>
-          <div className="flex items-center justify-between pt-4 border-t border-border mt-6">
-            <span className="text-xs text-muted">
-              Received {format(new Date(selected.createdAt), "MMM d, yyyy 'at' h:mm a")}
-            </span>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => toggleRead(selected)}>
-                Mark as {selected.read ? "unread" : "read"}
-              </Button>
-              <Button variant="outline" className="hover:bg-red-500/10 hover:text-red-500" onClick={() => setDeleteTarget(selected)}>
-                <Trash2 className="w-4 h-4" />
-              </Button>
+            <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+              {selected.message}
+            </p>
+            <div className="flex items-center justify-between pt-4 border-t border-border mt-6">
+              <span className="text-xs text-muted">
+                Received{" "}
+                {format(
+                  new Date(selected.createdAt),
+                  "MMM d, yyyy 'at' h:mm a",
+                )}
+              </span>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => toggleRead(selected)}>
+                  Mark as {selected.read ? "unread" : "read"}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="hover:bg-red-500/10 hover:text-red-500"
+                  onClick={() => setDeleteTarget(selected)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
-          </div>
           </div>
         )}
       </Modal>

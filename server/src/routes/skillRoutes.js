@@ -28,11 +28,6 @@ router.post("/", protect, skillValidator, validate, createSkill);
 router.put("/:id", protect, updateSkillValidator, validate, updateSkill);
 router.delete("/:id", protect, deleteSkill);
 
-router.post(
-  "/:id/icon",
-  protect,
-  upload.single("file"),
-  uploadSkillIcon
-);
+router.post("/:id/icon", protect, upload.single("file"), uploadSkillIcon);
 
 export default router;

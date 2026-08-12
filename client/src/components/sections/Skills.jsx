@@ -90,11 +90,11 @@ function Skills() {
         label,
         icon: categoryConfig[label]?.icon || FaLayerGroup,
         accent: categoryConfig[label]?.accent || "text-primary",
-            items: items.sort((a, b) => {
-              if (a.order !== b.order) return (a.order || 0) - (b.order || 0);
-              return (b.proficiency || 0) - (a.proficiency || 0);
-            }),
-          }))
+        items: items.sort((a, b) => {
+          if (a.order !== b.order) return (a.order || 0) - (b.order || 0);
+          return (b.proficiency || 0) - (a.proficiency || 0);
+        }),
+      }))
       .sort((a, b) => b.items.length - a.items.length);
   }, [skills]);
 
@@ -156,7 +156,10 @@ function Skills() {
           {/* Right column — category grid */}
           <div className="lg:col-span-8">
             {loading ? (
-              <SkillCardSkeleton count={12} cols="sm:grid-cols-2 lg:grid-cols-3" />
+              <SkillCardSkeleton
+                count={12}
+                cols="sm:grid-cols-2 lg:grid-cols-3"
+              />
             ) : error ? (
               <ErrorState message={error} onRetry={retry} />
             ) : !skills?.length ? (
@@ -286,7 +289,11 @@ function Skills() {
 function SkillCard({ skill, index, onDetails }) {
   const proficiency = skill.proficiency || 0;
   const icon = skill.icon ? (
-    <Image src={skill.icon} alt={skill.name} className="h-7 w-7 object-contain" />
+    <Image
+      src={skill.icon}
+      alt={skill.name}
+      className="h-7 w-7 object-contain"
+    />
   ) : (
     createElement(getSkillIcon(skill.name), { size: 24 })
   );

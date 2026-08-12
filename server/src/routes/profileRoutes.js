@@ -29,21 +29,11 @@ router.post("/", protect, profileValidator, validate, createProfile);
 
 router.put("/", protect, profileValidator, validate, updateProfile);
 
-router.put(
-  "/image",
-  protect,
-  upload.single("file"),
-  updateProfileImage
-);
+router.put("/image", protect, upload.single("file"), updateProfileImage);
 
 router.delete("/image", protect, removeProfileImage);
 
-router.put(
-  "/about-image",
-  protect,
-  upload.single("file"),
-  updateAboutImage
-);
+router.put("/about-image", protect, upload.single("file"), updateAboutImage);
 
 router.delete("/about-image", protect, removeAboutImage);
 

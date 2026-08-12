@@ -15,11 +15,16 @@ const SOCIAL_ICONS = {
 };
 
 export const SOCIAL_HOVER = {
-  github: "hover:border-foreground hover:text-foreground hover:shadow-xl hover:shadow-black/20",
-  linkedin: "hover:border-blue-500 hover:text-blue-500 hover:shadow-xl hover:shadow-blue-500/30",
-  instagram: "hover:border-pink-500 hover:text-pink-500 hover:shadow-xl hover:shadow-pink-500/30",
-  facebook: "hover:border-blue-600 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-600/30",
-  twitter: "hover:border-sky-500 hover:text-sky-500 hover:shadow-xl hover:shadow-sky-500/30",
+  github:
+    "hover:border-foreground hover:text-foreground hover:shadow-xl hover:shadow-black/20",
+  linkedin:
+    "hover:border-blue-500 hover:text-blue-500 hover:shadow-xl hover:shadow-blue-500/30",
+  instagram:
+    "hover:border-pink-500 hover:text-pink-500 hover:shadow-xl hover:shadow-pink-500/30",
+  facebook:
+    "hover:border-blue-600 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-600/30",
+  twitter:
+    "hover:border-sky-500 hover:text-sky-500 hover:shadow-xl hover:shadow-sky-500/30",
 };
 
 export function getSocialLinks(socials = {}) {

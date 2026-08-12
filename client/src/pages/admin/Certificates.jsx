@@ -3,7 +3,15 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { Plus, Pencil, Trash2, Award, AlertCircle, ImagePlus, ExternalLink } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Award,
+  AlertCircle,
+  ImagePlus,
+  ExternalLink,
+} from "lucide-react";
 import { certificateApi } from "../../services/apiServices";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -34,7 +42,11 @@ const defaultValues = {
 
 function Certificates() {
   const [items, setItems] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -48,7 +60,12 @@ function Certificates() {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ defaultValues });
 
   useEffect(() => {
     if (search === debouncedSearch) return;
@@ -69,7 +86,9 @@ function Certificates() {
         sort: "-issuedDate",
       });
       setItems(res.data.data || []);
-      setPagination(res.data.pagination || { page: 1, totalPages: 1, total: 0 });
+      setPagination(
+        res.data.pagination || { page: 1, totalPages: 1, total: 0 },
+      );
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load certificates");
@@ -98,8 +117,12 @@ function Certificates() {
     reset({
       title: item.title,
       issuer: item.issuer,
-      issuedDate: item.issuedDate ? format(new Date(item.issuedDate), "yyyy-MM-dd") : "",
-      expiryDate: item.expiryDate ? format(new Date(item.expiryDate), "yyyy-MM-dd") : "",
+      issuedDate: item.issuedDate
+        ? format(new Date(item.issuedDate), "yyyy-MM-dd")
+        : "",
+      expiryDate: item.expiryDate
+        ? format(new Date(item.expiryDate), "yyyy-MM-dd")
+        : "",
       credentialId: item.credentialId || "",
       credentialUrl: item.credentialUrl || "",
       description: item.description || "",
@@ -187,7 +210,9 @@ function Certificates() {
         await fetchItems();
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to delete certificate");
+      toast.error(
+        err.response?.data?.message || "Failed to delete certificate",
+      );
     } finally {
       setDeleting(false);
     }
@@ -198,7 +223,9 @@ function Certificates() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-heading text-2xl font-bold">Certificates</h1>
-          <p className="text-sm text-muted mt-1">Manage the certifications shown on your portfolio.</p>
+          <p className="text-sm text-muted mt-1">
+            Manage the certifications shown on your portfolio.
+          </p>
         </div>
         <Button onClick={openCreate} className="shrink-0">
           <Plus className="w-4 h-4" />
@@ -206,15 +233,27 @@ function Certificates() {
         </Button>
       </div>
 
-      <SearchBar value={search} onChange={setSearch} placeholder="Search by title or issuer..." />
+      <SearchBar
+        value={search}
+        onChange={setSearch}
+        placeholder="Search by title or issuer..."
+      />
 
       <Card>
         {loading ? (
           <Loader text="Loading certificates..." />
         ) : error ? (
-          <EmptyState icon={AlertCircle} title="Failed to load" description={error} />
+          <EmptyState
+            icon={AlertCircle}
+            title="Failed to load"
+            description={error}
+          />
         ) : items.length === 0 ? (
-          <EmptyState icon={Award} title="No certificates yet" description="Add your first certification." />
+          <EmptyState
+            icon={Award}
+            title="No certificates yet"
+            description="Add your first certification."
+          />
         ) : (
           <div className="divide-y divide-border">
             <AnimatePresence>
@@ -228,19 +267,28 @@ function Certificates() {
                 >
                   <div className="w-12 h-12 rounded-lg bg-surface border border-border flex items-center justify-center overflow-hidden shrink-0">
                     {item.image ? (
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <Award className="w-5 h-5 text-muted" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-foreground truncate">{item.title}</span>
-                      {!item.isActive && <Badge variant="secondary">Hidden</Badge>}
+                      <span className="font-medium text-foreground truncate">
+                        {item.title}
+                      </span>
+                      {!item.isActive && (
+                        <Badge variant="secondary">Hidden</Badge>
+                      )}
                     </div>
                     <div className="text-sm text-muted truncate">
                       {item.issuer}
-                      {item.issuedDate && ` · ${format(new Date(item.issuedDate), "MMM yyyy")}`}
+                      {item.issuedDate &&
+                        ` · ${format(new Date(item.issuedDate), "MMM yyyy")}`}
                     </div>
                   </div>
                   {item.credentialUrl && (
@@ -255,10 +303,20 @@ function Certificates() {
                     </a>
                   )}
                   <div className="flex gap-1 shrink-0">
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(item)} title="Edit">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openEdit(item)}
+                      title="Edit"
+                    >
                       <Pencil className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setDeleteTarget(item)} title="Delete">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setDeleteTarget(item)}
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4 text-red-500" />
                     </Button>
                   </div>
@@ -269,9 +327,18 @@ function Certificates() {
         )}
       </Card>
 
-      <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />
+      <Pagination
+        currentPage={pagination.page}
+        totalPages={pagination.totalPages}
+        onPageChange={setPage}
+      />
 
-      <Modal isOpen={modalOpen} onClose={closeModal} title={editing ? "Edit Certificate" : "Add Certificate"} size="lg">
+      <Modal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        title={editing ? "Edit Certificate" : "Add Certificate"}
+        size="lg"
+      >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-4">
@@ -279,7 +346,10 @@ function Certificates() {
                 label="Certificate Image"
                 preview={imagePreview}
                 onUpload={onImageChange}
-                onRemove={() => { setImageFile(null); setImagePreview(""); }}
+                onRemove={() => {
+                  setImageFile(null);
+                  setImagePreview("");
+                }}
                 className="w-full h-48"
                 size="full"
               />
@@ -298,21 +368,48 @@ function Certificates() {
                 error={errors.issuer?.message}
                 {...register("issuer", { required: "Issuer is required" })}
               />
-              <Input label="Issued Date" type="date" {...register("issuedDate")} />
-              <Input label="Expiry Date" type="date" {...register("expiryDate")} />
-              <Input label="Credential ID" placeholder="ABC-12345" {...register("credentialId")} />
-              <Input label="Credential URL" placeholder="https://..." {...register("credentialUrl")} />
+              <Input
+                label="Issued Date"
+                type="date"
+                {...register("issuedDate")}
+              />
+              <Input
+                label="Expiry Date"
+                type="date"
+                {...register("expiryDate")}
+              />
+              <Input
+                label="Credential ID"
+                placeholder="ABC-12345"
+                {...register("credentialId")}
+              />
+              <Input
+                label="Credential URL"
+                placeholder="https://..."
+                {...register("credentialUrl")}
+              />
               <Input label="Order" type="number" {...register("order")} />
             </div>
           </div>
 
-          <Textarea label="Description" placeholder="What this certification covers..." {...register("description")} />
+          <Textarea
+            label="Description"
+            placeholder="What this certification covers..."
+            {...register("description")}
+          />
 
-          <Checkbox label="Visible on the public site" {...register("isActive")} />
+          <Checkbox
+            label="Visible on the public site"
+            {...register("isActive")}
+          />
 
           <div className="flex justify-end gap-3 pt-4 border-t border-border/60">
-            <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
-            <Button type="submit" disabled={saving}>{saving ? "Saving..." : editing ? "Update" : "Create"}</Button>
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={saving}>
+              {saving ? "Saving..." : editing ? "Update" : "Create"}
+            </Button>
           </div>
         </form>
       </Modal>

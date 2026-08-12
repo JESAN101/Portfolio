@@ -44,11 +44,17 @@ export default function Dashboard({ stats }) {
               <item.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-3xl font-black leading-none text-foreground">{item.value}</p>
-              <p className="mt-1.5 text-sm font-medium text-muted">{item.label}</p>
+              <p className="text-3xl font-black leading-none text-foreground">
+                {item.value}
+              </p>
+              <p className="mt-1.5 text-sm font-medium text-muted">
+                {item.label}
+              </p>
             </div>
           </div>
-          <div className={`mt-4 h-1 w-0 rounded-full bg-gradient-to-r ${item.iconClass} transition-all duration-500 group-hover:w-full`} />
+          <div
+            className={`mt-4 h-1 w-0 rounded-full bg-gradient-to-r ${item.iconClass} transition-all duration-500 group-hover:w-full`}
+          />
         </Card>
       ))}
     </div>

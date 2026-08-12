@@ -54,7 +54,7 @@ const skillSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 skillSchema.index({ category: 1, isActive: 1, order: 1 });

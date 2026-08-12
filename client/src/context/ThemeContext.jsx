@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 
 const ThemeContext = createContext();
 
@@ -35,13 +42,11 @@ export function ThemeProvider({ children }) {
       toggleTheme,
       setTheme,
     }),
-    [theme, toggleTheme]
+    [theme, toggleTheme],
   );
 
   return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 

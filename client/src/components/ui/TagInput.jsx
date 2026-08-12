@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 
-export default function TagInput({ label, value = [], onChange, placeholder = "Type and press Enter", error }) {
+export default function TagInput({
+  label,
+  value = [],
+  onChange,
+  placeholder = "Type and press Enter",
+  error,
+}) {
   const [text, setText] = useState("");
 
   const addTag = () => {
@@ -33,9 +39,7 @@ export default function TagInput({ label, value = [], onChange, placeholder = "T
   return (
     <div className="space-y-1.5">
       {label && (
-        <label className="text-sm font-medium text-foreground">
-          {label}
-        </label>
+        <label className="text-sm font-medium text-foreground">{label}</label>
       )}
       <div
         className={`flex flex-wrap items-center gap-2 min-h-10 w-full px-3 py-2 rounded-xl border border-border bg-card text-sm focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary transition-colors ${error ? "border-red-500" : ""}`}

@@ -1,6 +1,4 @@
-import {
-  uploadAndCleanupLocalFile,
-} from "../services/cloudinaryService.js";
+import { uploadAndCleanupLocalFile } from "../services/cloudinaryService.js";
 import { sendError } from "../utils/sendError.js";
 
 export const uploadFile = async (req, res) => {

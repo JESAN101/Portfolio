@@ -115,7 +115,8 @@ function Footer() {
                     rel="noreferrer"
                     aria-label={name}
                     className={`flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-surface text-foreground shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 ${
-                      SOCIAL_HOVER[name] || "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
+                      SOCIAL_HOVER[name] ||
+                      "hover:border-primary hover:text-primary hover:shadow-xl hover:shadow-primary/30"
                     }`}
                   >
                     <Icon size={16} />
@@ -141,8 +142,8 @@ function Footer() {
       <div className="relative border-t border-foreground/10">
         <Container className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <p className="text-center text-xs text-muted">
-            &copy; {new Date().getFullYear()}{" "}
-            {profile?.fullName || "Portfolio"}. All rights reserved.
+            &copy; {new Date().getFullYear()} {profile?.fullName || "Portfolio"}
+            . All rights reserved.
           </p>
 
           <button

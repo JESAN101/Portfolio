@@ -25,10 +25,7 @@ const optionalFields = [
     .isURL()
     .withMessage("Live URL must be valid"),
 
-  body("category")
-    .optional()
-    .isIn(CATEGORIES)
-    .withMessage("Invalid category"),
+  body("category").optional().isIn(CATEGORIES).withMessage("Invalid category"),
 
   body("technologies")
     .optional()
@@ -52,10 +49,7 @@ const optionalFields = [
     .isBoolean()
     .withMessage("published must be a boolean"),
 
-  body("order")
-    .optional()
-    .isInt()
-    .withMessage("Order must be an integer"),
+  body("order").optional().isInt().withMessage("Order must be an integer"),
 ];
 
 const projectValidator = [
@@ -90,10 +84,7 @@ const projectValidator = [
     .isURL()
     .withMessage("Live URL must be valid"),
 
-  body("category")
-    .optional()
-    .isIn(CATEGORIES)
-    .withMessage("Invalid category"),
+  body("category").optional().isIn(CATEGORIES).withMessage("Invalid category"),
 
   body("technologies")
     .isArray({ min: 1 })
@@ -128,9 +119,7 @@ export const featureValidator = [
 ];
 
 export const orderValidator = [
-  body("order")
-    .isInt()
-    .withMessage("order is required and must be an integer"),
+  body("order").isInt().withMessage("order is required and must be an integer"),
 ];
 
 export default projectValidator;

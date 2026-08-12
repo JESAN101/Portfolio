@@ -34,7 +34,9 @@ function Navbar() {
         "pill" once you scroll, instead of a full-width strip pinned to
         the top edge. Feels lighter and more like a native app chrome.
       */}
-      <div className={`transition-all duration-300 ${scrolled ? "pt-3" : "pt-0"}`}>
+      <div
+        className={`transition-all duration-300 ${scrolled ? "pt-3" : "pt-0"}`}
+      >
         <Container>
           <div
             className={`flex h-16 items-center justify-between rounded-2xl px-4 transition-all duration-300 sm:h-[70px] sm:px-6 ${

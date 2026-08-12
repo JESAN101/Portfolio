@@ -59,7 +59,7 @@ const educationSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 educationSchema.index({ isActive: 1, startDate: -1 });

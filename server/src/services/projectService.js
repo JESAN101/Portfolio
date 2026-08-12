@@ -151,13 +151,13 @@ export const deleteProjectGalleryImageService = async (id, imageId) => {
   if (!project) throw new AppError("Project not found", 404);
 
   const image = (project.galleryImages || []).find(
-    (item) => item._id.toString() === imageId
+    (item) => item._id.toString() === imageId,
   );
 
   if (!image) throw new AppError("Gallery image not found", 404);
 
   project.galleryImages = project.galleryImages.filter(
-    (item) => item._id.toString() !== imageId
+    (item) => item._id.toString() !== imageId,
   );
   await project.save();
 
@@ -172,7 +172,7 @@ export const setPublishStatusService = async (id, published) => {
   const project = await Project.findByIdAndUpdate(
     id,
     { published },
-    { returnDocument: "after", runValidators: true }
+    { returnDocument: "after", runValidators: true },
   );
 
   if (!project) throw new AppError("Project not found", 404);
@@ -184,7 +184,7 @@ export const setFeaturedStatusService = async (id, featured) => {
   const project = await Project.findByIdAndUpdate(
     id,
     { featured },
-    { returnDocument: "after", runValidators: true }
+    { returnDocument: "after", runValidators: true },
   );
 
   if (!project) throw new AppError("Project not found", 404);
@@ -196,7 +196,7 @@ export const updateProjectOrderService = async (id, order) => {
   const project = await Project.findByIdAndUpdate(
     id,
     { order },
-    { returnDocument: "after", runValidators: true }
+    { returnDocument: "after", runValidators: true },
   );
 
   if (!project) throw new AppError("Project not found", 404);

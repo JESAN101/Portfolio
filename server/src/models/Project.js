@@ -61,13 +61,7 @@ const projectSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: [
-        "Web",
-        "Mobile",
-        "Desktop",
-        "UI/UX",
-        "Other",
-      ],
+      enum: ["Web", "Mobile", "Desktop", "UI/UX", "Other"],
       default: "Web",
     },
 
@@ -88,7 +82,7 @@ const projectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 projectSchema.index({ featured: 1 });

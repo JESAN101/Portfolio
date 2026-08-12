@@ -26,6 +26,8 @@ export function formatDuration(startDate, endDate, current = false) {
 export function formatDateRange(startDate, endDate, current = false) {
   if (!startDate) return "";
   const start = formatDate(startDate, { year: "numeric", month: "short" });
-  const end = current ? "Present" : formatDate(endDate, { year: "numeric", month: "short" });
+  const end = current
+    ? "Present"
+    : formatDate(endDate, { year: "numeric", month: "short" });
   return `${start} - ${end}`;
 }

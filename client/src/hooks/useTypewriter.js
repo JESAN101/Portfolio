@@ -9,7 +9,7 @@ const START_DELAY = 400;
 export default function useTypewriter(words) {
   const safeWords = useMemo(
     () => (Array.isArray(words) ? words.filter(Boolean) : []),
-    [words]
+    [words],
   );
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -50,7 +50,7 @@ export default function useTypewriter(words) {
       const speed = deleting ? DELETE_SPEED : TYPE_SPEED;
       timeout = setTimeout(() => {
         setText(
-          target.slice(0, Math.max(0, text.length + (deleting ? -1 : 1)))
+          target.slice(0, Math.max(0, text.length + (deleting ? -1 : 1))),
         );
       }, speed);
     }

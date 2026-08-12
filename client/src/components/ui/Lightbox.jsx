@@ -67,7 +67,10 @@ function Lightbox({ images = [], initialIndex = 0, onClose }) {
 
         {hasPrev && (
           <button
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
             aria-label="Previous image"
             className="absolute left-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
@@ -77,7 +80,10 @@ function Lightbox({ images = [], initialIndex = 0, onClose }) {
 
         {hasNext && (
           <button
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
             aria-label="Next image"
             className="absolute right-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
