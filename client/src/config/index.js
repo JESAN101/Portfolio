@@ -1,5 +1,5 @@
 export const SITE_URL =
-  import.meta.env.VITE_SITE_URL || "https://portfolio.example.com";
+  import.meta.env.VITE_SITE_URL || "https://portfolio-jesan102.vercel.app";
 
 export const SITE_NAME = "Jesan Bogati";
 export const SITE_DESCRIPTION =
