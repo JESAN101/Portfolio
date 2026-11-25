@@ -6,6 +6,7 @@ function Logo() {
       src={logo}
       alt="Jesan Bogati Logo"
       className="h-16 w-16 shrink-0 select-none object-contain cursor-default"
+      loading="eager"
     />
   );
 }
